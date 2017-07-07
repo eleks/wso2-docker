@@ -58,5 +58,5 @@ RUN set -o errexit -o nounset && \
 
 ENV DEBIAN_FRONTEND newt
 
-CMD bash
+#CMD bash
 
