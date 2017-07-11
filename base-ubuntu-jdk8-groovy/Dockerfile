@@ -50,6 +50,12 @@ RUN set -o errexit -o nounset && \
 
 # RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
 
+COPY ./src /
+
+VOLUME  /opt/conf
+VOLUME  /opt/deploy
+WORKDIR /opt
+
 
 RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
@@ -60,3 +66,7 @@ ENV DEBIAN_FRONTEND newt
 
 #CMD bash
 
+ENTRYPOINT set -eu && \
+	groovy ./tools/classes/GCLI.groovy "version" && \
+	groovy ./tools/classes/GCLI.groovy "help" && \
+	groovy ./tools/classes/GCLI.groovy "dummy"
