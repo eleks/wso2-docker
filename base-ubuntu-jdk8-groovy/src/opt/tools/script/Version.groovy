@@ -3,5 +3,9 @@ prints current version of java & groovy
 '''
 }
 
-println "  groovy: ${GroovySystem.getVersion()}"
-println "  java:   ${System.getProperty("java.version")}"
+System.err.println """
+-----------------------------
+ groovy: ${GroovySystem.getVersion()}
+ java:   ${System.getProperty("java.version")}
+-----------------------------
+"""

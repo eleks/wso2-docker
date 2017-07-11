@@ -1,6 +1,5 @@
 # ------------------------------------------------------------------------
 FROM ubuntu:latest
-MAINTAINER dlukyanov@ukr.net
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV GROOVY_VERSION 2.4.12
@@ -9,8 +8,6 @@ ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV GROOVY_HOME /opt/groovy
 
 ENV PATH $PATH:$JAVA_HOME/bin:$GROOVY_HOME/bin
-
-RUN alias ll='ls -al'
 
 #common packages
 RUN set -o errexit -o nounset && \
@@ -50,21 +47,40 @@ RUN set -o errexit -o nounset && \
 
 # RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
 
-COPY ./src /
+RUN     alias ll='ls -la'
+#set default shell bash
+ENV     SHELL /bin/bash
+ENV     BASH /bin/bash
+# some ubuntu thing...
+ENV     DEBIAN_FRONTEND newt
+
+COPY    ./src /
+
+#where to copy 
+ENV DEPLOY_TARGET=PLEASE_REDEFINE
 
 VOLUME  /opt/conf
 VOLUME  /opt/deploy
 WORKDIR /opt
 
+RUN     chmod 775 /opt/tools/bin/gcli && \
+        ln -s "/opt/tools/bin/gcli" /usr/bin/gcli
+
+#add some commands into bash history
+RUN     \
+        echo 'gcli help' >> ~/.bash_history
+
+
 
 RUN set -o errexit -o nounset && \
-	echo "------ Testing -------" && \
-	java -version && \
-	groovy --version
+	gcli version
 
-ENV DEBIAN_FRONTEND newt
+# RUN set -o errexit -o nounset && \
+#	echo "------ Testing -------" && \
+#	mkdir s && \
+#	export DEPLOY_TARGET=/opt/s && \
+#	gcli deploy
 
-#CMD bash
 
 ENTRYPOINT set -eu && \
 	groovy ./tools/classes/GCLI.groovy "version" && \

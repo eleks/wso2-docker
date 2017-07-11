@@ -25,8 +25,8 @@ public class Installer{
     }
 
     /*scans file and returns evaluated properties map*/
-    public static Map evaluateProperties(String fileName, Map map=[:]){
-        def file = new File(fileName)
+    public static Map evaluateProperties(def fileName, Map map=[:]){
+        def file = toFile(fileName)
         def eng = new groovy.text.GStringTemplateEngine();
         map = [:]+map; //make a copy
         file.eachLine("UTF-8"){line->
