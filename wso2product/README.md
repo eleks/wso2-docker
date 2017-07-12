@@ -1,3 +1,12 @@
+--docker-compose build
+
+create docker-compose.yaml file with all products you need and run
+
+docker-comppose build
+
+
+--docker build
+
 docker build -t eleks/PRODNAME --build-arg WSO2_PRODUCT=PRODNAME .
 docker push eleks/PRODNAME
 
