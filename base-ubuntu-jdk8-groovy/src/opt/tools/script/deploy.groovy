@@ -65,7 +65,8 @@ ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader"
 
 if(mode in ["all","gsp"]){
     //run copy with groovy templating with debug mode
-    AntHelper.setLogLevel( ant, ant.project.MSG_DEBUG ) //.MSG_INFO
+    println "deploy *.gsp templates..."
+    AntHelper.setLogLevel( ant, ant.project.MSG_VERBOSE ) //.MSG_INFO
     ant.copy(flatten:false, encoding:"UTF-8", todir: deployTarget, overwrite:true) {
         fileset(dir: deployHome, includes: "**/*.gsp")
         globmapper(from:"*.gsp", to:"*")
@@ -78,6 +79,7 @@ if(mode in ["all","gsp"]){
 
 if(mode in ["all","!gsp"]){
     //run copy without groovy templating 
+    println "deploy other files..."
     AntHelper.setLogLevel( ant, ant.project.MSG_INFO ) //.MSG_DEBUG
     ant.copy(flatten:false, todir: deployTarget, overwrite:true) {
         fileset(dir: deployHome, excludes: "**/*.gsp")
