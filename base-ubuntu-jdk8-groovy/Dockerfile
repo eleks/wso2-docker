@@ -56,7 +56,7 @@ ENV     DEBIAN_FRONTEND newt
 
 COPY    ./src /
 
-#where to copy 
+#where to copy during deploy 
 ENV DEPLOY_TARGET=PLEASE_REDEFINE
 
 VOLUME  /opt/conf
@@ -83,6 +83,6 @@ RUN set -o errexit -o nounset && \
 
 
 ENTRYPOINT set -eu && \
-	groovy ./tools/classes/GCLI.groovy "version" && \
-	groovy ./tools/classes/GCLI.groovy "help" && \
-	groovy ./tools/classes/GCLI.groovy "dummy"
+	gcli "version" && \
+	gcli "help" && \
+	gcli "dummy"
