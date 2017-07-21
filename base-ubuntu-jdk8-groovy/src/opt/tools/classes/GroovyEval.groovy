@@ -16,7 +16,6 @@ public class GroovyEval extends ProjectComponent implements ChainableReader {
 
 
     public Reader chain(final Reader rdr) {
-        def buffer = new StringWriter()
         Map bind = [:];
 
         //to throw esception on wrong access
@@ -25,6 +24,9 @@ public class GroovyEval extends ProjectComponent implements ChainableReader {
         System.getProperties().each{ prop.remove(it.key) } //remove system properties
         //remove ant properties
         prop.remove("ant")
+        prop.remove("ant.core.lib")
+        prop.remove("ant.java.version")
+        prop.remove("ant.version")
         prop.remove("basedir")
 
 
