@@ -67,10 +67,10 @@ then the command `gcli deploy` will copy evaluated template `myconf.property` an
 /opt/myserver/lib/mylib.jar
 ```
 
-#### template syntax
+#### *.gsp template syntax
 
 templates have JSP-like syntax with groovy as a language.
-```erb
+```ERB
 the emvironment: <%= my_environment %>
 databases: 
 <% database.each{k,v-> %>
