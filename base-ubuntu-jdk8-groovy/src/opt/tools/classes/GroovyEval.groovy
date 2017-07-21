@@ -39,7 +39,9 @@ public class GroovyEval extends ProjectComponent implements ChainableReader {
         bind.PROP = prop;
         //bind.TREE = tree;
         //-------------------
-        new groovy.text.GStringTemplateEngine().createTemplate(rdr).make( bind ).writeTo( buffer );
+        //def buffer = new StringWriter()
+        //new groovy.text.GStringTemplateEngine().createTemplate(rdr).make( bind ).writeTo( buffer );
+        def buffer = new ReaderTemplate(rdr).make(bind);
         return new StringReader( buffer.toString() );
     }
 }
