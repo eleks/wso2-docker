@@ -1,5 +1,95 @@
-commands to build and publish:
+## base image for java-based products
+
+### goal
+provide image with base linux utilities , java 8 , and groovy-based templating engine for deploying 
+
+### commands to build and publish
 
 `docker build -t eleks/base-ubuntu-jdk8-groovy .`
 
 `docker push eleks/base-ubuntu-jdk8-groovy`
+
+### how templating and configuration works
+
+two folders declared to be externalized:
+```
+VOLUME  /opt/conf
+VOLUME  /opt/deploy
+```
+
+#### `/opt/conf` 
+
+directory dedicated to put key-valye properties files that could be used during templating process.
+
+it's possible to use `${...}` groovy expression language in values:
+
+```bash
+my_environment=test
+api.url.prefix=https://${my_environment}.company.com:8443
+current.date=${new Date().format('yyyy-MM-dd')}
+
+database.db1.url=${my_environment}.dbhost:1111
+database.db1.user=${my_environment}_user1
+database.db2.url=${my_environment}.dbhost:2222
+database.db1.user=${my_environment}_user2
+```
+
+the result of loading this property file:
+
+```bash
+my_environment=test
+api.url.prefix=https://test.company.com:8443
+current.date=2016-12-31
+
+database.db1.url=test.dbhost:1111
+database.db1.user=test_user1
+database.db2.url=test.dbhost:2222
+database.db1.user=test_user2
+```
+
+#### `/opt/deploy` 
+
+in this folder you can put configuration templates `(*.gsp)` and other files that will be copied into `DEPLOY_TARGET` directory defined as environment variable.
+
+#### `gcli deploy` command
+
+if you have environment variable `DEPLOY_TARGET=/opt/myserver` 
+
+and you have files: 
+```
+/opt/deply/conf/myconf.property.gsp
+/opt/deply/lib/mylib.jar
+```
+
+then the command `gcli deploy` will copy evaluated template `myconf.property` and plain binary file `mylib.jar` into the following structure
+```
+/opt/myserver/conf/myconf.property
+/opt/myserver/lib/mylib.jar
+```
+
+#### template syntax
+
+templates have JSP-like syntax with groovy as a language.
+```erb
+the emvironment: <%= my_environment %>
+databases: 
+<% database.each{k,v-> %>
+   name    : <%= k %>
+      url  : <%= v.url %>
+      user : <%= v.user %>
+<% } %>
+```
+
+will result:
+```
+the emvironment: test
+databases: 
+
+   name    : db1
+      url  : test.dbhost:1111
+      user : test_user1
+
+   name    : db2
+      url  : test.dbhost:222
+      user : test_user2
+```
