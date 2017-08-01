@@ -57,8 +57,8 @@ if you have environment variable `DEPLOY_TARGET=/opt/myserver`
 
 and you have files: 
 ```
-/opt/deply/conf/myconf.property.gsp
-/opt/deply/lib/mylib.jar
+/opt/deploy/conf/myconf.property.gsp
+/opt/deploy/lib/mylib.jar
 ```
 
 then the command `gcli deploy` will copy evaluated template `myconf.property` and plain binary file `mylib.jar` into the following structure
