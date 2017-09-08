@@ -75,11 +75,14 @@ RUN     \
 RUN set -o errexit -o nounset && \
 	gcli version
 
-# RUN set -o errexit -o nounset && \
-#	echo "------ Testing -------" && \
-#	mkdir s && \
-#	export DEPLOY_TARGET=/opt/s && \
-#	gcli deploy
+RUN set -o errexit -o nounset && \
+	echo "------ Testing -------" && \
+	mkdir s && \
+	export DEPLOY_TARGET=/opt/s && \
+	gcli deploy &&\
+	echo "------ Template output -------" && \
+	cat /opt/s/readme.nfo && \
+	rm -Rf /opt/s
 
 
 ENTRYPOINT set -eu && \
