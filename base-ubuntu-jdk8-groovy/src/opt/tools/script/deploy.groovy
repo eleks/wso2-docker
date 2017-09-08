@@ -53,10 +53,12 @@ System.getenv().each{k,v-> ant.property(name:"env.$k",value:v) }
 
 /*load&evaluate properties from files and put into ant project properties*/
 if(confHome.exists()) {
-    confHome.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.endsWith(".properties")}) {
+	def props = [:]
+    confHome.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.endsWith(".properties")}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {
         println "     [read] $it"
-        Installer.evaluateProperties(it).each{k,v-> ant.property(name:k,value:v) }
+        props = Installer.evaluateProperties(it, props)
     }
+    props.each{k,v-> ant.property(name:k,value:v) }
 }
 
 //define groovyeval ant filter

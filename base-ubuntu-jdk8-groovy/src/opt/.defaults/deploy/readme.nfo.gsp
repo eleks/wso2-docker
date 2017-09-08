@@ -1,2 +1,2 @@
-date : <%= new Date() %>
-ip   : <%= local.ip %>
+start date : <%= new Date() %>
+ip         : <%= local.ip %>

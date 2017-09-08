@@ -36,7 +36,7 @@ public class Installer{
                         String key=matcher.group(1)
                         String val=matcher.group(2)
                         if(val.indexOf('${')>=0 && val.indexOf('}')>=0){
-                            val = eng.createTemplate(val).make(map).toString()
+                            val = eng.createTemplate(val).make( propsToTreeMap(map) ).toString()
                         }
                         map.put(key,val)
                     }
