@@ -16,13 +16,13 @@ docker-comppose -f docker-compose-my.yaml build
 use the following command to build image:
 
 ```
-docker build -t eleks/PRODNAME --build-arg WSO2_PRODUCT=PRODNAME --build-arg ENTRYPOINT=wso2server.sh .
+docker build -t eleks/base-PRODNAME --build-arg WSO2_PRODUCT=PRODNAME --build-arg ENTRYPOINT=wso2server.sh .
 ```
 
 ## publish built images
 
 ```
-docker push eleks/PRODNAME
+docker push eleks/base-PRODNAME
 ```
 
 where 
@@ -40,13 +40,26 @@ where
 - integrator.sh
 
 
+## Commands to build different wso2 products:
+- common steps
+  download `PRODUCT_NAME.zip` and put it info files directory
+  run the following commands to build ant publish docker image
+- wso2bps-3.5.1
+  ```
+docker build -t eleks/base-wso2bps-3.5.1 --build-arg WSO2_PRODUCT=wso2bps-3.5.1 --build-arg PORTS="9443 9999" .
+docker push eleks/base-wso2bps-3.5.1
+```
+
 ## Example wso2is-5.3.0:
 
 download `wso2is-5.3.0.zip` and put it info files directory
 
 run the following command to build it as docker image:
 
-`docker build -t eleks/wso2is-5.3.0 --build-arg WSO2_PRODUCT=wso2is-5.3.0 .`
+```
+docker build -t eleks/base-wso2is-5.3.0 --build-arg WSO2_PRODUCT=wso2is-5.3.0 --build-arg PORTS="9443" .
+docker push eleks/base-wso2is-5.3.0
+```
 
 
 ## Example wso2ei-6.1.1:
