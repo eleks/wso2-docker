@@ -66,3 +66,6 @@ docker push eleks/base-wso2is-5.3.0
 docker build -t eleks/base-wso2ei-6.1.1 --build-arg WSO2_PRODUCT=wso2ei-6.1.1 --build-arg ENTRYPOINT=integrator.sh .
 docker push eleks/base-wso2ei-6.1.1
 ```
+
+
+> Note: `wso2ei` product has several entry points and in this build `integrator.sh` is used. In builds depends on this image you can redefine entrypoint by using argument `ENTRYPOINT`
