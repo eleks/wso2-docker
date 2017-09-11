@@ -1,24 +1,36 @@
-## docker-compose build
+## The base simple Dockerfile for wso2 products
 
-create `docker-compose.yaml` file with all products you need and run
+This dockerfile must not provide any modificators for wso2 products.
+So as a result you get plain wso2 product on linux with oracle java in box.
+
+##  build with `docker-compose`
+
+create `docker-compose-my.yaml` file with all products you need and run
+
 ```
-docker-comppose build
+docker-comppose -f docker-compose-my.yaml build
 ```
 
 ## docker build
 
-use the following command to build and publish images:
+use the following command to build image:
 
 ```
 docker build -t eleks/PRODNAME --build-arg WSO2_PRODUCT=PRODNAME --build-arg ENTRYPOINT=wso2server.sh .
+```
+
+## publish built images
+
+```
 docker push eleks/PRODNAME
 ```
 
 where 
 
 `PRODNAME:`
--	wso2is
--	wso2is-analytics
+-	wso2bps-ver
+-	wso2is-ver
+-	wso2is-analytics-ver
 -	...
 
 `ENTRYPOINT:` by default entrypoint for wso2 products is `wso2server.sh` but in enterprise integrator there are several entry points:

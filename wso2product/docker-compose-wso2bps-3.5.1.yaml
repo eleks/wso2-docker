@@ -1,0 +1,16 @@
+version: '2'
+
+services:
+  wso2bps:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WSO2_PRODUCT: wso2bps-3.5.1
+        PORTS: 9443 9999
+    image: eleks/wso2bps-3.5.1
+    ports:
+      - "443:9443"
+    volumes:
+      - /opt/conf
+      - /opt/deploy
