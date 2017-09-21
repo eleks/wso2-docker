@@ -5,10 +5,10 @@ So as a result you get plain wso2 product on linux with oracle java in box.
 
 ##  build with `docker-compose`
 
-create `docker-compose-my.yaml` file with all products you need and run
+create `docker-compose-all.yaml` file with all products you need and run
 
 ```
-docker-comppose -f docker-compose-my.yaml build
+docker-compose -f docker-compose-all.yaml build
 ```
 
 ## docker build
@@ -52,6 +52,12 @@ where
 ```
 docker build -t eleks/base-wso2bps-3.5.1 --build-arg WSO2_PRODUCT=wso2bps-3.5.1 --build-arg PORTS="9443 9999" .
 docker push eleks/base-wso2bps-3.5.1
+```
+### wso2bps-3.6.0
+
+```
+docker build -t eleks/base-wso2bps-3.6.0 --build-arg WSO2_PRODUCT=wso2bps-3.6.0 --build-arg PORTS="9443 9999" .
+docker push eleks/base-wso2bps-3.6.0
 ```
 ### wso2is-3.5.1
 
