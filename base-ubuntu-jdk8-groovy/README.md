@@ -105,7 +105,7 @@ templates have JSP-like syntax with groovy as a language.
 the following template with properties defined in section above
 
 ```ERB
-the emvironment: <%= my_environment %>
+the environment: <%= my_environment %>
 databases: 
 <% database.each{k,v-> %>
    name    : <%= k %>
@@ -116,7 +116,7 @@ databases:
 
 will result:
 ```
-the emvironment: test
+the environment: test
 databases: 
 
    name    : db1
