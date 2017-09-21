@@ -88,7 +88,7 @@ RUN set -o errexit -o nounset && \
 # test deploy function
 RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
-	mkdir s && \
+	mkdir test && \
 	export DEPLOY_TARGET=/opt/test && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
