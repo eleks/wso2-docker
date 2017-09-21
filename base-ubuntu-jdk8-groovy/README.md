@@ -19,9 +19,16 @@ VOLUME  /opt/deploy
 
 #### `/opt/conf` 
 
-directory dedicated to put key-valye properties files that could be used during templating process.
+folder location could be reconfigured with `CONF_SOURCE` environment variable
 
-it's possible to use `${...}` groovy expression language in values:
+directory dedicated to put configuration files that could be used during templating process.
+
+also the format of the configuration files could be `yaml` or `json`.
+
+it's possible to use `${...}` groovy expression language in values
+
+
+for example `properties` file:
 
 ```bash
 my_environment=test
@@ -31,10 +38,10 @@ current.date=${new Date().format('yyyy-MM-dd')}
 database.db1.url=${my_environment}.dbhost:1111
 database.db1.user=${my_environment}_user1
 database.db2.url=${my_environment}.dbhost:2222
-database.db1.user=${my_environment}_user2
+database.db2.user=${my_environment}_user2
 ```
 
-the result of loading this property file:
+the result of loading this file:
 
 ```bash
 my_environment=test
@@ -44,10 +51,34 @@ current.date=2016-12-31
 database.db1.url=test.dbhost:1111
 database.db1.user=test_user1
 database.db2.url=test.dbhost:2222
-database.db1.user=test_user2
+database.db2.user=test_user2
 ```
 
+and finally it will be converted to tree-map:
+
+```yaml
+my_environment: test
+api:
+  url:
+    prefix: https://test.company.com:8443
+current:
+  date: '2016-12-31'
+database:
+  db1:
+    url: test.dbhost:1111
+    user: test_user1
+  db2:
+    url: test.dbhost:2222
+    user: test_user2
+```
+
+so in groovy the expression `current.date` will return `2016-12-31`
+
+and `current.getClass().getName()` will return the implementation of `java.util.Map`
+
 #### `/opt/deploy` 
+
+folder location could be reconfigured with `DEPLOY_SOURCE` environment variable
 
 in this folder you can put configuration templates `(*.gsp)` and other files that will be copied into `DEPLOY_TARGET` directory defined as environment variable.
 
@@ -70,6 +101,9 @@ then the command `gcli deploy` will copy evaluated template `myconf.property` an
 #### *.gsp template syntax
 
 templates have JSP-like syntax with groovy as a language.
+
+the following template with properties defined in section above
+
 ```ERB
 the emvironment: <%= my_environment %>
 databases: 
