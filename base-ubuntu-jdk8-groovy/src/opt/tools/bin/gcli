@@ -16,7 +16,7 @@ else
 	shift
 fi
 
-groovy ./tools/classes/GCLI.groovy "$COMMAND" $*
+groovy -cp ./tools/lib/* ./tools/classes/GCLI.groovy "$COMMAND" $*
 
 
 if [ "$COMMAND" = "entrypoint" ]

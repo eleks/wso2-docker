@@ -1,12 +1,12 @@
 /**/
 import groovy.io.FileType
+import groovy.json.JsonOutput
 
 def description(){'''
-copies the content of /opt/deploy folder into DEPLOY_TARGET env var
+loads in alphabetical order and evaluates configuration files (*.yaml, *.json, *.properties) from `CONF_SOURCE` env var
+copies the content of `DEPLOY_SOURCE` folder into `DEPLOY_TARGET`
 during copy evaluates `*.gsp` files as groovy templates
-in groovy templates all parameters defined in `conf/ *.properties` are available
-PROP["the.property.name"] 
-or
+in groovy templates all the configuration parameters are available as:
 the.property.name
 
 optional prameter:
@@ -17,9 +17,10 @@ optional prameter:
 }
 
 def mode='all'
+
 def defaultsHome = "/opt/.defaults/"
-def confHome = new File("/opt/conf")
-def deployHome = new File("/opt/deploy")
+def confHome     = new File(System.getenv("CONF_SOURCE") ?: "/opt/conf")
+def deployHome   = new File(System.getenv("DEPLOY_SOURCE") ?: "/opt/deploy")
 def deployTarget = System.getenv("DEPLOY_TARGET")
 
 
@@ -30,12 +31,14 @@ if(args.size()>0){
 assert mode in["all", "gsp", "!gsp"]
 assert deployTarget
 deployTarget=new File(deployTarget)
+assert confHome.exists()
+assert deployHome.exists()
 assert deployTarget.exists()
 
 /*create ant*/
 def ant = new AntBuilder()
 
-//if conf of deploy are empty fill them from `.defaults`
+//if `dst` folder is empty then copy the content from `src` folder
 def cpIfEmpty={dst,src->
 	if(!dst.list().length){
 		ant.copy(todir:dst){
@@ -43,27 +46,43 @@ def cpIfEmpty={dst,src->
 		}
 	}
 }
-//copy default deploy and conf if empty
+//copy default deploy and conf from .defaults if current folders are empty
 AntHelper.setLogLevel( ant, ant.project.MSG_WARN )
 cpIfEmpty(deployHome, defaultsHome+"deploy")
 cpIfEmpty(confHome, defaultsHome+"conf")
 
-/*put environment vars with prefix `env.` into ant project properties*/
-System.getenv().each{k,v-> ant.property(name:"env.$k",value:v) }
+/*load&evaluate properties from files */
+def finalProps = [:]
 
-/*load&evaluate properties from files and put into ant project properties*/
-if(confHome.exists()) {
-	def props = [:]
-    confHome.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.endsWith(".properties")}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {
-        println "     [read] $it"
-        props = Installer.evaluateProperties(it, props)
-    }
-    props.each{k,v-> ant.property(name:k,value:v) }
+//add system envs into properties
+finalProps.env = System.getenv()
+
+/*load&evaluate properties from files */
+def confParsers=[
+	".properties": Configs.&parseProperties,
+	".yaml"      : Configs.&parseYaml,
+	".json"      : Configs.&parseJson,
+]
+confHome.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.length()>2}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {cf->
+	confParsers.each{confParser->
+		if( !cf.name.startsWith(".") && cf.name.endsWith(confParser.key) ){
+		    println "     [read] $cf"
+			Map nextProps = confParser.value( cf )
+			//merge and evaluate properties
+			Configs.postEvaluate( nextProps, finalProps )
+		}
+	}
 }
+//set properties into ant project
+ant.project.addReference("#GroovyEvalProps", finalProps)
+
+//store all evaluated properties into json file (for debug purpose)
+new File(confHome,".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
 
 //define groovyeval ant filter
 AntHelper.addGLoader(ant, "#GroovyLoader", this.getClass().getClassLoader())
 ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader")
+
 
 if(mode in ["all","gsp"]){
     //run copy with groovy templating with debug mode
@@ -73,7 +92,7 @@ if(mode in ["all","gsp"]){
         fileset(dir: deployHome, includes: "**/*.gsp")
         globmapper(from:"*.gsp", to:"*")
         filterchain(){
-            groovyeval(evalFile:"/opt/conf/eval.json")
+            groovyeval()
             //fixcrlf()
         }
     }

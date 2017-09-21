@@ -58,7 +58,12 @@ COPY    ./src /
 
 #where to copy during deploy 
 ENV DEPLOY_TARGET=PLEASE_REDEFINE
+#where deployment artifacts and config templates located 
+ENV DEPLOY_SOURCE=/opt/deploy
+#where template parameters located 
+ENV CONF_SOURCE=/opt/conf
 
+#suppose to map default deployment source locations to external volumes
 VOLUME  /opt/conf
 VOLUME  /opt/deploy
 WORKDIR /opt
@@ -68,21 +73,27 @@ RUN     chmod 775 /opt/tools/bin/gcli && \
 
 #add some commands into bash history
 RUN     \
-        echo 'gcli help' >> ~/.bash_history
+        echo 'gcli help' >> ~/.bash_history && \
+        echo 'gcli deploy' >> ~/.bash_history
 
+#download libs
+RUN set -o errexit -o nounset && \
+	echo "Downloading libs" && \
+	wget --no-verbose --content-disposition -P ./tools/lib/ "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"
 
-
+# test java&groovy
 RUN set -o errexit -o nounset && \
 	gcli version
 
+# test deploy function
 RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
 	mkdir s && \
-	export DEPLOY_TARGET=/opt/s && \
+	export DEPLOY_TARGET=/opt/test && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
-	cat /opt/s/readme.nfo && \
-	rm -Rf /opt/s
+	cat /opt/test/readme.nfo && \
+	rm -Rf /opt/test
 
 
 ENTRYPOINT set -eu && \

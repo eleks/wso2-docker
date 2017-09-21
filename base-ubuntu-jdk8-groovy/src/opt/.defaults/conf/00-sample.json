@@ -1,0 +1,5 @@
+{
+	"local":{
+		"startDate" : "${ new Date().format('yyyy-MM-dd') }"
+	}
+}

@@ -18,7 +18,7 @@ import java.nio.CharBuffer;
 /**
  * String-based groovy-like template that supports <% %> tags for code and <%= xxx %> as value injection
  * usage:
- * def tpl = new StringTemplate(" myParm1 = <%=myParm1%>; myParm2 = <%=myParm2%>")
+ * def tpl = new ReaderTemplate(" myParm1 = <%=myParm1%>; myParm2 = <%=myParm2%>")
  * tpl.make( out: new File("out1").newWriter(), myParm1: 111, myParm2:'sss' )
  * tpl.make( out: new File("out2").newWriter(), myParm1: 222, myParm2:'ddd' )
  */
@@ -49,7 +49,7 @@ public class ReaderTemplate {
 
         Writer out  = bindMap.get("out");
         if(out==null)out=new StringWriter(this.template.length()*1.33);
-        if ( !(out instanceof java.io.Writer) ){ throw new RuntimeException("Binding parameter `out` implement java.io.Writer"); }
+        if ( !(out instanceof java.io.Writer) ){ throw new RuntimeException("Binding parameter `out` should be instance of java.io.Writer"); }
         bindMap.put("out", out);
         bindMap.put("template", template);
         bindMap.put("write", new MethodClosure(this,"write")); //this.&write;
