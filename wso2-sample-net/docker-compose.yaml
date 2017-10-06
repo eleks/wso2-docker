@@ -1,0 +1,27 @@
+version: '3.2'
+
+services:
+  wso2is:
+    image: eleks/base-wso2is-5.3.0
+    ports:
+      - "9443:9443"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    environment:
+      # path to get conf 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2is
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2is
+  wso2ix:
+    image: eleks/base-wso2is-analytics-5.3.0
+    ports:
+      - "9444:9444"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    environment:
+      # path to get conf 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ix
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ix
