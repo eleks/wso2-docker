@@ -21,12 +21,15 @@ VOLUME  /opt/deploy
 
 folder location could be reconfigured with `CONF_SOURCE` environment variable
 
-directory dedicated to put configuration files that could be used during templating process.
+the `CONF_SOURCE` variable could contain several paths delimited with `:` or `;`
 
-also the format of the configuration files could be `yaml` or `json`.
+each path dedicated to put configuration files that will be used during templating process.
+
+the format of the configuration files could be `properties`,  `yaml` or `json`.
 
 it's possible to use `${...}` groovy expression language in values
 
+all configurations are loaded sequentially and merged into one configuration tree-map
 
 for example `properties` file:
 
@@ -80,23 +83,11 @@ and `current.getClass().getName()` will return the implementation of `java.util.
 
 folder location could be reconfigured with `DEPLOY_SOURCE` environment variable
 
-in this folder you can put configuration templates `(*.gsp)` and other files that will be copied into `DEPLOY_TARGET` directory defined as environment variable.
+the `DEPLOY_SOURCE` variable could contain several paths delimited with `:` or `;`
 
-#### `gcli deploy` command
+but paths could not include each other because the copy done recursively
 
-if you have environment variable `DEPLOY_TARGET=/opt/myserver` 
-
-and you have files: 
-```
-/opt/deploy/conf/myconf.property.gsp
-/opt/deploy/lib/mylib.jar
-```
-
-then the command `gcli deploy` will copy evaluated template `myconf.property` and plain binary file `mylib.jar` into the following structure
-```
-/opt/myserver/conf/myconf.property
-/opt/myserver/lib/mylib.jar
-```
+in each path you can put configuration templates `(*.gsp)` and other files that will be copied into `DEPLOY_TARGET` directory defined as environment variable.
 
 #### *.gsp template syntax
 
@@ -127,3 +118,20 @@ databases:
       url  : test.dbhost:222
       user : test_user2
 ```
+
+#### `gcli deploy` command
+
+if you have environment variable `DEPLOY_TARGET=/opt/myserver` 
+
+and you have files: 
+```
+/opt/deploy/conf/myconf.property.gsp
+/opt/deploy/lib/mylib.jar
+```
+
+then the command `gcli deploy` will copy evaluated template `myconf.property` and plain binary file `mylib.jar` into the following structure
+```
+/opt/myserver/conf/myconf.property
+/opt/myserver/lib/mylib.jar
+```
+
