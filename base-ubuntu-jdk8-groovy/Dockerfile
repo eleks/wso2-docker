@@ -90,6 +90,8 @@ RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
 	mkdir test && \
 	export DEPLOY_TARGET=/opt/test && \
+	export CONF_SOURCE=/opt/.defaults/conf && \
+	export DEPLOY_SOURCE=/opt/.defaults/deploy && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
 	cat /opt/test/readme.nfo && \

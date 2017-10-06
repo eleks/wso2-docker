@@ -19,9 +19,9 @@ optional prameter:
 def mode='all'
 
 def defaultsHome = "/opt/.defaults/"
-def confHome     = new File(System.getenv("CONF_SOURCE") ?: "/opt/conf")
-def deployHome   = new File(System.getenv("DEPLOY_SOURCE") ?: "/opt/deploy")
-def deployTarget = System.getenv("DEPLOY_TARGET")
+def confSource     = System.getenv("CONF_SOURCE") ?: "/opt/conf"       //could be a list separated with : or ;
+def deploySource   = System.getenv("DEPLOY_SOURCE") ?: "/opt/deploy"   //could be a list separated with : or ;
+def deployTarget   = System.getenv("DEPLOY_TARGET")
 
 
 if(args.size()>0){
@@ -29,27 +29,41 @@ if(args.size()>0){
 }
 
 assert mode in["all", "gsp", "!gsp"]
-assert deployTarget
+assert deployTarget : "env var DEPLOY_TARGET must be defined"
 deployTarget=new File(deployTarget)
-assert confHome.exists()
-assert deployHome.exists()
 assert deployTarget.exists()
 
-/*create ant*/
+//convert sources to lists of files
+confSource   = confSource.split('[;:]').findAll().collect{new File(it).getCanonicalFile()}
+deploySource = deploySource.split('[;:]').findAll().collect{new File(it).getCanonicalFile()}
+
+assert confSource.size()>0
+assert deploySource.size()>0
+
+/*create ant builder*/
 def ant = new AntBuilder()
 
 //if `dst` folder is empty then copy the content from `src` folder
 def cpIfEmpty={dst,src->
+	assert dst.exists():"folder does not exist: $dst"
 	if(!dst.list().length){
 		ant.copy(todir:dst){
 			fileset(dir:src)
 		}
 	}
 }
-//copy default deploy and conf from .defaults if current folders are empty
+//validate that deploySource does not contain nested paths
+deploySource.
+	collectEntries{x-> [x,deploySource.find{y-> x!=y && y.toPath().startsWith( x.toPath() ) }] }.
+	each{path,subpath->
+		assert subpath==null:"The path and subpath can't be in DEPLOY_SOURCE paths list\n     `$path` includes\n     `$subpath`"
+	}
+
+
+//copy default deploy and conf from .defaults if current (last) folders are empty
 AntHelper.setLogLevel( ant, ant.project.MSG_WARN )
-cpIfEmpty(deployHome, defaultsHome+"deploy")
-cpIfEmpty(confHome, defaultsHome+"conf")
+cpIfEmpty(confSource[-1], defaultsHome+"conf")
+cpIfEmpty(deploySource[-1], defaultsHome+"deploy")
 
 /*load&evaluate properties from files */
 def finalProps = [:]
@@ -63,47 +77,54 @@ def confParsers=[
 	".yaml"      : Configs.&parseYaml,
 	".json"      : Configs.&parseJson,
 ]
-confHome.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.length()>2}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {cf->
-	confParsers.each{confParser->
-		if( !cf.name.startsWith(".") && cf.name.endsWith(confParser.key) ){
-		    println "     [read] $cf"
-			Map nextProps = confParser.value( cf )
-			//merge and evaluate properties
-			Configs.postEvaluate( nextProps, finalProps )
+//let's got through CONF_SOURCE folders and parse configs in each
+confSource.each{confItem->
+	println "   [CONF_SOURCE] $confItem"
+	assert confItem.exists(): "the path in CONF_SOURCE does not exist: $confItem"
+	confItem.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.length()>2}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {cf->
+		confParsers.each{confParser->
+			if( !cf.name.startsWith(".") && cf.name.endsWith(confParser.key) ){
+			println "     [read] ${cf.name}"
+				Map nextProps = confParser.value( cf )
+				//merge and evaluate properties
+				Configs.postEvaluate( nextProps, finalProps )
+			}
 		}
 	}
 }
+//store the last evaluated config into the last CONF_SOURCE folder in json format  (for debug purpose)
+new File(confSource[-1],".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
+
 //set properties into ant project
 ant.project.addReference("#GroovyEvalProps", finalProps)
-
-//store all evaluated properties into json file (for debug purpose)
-new File(confHome,".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
-
-//define groovyeval ant filter
+//define groovyeval ant filter to be used in copy of *.gsp files
 AntHelper.addGLoader(ant, "#GroovyLoader", this.getClass().getClassLoader())
 ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader")
 
+deploySource.each{deployItem->
+	println "   [DEPLOY_SOURCE] $deployItem"
+	assert deployItem.exists(): "the path in DEPLOY_SOURCE does not exist: $deployItem"
+	if(mode in ["all","gsp"]){
+		//run copy with groovy templating with debug mode to see where the error occured
+		println "     copy *.gsp templates..."
+		AntHelper.setLogLevel( ant, ant.project.MSG_VERBOSE ) //.MSG_INFO
+		ant.copy(flatten:false, encoding:"UTF-8", todir: deployTarget, overwrite:true) {
+			fileset(dir: deployItem, includes: "**/*.gsp")
+			globmapper(from:"*.gsp", to:"*")
+			filterchain(){
+				groovyeval()
+				//fixcrlf()
+			}
+		}
+	}
 
-if(mode in ["all","gsp"]){
-    //run copy with groovy templating with debug mode
-    println "deploy *.gsp templates..."
-    AntHelper.setLogLevel( ant, ant.project.MSG_VERBOSE ) //.MSG_INFO
-    ant.copy(flatten:false, encoding:"UTF-8", todir: deployTarget, overwrite:true) {
-        fileset(dir: deployHome, includes: "**/*.gsp")
-        globmapper(from:"*.gsp", to:"*")
-        filterchain(){
-            groovyeval()
-            //fixcrlf()
-        }
-    }
-}
-
-if(mode in ["all","!gsp"]){
-    //run copy without groovy templating 
-    println "deploy other files..."
-    AntHelper.setLogLevel( ant, ant.project.MSG_INFO ) //.MSG_DEBUG
-    ant.copy(flatten:false, todir: deployTarget, overwrite:true) {
-        fileset(dir: deployHome, excludes: "**/*.gsp")
-    }
+	if(mode in ["all","!gsp"]){
+		//run copy without groovy templating 
+		println "     copy other files..."
+		AntHelper.setLogLevel( ant, ant.project.MSG_INFO ) //.MSG_DEBUG
+		ant.copy(flatten:false, todir: deployTarget, overwrite:true) {
+			fileset(dir: deployItem, excludes: "**/*.gsp")
+		}
+	}
 }
 
