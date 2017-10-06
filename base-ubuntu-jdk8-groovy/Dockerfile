@@ -14,7 +14,7 @@ RUN set -o errexit -o nounset && \
 	echo common packages && \
 	apt-get update && \
 	apt-get install -y --no-install-recommends apt-utils && \
-	apt-get install -y curl unzip mc && \
+	apt-get install -y curl unzip mc iputils-ping inetutils-traceroute && \
 	apt-get update
 
 
