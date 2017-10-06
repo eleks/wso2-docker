@@ -79,12 +79,12 @@ def confParsers=[
 ]
 //let's got through CONF_SOURCE folders and parse configs in each
 confSource.each{confItem->
-	println "   [CONF_SOURCE] $confItem"
+	println "  [CONF_SOURCE] $confItem"
 	assert confItem.exists(): "the path in CONF_SOURCE does not exist: $confItem"
 	confItem.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.length()>2}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {cf->
 		confParsers.each{confParser->
 			if( !cf.name.startsWith(".") && cf.name.endsWith(confParser.key) ){
-			println "     [read] ${cf.name}"
+				println "     [read] ${cf.name}"
 				Map nextProps = confParser.value( cf )
 				//merge and evaluate properties
 				Configs.postEvaluate( nextProps, finalProps )
@@ -102,7 +102,7 @@ AntHelper.addGLoader(ant, "#GroovyLoader", this.getClass().getClassLoader())
 ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader")
 
 deploySource.each{deployItem->
-	println "   [DEPLOY_SOURCE] $deployItem"
+	println "  [DEPLOY_SOURCE] $deployItem"
 	assert deployItem.exists(): "the path in DEPLOY_SOURCE does not exist: $deployItem"
 	if(mode in ["all","gsp"]){
 		//run copy with groovy templating with debug mode to see where the error occured
