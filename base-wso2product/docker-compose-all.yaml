@@ -22,3 +22,10 @@ services:
       args:
         WSO2_PRODUCT: wso2bps-3.6.0
     image: eleks/base-wso2bps-3.6.0
+  wso2bps:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WSO2_PRODUCT: wso2bps-3.5.1
+    image: eleks/base-wso2bps-3.5.1
