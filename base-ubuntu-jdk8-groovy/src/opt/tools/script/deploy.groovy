@@ -96,10 +96,10 @@ confSource.each{confItem->
 new File(confSource[-1],".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
 
 //set properties into ant project
-ant.project.addReference("#GroovyEvalProps", finalProps)
+//ant.project.addReference("#GroovyEvalProps", finalProps)
 //define groovyeval ant filter to be used in copy of *.gsp files
-AntHelper.addGLoader(ant, "#GroovyLoader", this.getClass().getClassLoader())
-ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader")
+//AntHelper.addGLoader(ant, "#GroovyLoader", this.getClass().getClassLoader())
+//ant.typedef(name:"groovyeval", classname:"GroovyEval", loaderref:"#GroovyLoader")
 
 deploySource.each{deployItem->
 	println "  [DEPLOY_SOURCE] $deployItem"
@@ -107,13 +107,24 @@ deploySource.each{deployItem->
 	if(mode in ["all","gsp"]){
 		//run copy with groovy templating with debug mode to see where the error occured
 		println "     copy *.gsp templates..."
-		AntHelper.setLogLevel( ant, ant.project.MSG_VERBOSE ) //.MSG_INFO
-		ant.copy(flatten:false, encoding:"UTF-8", todir: deployTarget, overwrite:true) {
-			fileset(dir: deployItem, includes: "**/*.gsp")
-			globmapper(from:"*.gsp", to:"*")
-			filterchain(){
-				groovyeval()
-				//fixcrlf()
+
+		deployItem.traverse(maxDepth:-1, type: FileType.ANY, filter: {it.isDirectory() || it.name.endsWith(".gsp")}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {src->
+			def rel = deployItem.toPath().relativize(src.toPath())
+			def dst = deployTarget.toPath().resolve(rel)
+			if(src.isDirectory()){
+				println "     [dir]  $dst"
+				dst.toFile().mkdirs()
+			}else{
+				println "     [gsp]  ${dst.getFileName()}"
+				//remove .gsp from target name
+		        dst = dst.getParent().resolve( dst.getFileName().toString()[0..-5] ).toFile()
+				def ctx = [ant:ant, file:dst]
+				dst.withWriter("UTF-8"){writer->
+					finalProps.context = ctx
+					finalProps.out = writer
+			        new ReaderTemplate(src.newReader("UTF-8")).make(finalProps);
+				}
+				if(ctx.onFileClose instanceof Closure)ctx.onFileClose(dst) //do some actions on file close.. NOT sure it's needed..
 			}
 		}
 	}
@@ -121,8 +132,8 @@ deploySource.each{deployItem->
 	if(mode in ["all","!gsp"]){
 		//run copy without groovy templating 
 		println "     copy other files..."
-		AntHelper.setLogLevel( ant, ant.project.MSG_INFO ) //.MSG_DEBUG
-		ant.copy(flatten:false, todir: deployTarget, overwrite:true) {
+		//AntHelper.setLogLevel( ant, ant.project.MSG_DEBUG ) //.MSG_DEBUG
+		ant.copy(flatten:false, todir: deployTarget, overwrite:true, verbose:true) {
 			fileset(dir: deployItem, excludes: "**/*.gsp")
 		}
 	}
