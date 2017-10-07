@@ -2,6 +2,5 @@
 
 println "-----------------------------"
 println "| dummy entrypoint started. |"
-println "| press enter to terminate. |"
 println "-----------------------------"
 System.in.read()

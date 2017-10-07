@@ -95,6 +95,8 @@ RUN set -o errexit -o nounset && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
 	cat /opt/test/readme.nfo && \
+	echo "------ File output -------" && \
+	cat /opt/test/readme.txt && \
 	rm -Rf /opt/test
 
 
