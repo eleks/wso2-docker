@@ -28,3 +28,4 @@ docker build -t eleks/base-${P} --build-arg WSO2_PRODUCT=${P} .
 docker push eleks/base-${P}
 
 
+echo "SUCCESS"
