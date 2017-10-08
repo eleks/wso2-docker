@@ -95,9 +95,13 @@ RUN set -o errexit -o nounset && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
 	cat /opt/test/readme.nfo && \
-	echo "------ File output -------" && \
+	echo "------ File output -----------" && \
 	cat /opt/test/readme.txt && \
-	rm -Rf /opt/test
+	echo "------ Properties ------------" && \
+	cat /opt/.defaults/conf/.eval.json && \
+	echo "------------------------------" && \
+	rm -Rf /opt/test && \
+	rm -f /opt/.defaults/conf/.eval.json
 
 
 ENTRYPOINT set -eu && \

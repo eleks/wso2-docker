@@ -42,25 +42,37 @@ public class Configs{
 
 
     /**evaluates the values of `src` properties tree based on `root` and stores final result into the `root`*/
-	public static void postEvaluate(Object src, Map root, Object target=root, Closure linkToParent = {it}, TemplateEngine eng = new GStringTemplateEngine()){
+	public static void postEvaluate(Object src, Map root, Object target=root, Closure linkToParent = {it}, List jpath=[], TemplateEngine eng = new GStringTemplateEngine()){
         if(src instanceof Map){
             if(target==null){ target = linkToParent( [:] ) }
             assert target instanceof Map
             src.each{me->
                 def linkToParentMap = { target.put(me.getKey(), it); it; }
-                postEvaluate(me.getValue(), root, target[me.getKey()], linkToParentMap, eng)
+                postEvaluate(me.getValue(), root, target[me.getKey()], linkToParentMap, jpath+['.'+me.getKey()], eng)
             }
         }else if(src instanceof List){
             if(target==null){ target = linkToParent( [] ) }
             assert target instanceof List
             for(int i=0;i<src.size();i++){
                 def linkToParentList = { target.add(it); it; }
-                postEvaluate(src[i], root, null, linkToParentList, eng)
+                postEvaluate(src[i], root, null, linkToParentList, jpath+['['+i+']'], eng)
             }
         }else{
             if(src instanceof String){
-                if(src.indexOf('${')>=0 && src.indexOf('}')>=0){
-                    src = eng.createTemplate(src).make(root).toString()
+            	try{
+                	int p0=src.indexOf('${')
+                	int p1=src.indexOf('}')
+                	if(p0==0 && p1==src.length()-1 && src.indexOf('${',2)==-1){
+                		//assume it's a groovy script inside brackets returning an object (string, map, array)
+						src = new GroovyShell(new Binding(root)).evaluate(src.substring(2, p1))
+						if(src!=null && !src instanceof Map && !src instanceof Collection){
+							src=src.toString() //force to be string if not map and not array
+						}
+                	}else if(p0>=0 && p1>0){
+                        src = eng.createTemplate(src).make(root).toString()
+                    }
+                }catch(Throwable t){
+                	throw new Exception("Failed to evaluate `${jpath.join('')}`: "+t);
                 }
             }
             linkToParent(src)

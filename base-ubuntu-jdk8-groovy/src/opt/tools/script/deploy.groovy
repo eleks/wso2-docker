@@ -1,6 +1,8 @@
 /**/
 import groovy.io.FileType
 import groovy.json.JsonOutput
+import java.nio.file.Path
+import groovy.io.FileVisitResult
 
 def description(){'''
 loads in alphabetical order and evaluates configuration files (*.yaml, *.json, *.properties) from `CONF_SOURCE` env var
@@ -84,7 +86,7 @@ confSource.each{confItem->
 	confItem.traverse(maxDepth:0, type: FileType.FILES, filter: {it.name.length()>2}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {cf->
 		confParsers.each{confParser->
 			if( !cf.name.startsWith(".") && cf.name.endsWith(confParser.key) ){
-				println "     [read] ${cf.name}"
+				println "     [read]  ${cf.name}"
 				Map nextProps = confParser.value( cf )
 				//merge and evaluate properties
 				Configs.postEvaluate( nextProps, finalProps )
@@ -95,28 +97,61 @@ confSource.each{confItem->
 //store the last evaluated config into the last CONF_SOURCE folder in json format  (for debug purpose)
 new File(confSource[-1],".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
 
+def context=[:]  //deploy context
 
+def renderFunction={file, binding=null-> 
+	if(file==null)return ""
+	if(!file instanceof String)file=file.toString()
+	File tpl=null;
+	if(file.startsWith("/") || file.startsWith("\\")){
+		//let's lookup template file in this or previous directories
+		tpl = deploySource.reverse().dropWhile{it!=context.sourcePath}.collect{ new File(it,file) }.find{it.exists()}
+	}else{
+		tpl = new File(context.sourceFile.getParentFile(), file)
+	}
+	if(tpl==null || !tpl.exists()){
+		throw new Exception("Resource not found: ${tpl ?: file}")
+	}
+	return new ReaderTemplate(tpl.newReader("UTF-8")).make(binding?:finalProps + [context:context]).toString()
+}
+
+def skipExt = ".gspx"
 deploySource.each{deployItem->
 	println "  [DEPLOY_SOURCE] $deployItem"
 	assert deployItem.exists(): "the path in DEPLOY_SOURCE does not exist: $deployItem"
 	if(mode in ["all","gsp"]){
-		deployItem.traverse(maxDepth:-1, type: FileType.ANY, filter: {it.isDirectory() || it.isFile()}, sort:{a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name } ) {src->
+		deployItem.traverse(
+			maxDepth: -1, 
+			type:     FileType.ANY, 
+			filter:   {it.isDirectory() || it.isFile()}, 
+			preDir:   {it.getName().endsWith(skipExt) ? FileVisitResult.SKIP_SUBTREE : FileVisitResult.CONTINUE}, 
+			sort:     {a,b-> a.isFile() <=> b.isFile() ?: a.name <=> b.name },
+		) {src->
 			def rel = deployItem.toPath().relativize(src.toPath())
 			def dst = deployTarget.toPath().resolve(rel)
 			if(src.isDirectory()){
-				//println "     [dir]  $dst"
-				dst.toFile().mkdirs()
+				if(src.getName().endsWith(skipExt))	{
+					//println "     [skip]  $src"
+				}else{
+					println "     [dir]   $dst"
+					dst.toFile().mkdirs()
+				}
+			}else if(src.getName().endsWith(skipExt)){
+				//just eXclude gspx files from copying
 			}else if(src.getName().endsWith(".gsp") && mode in ["all","gsp"]){
 				//remove .gsp from target name
 		        dst = dst.getParent().resolve( dst.getFileName().toString()[0..-5] ).toFile()
 				println "     [gsp]   ${dst}"
-				def ctx = [ant:ant, file:dst]
+				context = [
+						ant:ant, 
+						file:dst,
+						sourcePath: deployItem,
+						sourceFile: src,
+						render: renderFunction,
+					].asImmutable()
 				dst.withWriter("UTF-8"){writer->
-					finalProps.context = ctx
-					finalProps.out = writer
-			        new ReaderTemplate(src.newReader("UTF-8")).make(finalProps);
+			        new ReaderTemplate(src.newReader("UTF-8")).make(finalProps+[out:writer, context:context]);
 				}
-				if(ctx.onFileClose instanceof Closure)ctx.onFileClose(dst) //do some actions on file close.. NOT sure it's needed..
 			}else if(mode in ["all","!gsp"]){
 				println "     [copy]  ${dst}"
 				dst.toFile().withOutputStream{ it << src.newInputStream() }
