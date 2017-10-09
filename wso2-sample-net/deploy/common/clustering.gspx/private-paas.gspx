@@ -1,0 +1,4 @@
+      <parameter name="membershipSchemeClassName">org.wso2.carbon.ppaas.PrivatePaaSBasedMembershipScheme</parameter>
+      <% if (clustering['private_paas'] && clustering['private_paas']['cluster_ids']) { %>
+        <parameter name="clusterIds"><%= clustering['private_paas']['cluster_ids'] %></parameter>
+      <% } %>

@@ -1,0 +1,14 @@
+        <datasource>
+            <name><%= dsn %></name>
+            <description><%= ds.description %></description>
+            <% if(ds.jndi_config){ %>
+            <jndiConfig>
+                <name><%= ds.jndi_config %></name>
+            </jndiConfig>
+            <% } %>
+            <definition type="RDBMS">
+                <configuration>
+                    <% ds.configuration.each{ k,v-> write("<$k>$v</$k>") } %>
+                </configuration>
+            </definition>
+        </datasource>

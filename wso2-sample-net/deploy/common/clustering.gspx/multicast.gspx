@@ -1,0 +1,8 @@
+        <!--multicast has no additional parameters-->
+        <!--this will not work unless clustering mode == 'wka' but to keep config like default-->
+        <members>
+            <member>
+                <hostName>127.0.0.1</hostName>
+                <port>4000</port>
+            </member>
+        </members>

@@ -1,0 +1,8 @@
+        <members>
+          <% clustering['wka']['members'].each{member-> %>
+            <member>
+              <hostName><%= member['hostname'] %></hostName>
+              <port><%= member['port'] %></port>
+            </member>
+          <% } %>
+        </members>

@@ -1,0 +1,13 @@
+        <parameter name="membershipSchemeClassName">org.wso2.carbon.clustering.mesos.MesosMembershipScheme</parameter>
+        <% clustering.mesos.each{k,v-> %>
+        <parameter name="<%= k %>"><%= v %></parameter>
+        <% } %>
+        <!-- mesos properties:
+          "MESOS_MEMBER_DISCOVERY_SCHEME"
+          "MARATHON_APPLICATIONS"
+          "MARATHON_ENDPOINT"
+          "ENABLE_MARATHON_BASIC_AUTH"
+          "MARATHON_USERNAME"
+          "MARATHON_PASSWORD"
+          "MESOS_DNS_ENDPOINT"
+        -->

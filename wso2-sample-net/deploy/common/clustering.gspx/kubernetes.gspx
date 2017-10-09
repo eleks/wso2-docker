@@ -1,0 +1,8 @@
+        <parameter name="membershipSchemeClassName">org.wso2.carbon.membership.scheme.kubernetes.KubernetesMembershipScheme</parameter>
+        <% clustering.kubernetes.each{k,v-> %>
+        <parameter name="<%= k.toUpperCase() %>"><%= v %></parameter>
+        <% } %>
+        <!-- kubernetes properties
+          "KUBERNETES_NAMESPACE"
+          "KUBERNETES_SERVICES"
+        -->

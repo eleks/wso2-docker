@@ -628,8 +628,7 @@
                     Service (GMS) using a TCP ping mechanism.
         -->
         <parameter name="membershipScheme"><%= clustering['membership_scheme'] %></parameter>
-        <!-- ELEKS:ERROR: templates evaluating not implemented -->
-        <%= clustering.enabled=='true' ? context.template(context.root.parent, "wso2base/clustering/${clustering['membership_scheme']}.gsp") : '' %>
+<%=     context.render("clustering.gspx/${clustering['membership_scheme']}.gspx") %>
         <!--<parameter name="licenseKey">xxx</parameter>-->
         <!--<parameter name="mgtCenterURL">http://localhost:8081/mancenter/</parameter>-->
 
@@ -707,16 +706,14 @@
            The list of static or well-known members. These entries will only be valid if the
            "membershipScheme" above is set to "wka"
         -->
-<% if (clustering['membership_scheme'] == 'wka'){ %>
+        <!--moved to clustering.gspx templates
         <members>
-   <% clustering['wka']['members'].each { member-> %>
             <member>
-                <hostName><%= member['hostname'] %></hostName>
-                <port><%= member['port'] %></port>
+                <hostName>127.0.0.1</hostName>
+                <port>4000</port>
             </member>
-   <% } %>
         </members>
-<% } %>
+        -->
 
         <!--
         Enable the groupManagement entry if you need to run this node as a cluster manager.
