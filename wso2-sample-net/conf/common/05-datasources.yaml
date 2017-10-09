@@ -4,14 +4,32 @@ master_datasources:
   WSO2_CARBON_DB:
     description: default datasource for wso2/carbon product
     jndi_config: jdbc/WSO2CarbonDB
-    driver_class_name: org.h2.Driver
-    url: jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
-    username: wso2carbon
-    password: wso2carbon
-    max_active: 50
-    max_wait: 60000
-    test_on_borrow: true
-    default_auto_commit: false
-    validation_query: SELECT 1
-    validation_interval: 30000
+    configuration:
+      url: jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      defaultAutoCommit: false
+
+metrics_datasources:
+  WSO2_METRICS_DB:
+    description: The default datasource used for WSO2 Carbon Metrics
+    jndi_config: jdbc/WSO2MetricsDB
+    configuration:
+      url: jdbc:h2:repository/database/WSO2METRICS_DB;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      defaultAutoCommit: true
+
 
