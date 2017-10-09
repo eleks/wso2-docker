@@ -1,0 +1,25 @@
+---
+# default registry configuration
+registry:
+  # by default it's true but this forces registry database(s) grows fast!
+  # so keep default to false
+  versioning: false
+  # datasource where to store local server configs:
+  local_datasource: WSO2_CARBON_DB
+  # when we want to place product registry in common database for several products
+  # use the feature to mount virtual paths
+  mounts:
+#    -
+#      path: /_system/config
+#      target_path: /_system/config/${env.ENV_PREFIX}${env.WSO2_PRODUCT}${env.ENV_SUFFIX}
+#      read_only: false
+#      registry_root: /
+#      enable_cache: true
+#      datasource: WSO2_CARBON_DB
+#    -
+#      path: /_system/governance
+#      target_path: /_system/governance/${env.ENV_PREFIX}${env.WSO2_PRODUCT}${env.ENV_SUFFIX}
+#      read_only: false
+#      registry_root: /
+#      enable_cache: true
+#      datasource: WSO2_CARBON_DB

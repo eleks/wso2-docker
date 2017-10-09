@@ -1,0 +1,21 @@
+# clustering
+---
+clustering:
+  enabled: false
+  # default: multicast
+  membership_scheme: wka
+  # default: wso2.carbon.domain
+  domain: wso2.carbon.domain
+  # default: 127.0.0.1
+  # ELEKS: check what value we have here in azure env.
+  local_member_host: 127.0.0.1
+  # default: 4000
+  local_member_port: 4000
+  # default: worker
+  sub_domain: worker
+  # if membership_scheme==`wka` the following members will be declared:
+  wka:
+     members:
+       -
+         hostname: 127.0.0.1
+         port: 4000

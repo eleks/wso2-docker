@@ -18,10 +18,10 @@
 tenantListEnabled=false
 hostname.verification.enabled=true
 mutual.ssl.username=admin
-client.keyStore=./repository/resources/security/wso2carbon.jks
-Carbon.Security.KeyStore.Password=wso2carbon
-client.trustStore=./repository/resources/security/client-truststore.jks
-Carbon.Security.TrustStore.Password=wso2carbon
+client.keyStore=<%= key_stores['key_store']['location'] %>
+Carbon.Security.KeyStore.Password=<%= key_stores['key_store']['password'] %>
+client.trustStore=<%= key_stores['trust_store']['location'] %>
+Carbon.Security.TrustStore.Password=<%= key_stores['trust_store']['password'] %>
 #identity.server.serviceURL=https://localhost:9443/services/
 username.header=UserName
 key.manager.type=SunX509

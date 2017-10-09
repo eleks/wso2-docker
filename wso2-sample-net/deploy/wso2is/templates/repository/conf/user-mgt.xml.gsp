@@ -18,17 +18,17 @@
     <Realm>
         <Configuration>
 		<AddAdmin>true</AddAdmin>
-            <AdminRole>admin</AdminRole>
+            <AdminRole><%= user_management['admin_role'] %></AdminRole>
             <AdminUser>
-                <UserName>admin</UserName>
-                <Password>admin</Password>
+                <UserName><%= user_management['admin_username'] %></UserName>
+                <Password><%= user_management['admin_password'] %></Password>
             </AdminUser>
             <EveryOneRoleName>everyone</EveryOneRoleName> <!-- By default users in this role sees the registry root -->
             <Property name="isCascadeDeleteEnabled">true</Property>
- <Property name="initializeNewClaimManager">true</Property>
-            <Property name="dataSource">jdbc/WSO2CarbonDB</Property>
+            <Property name="initializeNewClaimManager">true</Property>
+            <Property name="dataSource"><%= master_datasources[user_management.jdbc_datasource]['jndi_config'] %></Property>
         </Configuration>
-
+        <% assert user_management.UserStoreManager in ['ldap','jdbc'] %>
 	    <!-- Following is the configuration for internal JDBC user store. This user store manager is based on JDBC.
 	         In case if application needs to manage passwords externally set property
 	         <Property name="PasswordsExternallyManaged">true</Property>.
@@ -38,12 +38,13 @@
 	         Note: Do not comment within UserStoreManager tags. Cause, specific tag names are used as tokens
 	         when building configurations for products.
 	    -->
-        <!--UserStoreManager class="org.wso2.carbon.user.core.jdbc.JDBCUserStoreManager">
+        <% if(user_management.UserStoreManager =='jdbc') { %>
+        <UserStoreManager class="org.wso2.carbon.user.core.jdbc.JDBCUserStoreManager">
             <Property name="TenantManager">org.wso2.carbon.user.core.tenant.JDBCTenantManager</Property>
             <Property name="ReadOnly">false</Property>
             <Property name="ReadGroups">true</Property>
             <Property name="WriteGroups">true</Property>
-            <Property name="UsernameJavaRegEx">^[\S]{3,30}$</Property>
+            <Property name="UsernameJavaRegEx"><%= user_management['UsernameJavaRegEx'] %></Property>
             <Property name="UsernameJavaScriptRegEx">^[\S]{3,30}$</Property>
             <Property name="UsernameJavaRegExViolationErrorMsg">Username pattern policy violated</Property>
             <Property name="PasswordJavaRegEx">^[\S]{5,30}$</Property>
@@ -61,7 +62,8 @@
             <Property name="MaxRoleNameListLength">100</Property>
             <Property name="UserRolesCacheEnabled">true</Property>
             <Property name="UserNameUniqueAcrossTenants">false</Property>
-        </UserStoreManager-->
+        </UserStoreManager>
+        <% } %>
 	
 	    <!-- If product is using an external LDAP as the user store in READ ONLY mode, use following user manager.
 		     In case if user core cache domain is needed to identify uniquely set property
@@ -167,6 +169,7 @@
              service password formats. In case if user core cache domain is needed to identify uniquely set property
              <Property name="UserCoreCacheIdentifier">domain</Property>
         -->
+        <% if(user_management.UserStoreManager =='ldap') { %>
         <UserStoreManager class="org.wso2.carbon.user.core.ldap.ReadWriteLDAPUserStoreManager">
             <Property name="TenantManager">org.wso2.carbon.user.core.tenant.CommonHybridLDAPTenantManager</Property>
             <Property name="ConnectionURL">ldap://localhost:${Ports.EmbeddedLDAP.LDAPServerPort}</Property>
@@ -188,7 +191,7 @@
             <Property name="GroupNameListFilter">(objectClass=groupOfNames)</Property>
             <Property name="MembershipAttribute">member</Property>
             <Property name="BackLinksEnabled">false</Property>
-            <Property name="UsernameJavaRegEx">[a-zA-Z0-9._-|//]{3,30}$</Property>
+            <Property name="UsernameJavaRegEx"><%= user_management['UsernameJavaRegEx'] %></Property>
             <Property name="UsernameJavaScriptRegEx">^[\S]{3,30}$</Property>
             <Property name="UsernameJavaRegExViolationErrorMsg">Username pattern policy violated</Property>
             <Property name="PasswordJavaRegEx">^[\S]{5,30}$</Property>
@@ -211,6 +214,7 @@
             <Property name="ReadTimeout"/>
             <Property name="RetryAttempts"/>
         </UserStoreManager>
+        <% } %>
 
         <AuthorizationManager class="org.wso2.carbon.user.core.authorization.JDBCAuthorizationManager">
             <Property name="AdminRoleManagementPermissions">/permission</Property>

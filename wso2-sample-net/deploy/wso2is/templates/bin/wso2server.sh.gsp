@@ -269,9 +269,9 @@ status=$START_EXIT_STATUS
 
 if [ -z "$JVM_MEM_OPTS" ]; then
    java_version=$("$JAVACMD" -version 2>&1 | awk -F '"' '/version/ {print $2}')
-   JVM_MEM_OPTS="-Xms256m -Xmx1024m"
+   JVM_MEM_OPTS="-Xms<%= jvm['xms'] %> -Xmx<%= jvm['xmx'] %>"
    if [ "$java_version" \< "1.8" ]; then
-      JVM_MEM_OPTS="$JVM_MEM_OPTS -XX:MaxPermSize=256m"
+      JVM_MEM_OPTS="$JVM_MEM_OPTS -XX:MaxPermSize=<%= jvm['max_perm_size'] %>"
    fi
 fi
 echo "Using Java memory options: $JVM_MEM_OPTS"
@@ -313,7 +313,9 @@ do
     -Djava.net.preferIPv4Stack=true \
     -Dcom.ibm.cacheLocalHost=true \
     -DworkerNode=false \
+    -Dsetup \
     -Dorg.wso2.ignoreHostnameVerification=true \
+    -Dorg.opensaml.httpclient.https.disableHostnameVerification=true \
     org.wso2.carbon.bootstrap.Bootstrap $*
     status=$?
 done

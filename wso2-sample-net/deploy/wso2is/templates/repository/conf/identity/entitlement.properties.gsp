@@ -28,7 +28,7 @@ PDP.ResourceCaching.CachingInterval=300
 PDP.SchemaValidation.Enable=true
 PDP.Balana.Config.Enable=false
 PDP.Multiple.Decision.Profile.Enable=true
-PDP.Global.Policy.Combining.Algorithm=urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:deny-overrides
+PDP.Global.Policy.Combining.Algorithm=<%= entitlement.'PDP.Global.Policy.Combining.Algorithm' %>
 PAP.Policy.Add.Start.Enable=true
 #PAP.Policy.Add.Start.Policy.File.Path=
 PAP.Items.Per.Page=10

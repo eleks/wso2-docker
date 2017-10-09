@@ -1,27 +1,43 @@
 version: '3.2'
 
 services:
-  wso2is:
+  ids.docker.local:
     image: eleks/base-wso2is-5.3.0
     ports:
-      - "9443:9443"
+      - "2443:9443"
     volumes:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
     environment:
-      # path to get conf 
-      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2is
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ids
       # path to get deploy artifacts 
-      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2is/templates:/opt/deploy/wso2is/artifacts
-#  wso2ix:
-#    image: eleks/base-wso2is-analytics-5.3.0
-#    ports:
-#      - "9444:9444"
-#    volumes:
-#      - ./conf:/opt/conf
-#      - ./deploy:/opt/deploy
-#    environment:
-#      # path to get conf 
-#      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ix
-#      # path to get deploy artifacts 
-#      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ix
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ids/templates:/opt/deploy/wso2ids/artifacts
+      - ENV_PREFIX=
+      - ENV_SUFFIX=.docker.local
+      # with default docker config the external ip config stored in NO_PROXY var
+      # so we can use it to evaluate public hostnames
+      # possible to use the following cmd to evaluate ip: docker-machine ip default
+      - EXTERNAL_IP=${NO_PROXY}
+      # the following must be equal to post mapping in ports section above
+      - PORT_HTTPS=2443
+  idx.docker.local:
+    image: eleks/base-wso2is-analytics-5.3.0
+    ports:
+      - "2444:9444"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    environment:
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2idx
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2idx/templates:/opt/deploy/wso2idx/artifacts
+      - ENV_PREFIX=
+      - ENV_SUFFIX=.docker.local
+      # with default docker config the external ip config stored in NO_PROXY var
+      # so we can use it to evaluate public hostnames
+      # possible to use the following cmd to evaluate ip: docker-machine ip default
+      - EXTERNAL_IP=${NO_PROXY}
+      # the following must be equal to post mapping in ports section above
+      - PORT_HTTPS=2444

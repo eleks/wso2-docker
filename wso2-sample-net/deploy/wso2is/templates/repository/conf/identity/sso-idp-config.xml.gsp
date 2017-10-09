@@ -63,5 +63,42 @@
         <Audience>carbonServer</Audience>
       </AudiencesList>
     </ServiceProvider>
+
+    <% sso_service_providers.each{ server_name, server-> %>
+    <ServiceProvider>
+          <Issuer><%= server_name %></Issuer>
+          <AssertionConsumerServiceURLs>
+              <AssertionConsumerServiceURL><%= server['assertion_consumer_service_url'] %></AssertionConsumerServiceURL>
+          </AssertionConsumerServiceURLs>
+          <DefaultAssertionConsumerServiceURL><%= server['default_assertion_consumer_service_url'] %></DefaultAssertionConsumerServiceURL>
+          <EnableSingleLogout>true</EnableSingleLogout>
+          <SLOResponseURL/>
+          <SLORequestURL/>
+          <SAMLDefaultSigningAlgorithmURI>http://www.w3.org/2000/09/xmldsig#rsa-sha1</SAMLDefaultSigningAlgorithmURI>
+          <SAMLDefaultDigestAlgorithmURI>http://www.w3.org/2000/09/xmldsig#sha1</SAMLDefaultDigestAlgorithmURI>
+          <SignResponse>true</SignResponse>
+          <ValidateSignatures>true</ValidateSignatures>
+          <EncryptAssertion>false</EncryptAssertion>
+          <CertAlias/>
+          <EnableAttributeProfile>true</EnableAttributeProfile>
+          <IncludeAttributeByDefault>true</IncludeAttributeByDefault>
+          <ConsumingServiceIndex/>
+          <EnableAudienceRestriction>false</EnableAudienceRestriction>
+          <AudiencesList>
+              <Audience/>
+          </AudiencesList>
+          <EnableRecipients>false</EnableRecipients>
+          <RecipientList>
+              <Recipient/>
+          </RecipientList>
+          <EnableIdPInitiatedSSO>false</EnableIdPInitiatedSSO>
+          <EnableIdPInitSLO>false</EnableIdPInitSLO>
+          <ReturnToURLList>
+              <ReturnToURL/>
+          </ReturnToURLList>
+    </ServiceProvider>
+    <% } %>
+
+
   </ServiceProviders>
 </SSOIdentityProviderConfig>

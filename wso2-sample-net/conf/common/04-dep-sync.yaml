@@ -1,0 +1,12 @@
+---
+# Deployment synchronization configuration
+dep_sync:
+  enabled: false
+  auto_checkout: true
+  auto_commit: false
+  repository_type: svn
+  svn:
+     url: http://svnrepo.example.com/repos/
+     user: username
+     password: password
+     append_tenant_id: true

@@ -10,7 +10,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/user_profile/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/user_profile/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -26,7 +26,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/account-recovery/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/account-recovery/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -42,7 +42,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/pwd_change/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/pwd_change/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -58,7 +58,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/connected_accounts/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/connected_accounts/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -74,7 +74,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/user_auth_apps/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/user_auth_apps/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -90,7 +90,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/my-login-sessions/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/my-login-sessions/gadget.xml",
       "permissions": [
         "/permission/admin/login"
       ],
@@ -106,7 +106,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/approvals/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/approvals/gadget.xml",
       "permissions": [
         "/permission/admin/manage/humantask/viewtasks"
       ],
@@ -122,7 +122,7 @@
       "height": "1",
       "prefs": "{}",
       "wclass": "",
-      "url": "/portal/gadgets/login-sessions/gadget.xml",
+      "url": "https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/portal/gadgets/login-sessions/gadget.xml",
       "permissions": [
         "/permission/admin/manage/identity/authentication/session"
       ],

@@ -79,22 +79,24 @@ log4j.logger.net.sf.ehcache=ERROR
 log4j.logger.org.springframework=WARN
 log4j.logger.org.opensaml.xml.security.credential.criteria=WARN
 
- #log4j.logger.org.wso2.carbon.user.core=DEBUG
- #log4j.logger.org.wso2.carbon.identity=DEBUG
- #log4j.logger.org.wso2.carbon.identity.sso.saml=DEBUG
- #log4j.logger.org.wso2.carbon.identity.application=DEBUG
- #log4j.logger.org.wso2.carbon.identity.application.authentication.framework=DEBUG
- #log4j.logger.org.wso2.carbon.identity.mgt=DEBUG
- #log4j.logger.org.wso2.carbon.identity.oauth2=DEBUG
- #log4j.logger.org.wso2.carbon.identity.scim=DEBUG
- #log4j.logger.org.wso2.carbon.identity.mgt=DEBUG
- #log4j.logger.org.wso2.carbon.idp.mgt=DEBUG
- #log4j.logger.org.wso2.carbon.identity.provisioning=DEBUG
- #log4j.logger.org.wso2.carbon.identity.user.account.association=DEBUG
- #log4j.logger.org.wso2.carbon.identity.user.profile.mgt=DEBUG
- #log4j.logger.org.wso2.carbon.security=DEBUG
- #log4j.logger.org.wso2.carbon.identity.sso.agent=DEBUG
- #log4j.logger.org.wso2.carbon.identity.core=DEBUG
+<% if(log4j.DEBUG=='true') { %>
+log4j.logger.org.wso2.carbon.identity=DEBUG
+log4j.logger.org.wso2.carbon.identity.sso.saml=DEBUG
+log4j.logger.org.wso2.carbon.identity.application=DEBUG
+log4j.logger.org.wso2.carbon.identity.application.authentication.framework=DEBUG
+log4j.logger.org.wso2.carbon.identity.mgt=DEBUG
+log4j.logger.org.wso2.carbon.identity.oauth2=DEBUG
+log4j.logger.org.wso2.carbon.identity.scim=DEBUG
+log4j.logger.org.wso2.carbon.identity.mgt=DEBUG
+log4j.logger.org.wso2.carbon.idp.mgt=DEBUG
+log4j.logger.org.wso2.carbon.identity.provisioning=DEBUG
+log4j.logger.org.wso2.carbon.identity.user.account.association=DEBUG
+log4j.logger.org.wso2.carbon.identity.user.profile.mgt=DEBUG
+log4j.logger.org.wso2.carbon.security=DEBUG
+log4j.logger.org.wso2.carbon.identity.sso.agent=DEBUG
+log4j.logger.org.wso2.carbon.identity.core=DEBUG
+log4j.logger.org.wso2.carbon.user.core=DEBUG
+<% } %>
 
 log4j.logger.trace.messages=TRACE,CARBON_TRACE_LOGFILE
 

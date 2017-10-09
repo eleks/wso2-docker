@@ -21,7 +21,7 @@
         <DataSource>
             <!-- Include a data source name (jndiConfigName) from the set of data
                 sources defined in master-datasources.xml -->
-            <Name>jdbc/WSO2CarbonDB</Name>
+            <Name><%= master_datasources[identity.session_datasource]['jndi_config'] %></Name>
         </DataSource>
         <!-- If the identity database is created from another place and if it is
             required to skip schema initialization during the server start up, set the
@@ -33,7 +33,7 @@
             <PoolSize>0</PoolSize>
             <SessionDataCleanUp>
                 <Enable>true</Enable>
-                <CleanUpTimeout>20160</CleanUpTimeout>
+                <CleanUpTimeout><%= identity.RememberMeTimeout %></CleanUpTimeout>
                 <CleanUpPeriod>1140</CleanUpPeriod>
             </SessionDataCleanUp>
             <OperationDataCleanUp>
@@ -45,8 +45,8 @@
 
     <!-- Time configurations are in minutes -->
     <TimeConfig>
-        <SessionIdleTimeout>15</SessionIdleTimeout>
-        <RememberMeTimeout>20160</RememberMeTimeout>
+        <SessionIdleTimeout><%= identity.SessionIdleTimeout %></SessionIdleTimeout>
+        <RememberMeTimeout><%= identity.RememberMeTimeout %></RememberMeTimeout>
     </TimeConfig>
 
     <!-- Security configurations -->
@@ -302,7 +302,8 @@
             https://<HostName>:<MgtTrpProxyPort except 443>/<ProxyContextPath>/samlsso
             If that doesn't satisfy uncomment the following config and explicitly configure the value
         -->
-        <IdentityProviderURL>${carbon.protocol}://${carbon.host}:${carbon.management.port}/samlsso</IdentityProviderURL>
+        <IdentityProviderURL>https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/samlsso</IdentityProviderURL>
+        <!--ELEKS:warn:should we parametrize the following 2 urls as the previous one?-->
         <DefaultLogoutEndpoint>${carbon.protocol}://${carbon.host}:${carbon.management.port}/authenticationendpoint/samlsso_logout.do</DefaultLogoutEndpoint>
         <NotificationEndpoint>${carbon.protocol}://${carbon.host}:${carbon.management.port}/authenticationendpoint/samlsso_notification.do</NotificationEndpoint>
         <SingleLogoutRetryCount>5</SingleLogoutRetryCount>
@@ -348,12 +349,12 @@
 
     <EntitlementSettings>
         <ThirftBasedEntitlementConfig>
-            <EnableThriftService>false</EnableThriftService>
+            <EnableThriftService><%= identity.EnableThriftService %></EnableThriftService>
             <ReceivePort>${Ports.ThriftEntitlementReceivePort}</ReceivePort>
             <ClientTimeout>10000</ClientTimeout>
             <KeyStore>
-                <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
-                <Password>wso2carbon</Password>
+                <Location>${carbon.home}/<%= key_stores['key_store']['location'] %></Location>
+                <Password><%= key_stores['key_store']['password'] %></Password>
             </KeyStore>
             <!-- Enable this element to mention the host-name of your IS machine -->
             <ThriftHostName>${carbon.host}</ThriftHostName>
@@ -448,10 +449,10 @@
         </EventListener>
         <EventListener type="org.wso2.carbon.identity.core.handler.AbstractIdentityMessageHandler"
                        name="org.wso2.carbon.identity.data.publisher.application.authentication.impl.DASLoginDataPublisherImpl"
-                       orderId="10" enable="false"/>
+                       orderId="10" enable="<%= identity_analytics['enabled'] %>"/>
         <EventListener type="org.wso2.carbon.identity.core.handler.AbstractIdentityMessageHandler"
                        name="org.wso2.carbon.identity.data.publisher.application.authentication.impl.DASSessionDataPublisherImpl"
-                       orderId="11" enable="false"/>
+                       orderId="11" enable="<%= identity_analytics['enabled'] %>"/>
         <EventListener type="org.wso2.carbon.identity.core.handler.AbstractIdentityMessageHandler"
                        name="org.wso2.carbon.identity.data.publisher.application.authentication.AuthnDataPublisherProxy"
                        orderId="11" enable="true"/>

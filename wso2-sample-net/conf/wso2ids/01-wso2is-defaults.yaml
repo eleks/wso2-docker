@@ -1,0 +1,95 @@
+---
+##### WSO2IS PRODUCT CONFIG
+# here you can find default values of wso2is product
+# if you want to override values - create another conf file
+
+
+##### conf/bps.xml
+bps:
+  # Message exchange timeout. Default value is 120000ms
+  mex_timeout: 120000
+  # External Service invocation timeout. Default value is 60000ms
+  external_service_timeout: 60000
+  # HTTP/REST client MultithreadedHttpConnectionManager tuning parameters
+  max_connections_per_host: 20
+  max_total_connections: 100
+  # ode scheduler thread pool size 
+  ode_scheduler_thread_pool_size: 50
+
+security_csrf:
+  enabled: false
+  # ELEKS:ERROR: not clear what to do with port... and do we need it or not
+  #whitelist:
+  #  - https://${server.ids.public.host}:${server.ids.public.port.https}
+
+entitlement:
+  "PDP.Global.Policy.Combining.Algorithm": "urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:deny-overrides"
+
+identity:
+  session_datasource: WSO2_CARBON_DB
+  SessionIdleTimeout: 15
+  RememberMeTimeout: 20160
+  EnableThriftService: false
+
+identity_analytics:
+  enabled: false
+  # the default value for this localhost:7612
+  # 7611 - the DAS port for thrift protocol
+  # the is-analytics server by default uses offset=1 so 7611->7612
+  receiverURL: tcp://localhost:7612
+  username: admin
+  password: admin
+
+# SSO Configuration
+sso_authentication:
+  disabled: true
+  login_page: /carbon/admin/login.jsp
+  service_provider_id: carbonServer
+  sso_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/samlsso
+  consumer_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/acs
+
+# Provide the server list for setting up sso
+# ELEKS: do we use this on our envs???
+sso_service_providers:
+#    wso2esb:
+#      assertion_consumer_service_url: https://wso2esb-default:32094/acs
+#      default_assertion_consumer_service_url: https://wso2esb-default:32094/acs
+#    wso2bps:
+#      assertion_consumer_service_url: https://digdev-bps.digagro.com:443/acs
+#      default_assertion_consumer_service_url: https://digdev-bps.digagro.com:443/acs
+
+
+bps_datasources:
+  BPS_DS:
+    description: datasource for bps
+    jndi_config: bpsds
+    driver_class_name: org.h2.Driver
+    url: jdbc:h2:file:repository/database/jpadb;DB_CLOSE_ON_EXIT=FALSE;MVCC=TRUE
+    username: wso2carbon
+    password: wso2carbon
+    max_active: 100
+    max_wait: 10000
+    test_on_borrow: true
+    default_auto_commit: true
+    validation_query: SELECT 1
+    validation_interval: 30000
+
+metrics_datasources:
+  WSO2_METRICS_DB:
+    description: The default datasource used for WSO2 Carbon Metrics
+    jndi_config: jdbc/WSO2MetricsDB
+    driver_class_name: org.h2.Driver
+    url: jdbc:h2:repository/database/WSO2METRICS_DB;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
+    username: wso2carbon
+    password: wso2carbon
+    max_active: 50
+    max_wait: 60000
+    test_on_borrow: true
+    default_auto_commit: true
+    validation_query: SELECT 1
+    validation_interval: 30000
+
+
+
+
+

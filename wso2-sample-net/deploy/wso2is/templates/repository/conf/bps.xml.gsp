@@ -60,16 +60,16 @@
     </tns:OpenJPAConfig>
 
     <!-- Message exchange timeout. Default value is 120000ms -->
-    <!--<tns:MexTimeOut value="120000"/>-->
+    <tns:MexTimeOut value="<%= bps.mex_timeout ?: 120000 %>"/>
 
     <!-- External Service invocation timeout. Default value is 60000ms -->
-    <!--<tns:ExternalServiceTimeOut value="60000"/>-->
+    <tns:ExternalServiceTimeOut value="<%= bps.external_service_timeout ?: 60000 %>"/>
 
     <!-- MultithreadedHttpConnectionManager tuning parameters -->
-    <!--<tns:MultithreadedHttpConnectionManagerConfig>
-        <tns:maxConnectionsPerHost value="20"/>
-        <tns:maxTotalConnections value="100"/>
-    </tns:MultithreadedHttpConnectionManagerConfig>-->
+    <tns:MultithreadedHttpConnectionManagerConfig>
+        <tns:maxConnectionsPerHost value="<%= bps.max_connections_per_host ?: 20 %>"/>
+        <tns:maxTotalConnections value="<%= bps.max_total_connections ?: 100 %>"/>
+    </tns:MultithreadedHttpConnectionManagerConfig>
 
     <!-- Process instance cleanup feature in WSO2 Business Process Server
          allows you to configure periodic process instance cleanup tasks based
@@ -100,8 +100,12 @@
     <!--tns:InMemoryInstanceTimeToLive>600000</tns:InMemoryInstanceTimeToLive-->
 
     <!-- This property  can be used to configure ode scheduler thread pool size  -->
-    <!--tns:ODESchedulerThreadPoolSize>0</tns:ODESchedulerThreadPoolSize-->
-     
+    <tns:ODESchedulerThreadPoolSize><%= bps.ode_scheduler_thread_pool_size ?: 50 %></tns:ODESchedulerThreadPoolSize>
+    
+    <!-- If you are using BPS in a clustered environment, then uncomment blow entry -->
+    <% if (clustering.enabled == 'true') { %>
+    <tns:UseDistributedLock>true</tns:UseDistributedLock>
+    <% } %>
     <!-- Simple Scheduler related configuration -->
     <!--<tns:ODESchedulerConfiguration>-->
         <!-- Maximum number of jobs in the "near future" todo queue. -->

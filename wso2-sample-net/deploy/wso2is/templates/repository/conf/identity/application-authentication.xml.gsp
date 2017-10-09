@@ -93,8 +93,8 @@
 		</AuthenticatorConfig>
 		<AuthenticatorConfig name="OpenIDAuthenticator" enabled="true">
 			<Parameter name="LoginPage">/authenticationendpoint/login.do</Parameter>
-			<Parameter name="TrustStorePath">/repository/resources/security/client-truststore.jks</Parameter>
-			<Parameter name="TrustStorePassword">wso2carbon</Parameter>
+			<Parameter name="TrustStorePath">/<%= key_stores['trust_store']['location'] %></Parameter>
+			<Parameter name="TrustStorePassword"><%= key_stores['trust_store']['password'] %></Parameter>
 			<!--Parameter name="OpenIDManager">org.wso2.carbon.identity.application.authenticator.openid.manager.DefaultOpenIDManager</Parameter>
 			<Parameter name="AttributesRequestor">org.wso2.carbon.identity.application.authenticator.openid.manager.SampleAttributesRequestor</Parameter-->
 		</AuthenticatorConfig>
