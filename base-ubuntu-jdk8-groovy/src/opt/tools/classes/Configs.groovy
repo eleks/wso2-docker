@@ -48,7 +48,7 @@ public class Configs{
             assert target instanceof Map
             src.each{me->
                 def linkToParentMap = { target.put(me.getKey(), it); it; }
-                postEvaluate(me.getValue(), root, target[me.getKey()], linkToParentMap, jpath+['.'+me.getKey()], eng)
+                postEvaluate(me.getValue(), root, target[me.getKey()], linkToParentMap, jpath+[(jpath?".":"")+me.getKey()], eng)
             }
         }else if(src instanceof List){
             if(target==null){ target = linkToParent( [] ) }

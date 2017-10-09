@@ -36,8 +36,8 @@ deployTarget=new File(deployTarget)
 assert deployTarget.exists()
 
 //convert sources to lists of files
-confSource   = confSource.split('[;:]').findAll().collect{new File(it).getCanonicalFile()}
-deploySource = deploySource.split('[;:]').findAll().collect{new File(it).getCanonicalFile()}
+confSource   = confSource.split('[;:]').findAll().collect{new File(it.trim()).getCanonicalFile()}
+deploySource = deploySource.split('[;:]').findAll().collect{new File(it.trim()).getCanonicalFile()}
 
 assert confSource.size()>0
 assert deploySource.size()>0
