@@ -8,7 +8,7 @@
             <% } %>
             <definition type="RDBMS">
                 <configuration>
-                    <% ds.configuration.each{ k,v-> write("<$k>$v</$k>") } %>
+<% ds.configuration.each{ k,v-> out.write("${' '*20}<$k>$v</$k>\n") } %>
                 </configuration>
             </definition>
         </datasource>

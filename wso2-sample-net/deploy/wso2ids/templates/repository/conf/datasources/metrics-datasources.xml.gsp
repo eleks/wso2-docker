@@ -6,7 +6,7 @@
     </providers>
 
     <datasources>
-<% master_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
+<% metrics_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
         <!-- MySQL -->
         <!--

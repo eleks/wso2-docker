@@ -628,7 +628,7 @@
                     Service (GMS) using a TCP ping mechanism.
         -->
         <parameter name="membershipScheme"><%= clustering['membership_scheme'] %></parameter>
-<%=     context.render("clustering.gspx/${clustering['membership_scheme']}.gspx") %>
+<%=     context.render("/clustering.gspx/${clustering['membership_scheme']}.gspx") %>
         <!--<parameter name="licenseKey">xxx</parameter>-->
         <!--<parameter name="mgtCenterURL">http://localhost:8081/mancenter/</parameter>-->
 

@@ -5,6 +5,6 @@
     </providers>
   
     <datasources>      
-<% bps_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
+<% bps_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
     </datasources>
 </datasources-configuration>

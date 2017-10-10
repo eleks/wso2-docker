@@ -3,7 +3,7 @@
 #root.host.suffix=
 
 local:
-  ip: ${(NetworkInterface.getNetworkInterfaces().toList().collectMany{ it.getInetAddresses().findAll{it instanceof Inet4Address} }.findAll{println it; true;}.find{ !(it.getHostAddress() =~ '127\\.0\\.0\\.1|192\\.168\\..*') } ?: InetAddress.getLocalHost()).getHostAddress() }
+  ip: "${(NetworkInterface.getNetworkInterfaces().toList().collectMany{ it.getInetAddresses().findAll{it instanceof Inet4Address} }.findAll{println it; true;}.find{ !(it.getHostAddress() =~ '127[.]0[.]0[.]1|192[.]168[.].*') } ?: InetAddress.getLocalHost()).getHostAddress() }"
 
 
 # wso2is
@@ -22,8 +22,8 @@ server:
       ## and public port is one you defined in docker-compose.yaml service: ports:
       host: ${env.EXTERNAL_IP}
       port: 
-        http: ${env.PORT_HTTP}
-        https: ${env.PORT_HTTPS}
+        http: ${env.PORT_HTTP ?: server.ids.local.port.http}
+        https: ${env.PORT_HTTPS ?: server.ids.local.port.https}
   idx:
     # [id]entity server analyti[cs]
     # product: wso2is-analytics-5.3.0
