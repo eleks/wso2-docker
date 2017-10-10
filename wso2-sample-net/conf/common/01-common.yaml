@@ -3,7 +3,7 @@
 #root.host.suffix=
 
 local:
-  ip: "${(NetworkInterface.getNetworkInterfaces().toList().collectMany{ it.getInetAddresses().findAll{it instanceof Inet4Address} }.findAll{println it; true;}.find{ !(it.getHostAddress() =~ '127[.]0[.]0[.]1|192[.]168[.].*') } ?: InetAddress.getLocalHost()).getHostAddress() }"
+  ip: "${(NetworkInterface.getNetworkInterfaces().toList().collectMany{ it.getInetAddresses().findAll{it instanceof Inet4Address} }.find{ !(it.getHostAddress() =~ '127[.]0[.]0[.]1|192[.]168[.].*') } ?: InetAddress.getLocalHost()).getHostAddress() }"
 
 
 # wso2is
@@ -22,23 +22,23 @@ server:
       ## and public port is one you defined in docker-compose.yaml service: ports:
       host: ${env.EXTERNAL_IP}
       port: 
-        http: ${env.PORT_HTTP ?: server.ids.local.port.http}
-        https: ${env.PORT_HTTPS ?: server.ids.local.port.https}
+        http: "${env.PORT_HTTP ?: server.ids.local.port.http}"
+        https: "${env.PORT_HTTPS ?: server.ids.local.port.https}"
   idx:
     # [id]entity server analyti[cs]
     # product: wso2is-analytics-5.3.0
     local:
       host: ${env.ENV_PREFIX}idx${env.ENV_SUFFIX}
       port:
-        http: 9764
-        https: 9444
+        http: 9763
+        https: 9443
     public:
       ## public host for local docker-compose is localhost
       ## and public port is one you defined in docker-compose.yaml service: ports:
       host: ${env.EXTERNAL_IP}
       port: 
-        http: ${env.PORT_HTTP}
-        https: ${env.PORT_HTTPS}
+        http: "${env.PORT_HTTP ?: server.idx.local.port.http}"
+        https: "${env.PORT_HTTPS ?: server.idx.local.port.https}"
 
 
 # common jvm properties

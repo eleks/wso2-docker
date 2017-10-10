@@ -8,7 +8,7 @@
 
     <datasources>
 
-<% analytics_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
+<% analytics_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
         <!-- Sample datasource implementation for HBase Analytics RecordStore-->
         <!--<datasource>

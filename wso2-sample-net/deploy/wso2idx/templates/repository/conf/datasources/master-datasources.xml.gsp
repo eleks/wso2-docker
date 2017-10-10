@@ -5,7 +5,7 @@
     </providers>
   
     <datasources>
-<% master_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
+<% master_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
         <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
         <!--datasource>

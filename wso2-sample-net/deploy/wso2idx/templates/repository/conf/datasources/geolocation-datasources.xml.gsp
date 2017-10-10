@@ -1,5 +1,6 @@
 <datasources-configuration xmlns:svns="http://org.wso2.securevault/configuration">
     <datasources>
+<% geolocation_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 <!--
         <datasource>
             <name>GEO_LOCATION_DATA</name>
@@ -23,7 +24,5 @@
             </definition>
         </datasource>
 -->
-<% geolocation_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
-
     </datasources>
 </datasources-configuration>

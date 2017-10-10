@@ -24,7 +24,7 @@ services:
   # idx.docker.local:
     # image: eleks/base-wso2is-analytics-5.3.0
     # ports:
-      # - "2444:9444"
+      # - "9447:9443"
     # volumes:
       # - ./conf:/opt/conf
       # - ./deploy:/opt/deploy
@@ -40,4 +40,4 @@ services:
       # # possible to use the following cmd to evaluate ip: docker-machine ip default
       # - EXTERNAL_IP=${NO_PROXY}
       # # the following must be equal to post mapping in ports section above
-      # - PORT_HTTPS=2444
+      # - PORT_HTTPS=9447

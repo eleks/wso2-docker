@@ -1,8 +1,8 @@
 ---
 
-## the default offset of the analytics is 1. let's keep it.
-carbon:
-  offset: 1
+## the default offset of the analytics is 1. set 0 to be common with other wso2 servers
+#carbon:
+#  offset: 1
 
 ## spark-defaults.conf
 

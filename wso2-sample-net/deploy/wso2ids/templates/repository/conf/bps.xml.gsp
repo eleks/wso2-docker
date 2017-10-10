@@ -103,7 +103,7 @@
     <tns:ODESchedulerThreadPoolSize><%= bps.ode_scheduler_thread_pool_size ?: 50 %></tns:ODESchedulerThreadPoolSize>
     
     <!-- If you are using BPS in a clustered environment, then uncomment blow entry -->
-    <% if (clustering.enabled == 'true') { %>
+    <% if ( new Boolean(clustering.enabled) ) { %>
     <tns:UseDistributedLock>true</tns:UseDistributedLock>
     <% } %>
     <!-- Simple Scheduler related configuration -->
