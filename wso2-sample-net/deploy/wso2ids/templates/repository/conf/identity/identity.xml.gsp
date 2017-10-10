@@ -455,7 +455,7 @@
                        orderId="11" enable="<%= identity_analytics['enabled'] %>"/>
         <EventListener type="org.wso2.carbon.identity.core.handler.AbstractIdentityMessageHandler"
                        name="org.wso2.carbon.identity.data.publisher.application.authentication.AuthnDataPublisherProxy"
-                       orderId="11" enable="true"/>
+                       orderId="11" enable="<%= identity_analytics['enabled'] %>"/>
     </EventListeners>
 
     <CacheConfig>

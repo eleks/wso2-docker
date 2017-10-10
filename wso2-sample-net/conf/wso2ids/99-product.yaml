@@ -10,10 +10,10 @@ user_management:
   UserStoreManager: jdbc
 
 identity_analytics:
-  enabled: false
+  enabled: true
   # the default value for this localhost:7612
   # 7611 - the DAS port for thrift protocol
-  # the is-analytics server by default uses offset=1 so 7611->7612
-  # receiverURL: tcp://${server.idx.local.host}:7612
-  # username: admin
-  # password: admin
+  # if the is-analytics server uses offset=1 (default) then 7611->7612
+  receiverURL: tcp://${server.idx.local.host}:7611
+  username: admin
+  password: admin
