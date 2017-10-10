@@ -6,5 +6,3 @@ user_management:
   UsernameJavaRegEx: '[a-zA-Z0-9._-|//]{3,30}$'
   # following param is used only when storage UserStoreManager=jdbc
   jdbc_datasource: WSO2_CARBON_DB
-  # default user store manager is local ldap
-  UserStoreManager: ldap

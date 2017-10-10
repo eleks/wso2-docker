@@ -45,6 +45,9 @@ sso_service_providers:
 #      assertion_consumer_service_url: https://digdev-bps.digagro.com:443/acs
 #      default_assertion_consumer_service_url: https://digdev-bps.digagro.com:443/acs
 
+user_management:
+  # IS specific default user store manager is local ldap
+  UserStoreManager: ldap
 
 bps_datasources:
   BPS_DS:
