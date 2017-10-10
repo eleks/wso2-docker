@@ -57,3 +57,10 @@ log4j:
 carbon:
   offset: 0
   HideAdminServiceWSDLs: true
+
+# conf/identity.xml
+identity:
+  session_datasource: WSO2_CARBON_DB
+  SessionIdleTimeout: 15
+  RememberMeTimeout: 20160
+  EnableThriftService: false

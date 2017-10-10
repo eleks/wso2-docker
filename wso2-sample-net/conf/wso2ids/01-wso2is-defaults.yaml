@@ -25,12 +25,7 @@ security_csrf:
 entitlement:
   "PDP.Global.Policy.Combining.Algorithm": "urn:oasis:names:tc:xacml:3.0:policy-combining-algorithm:deny-overrides"
 
-identity:
-  session_datasource: WSO2_CARBON_DB
-  SessionIdleTimeout: 15
-  RememberMeTimeout: 20160
-  EnableThriftService: false
-
+# if you want to publish login events to wso2is-analytics
 identity_analytics:
   enabled: false
   # the default value for this localhost:7612
@@ -39,14 +34,6 @@ identity_analytics:
   receiverURL: tcp://localhost:7612
   username: admin
   password: admin
-
-# SSO Configuration
-sso_authentication:
-  disabled: true
-  login_page: /carbon/admin/login.jsp
-  service_provider_id: carbonServer
-  sso_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/samlsso
-  consumer_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/acs
 
 # Provide the server list for setting up sso
 # ELEKS: do we use this on our envs???

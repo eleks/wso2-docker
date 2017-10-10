@@ -1,0 +1,11 @@
+---
+# authenticators.xml
+# here we can define a SSO point for wso2 servers
+# by default it's disabled
+sso_authentication:
+  disabled: true
+  login_page: /carbon/admin/login.jsp
+  service_provider_id: carbonServer
+  sso_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/samlsso
+  consumer_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/acs
+
