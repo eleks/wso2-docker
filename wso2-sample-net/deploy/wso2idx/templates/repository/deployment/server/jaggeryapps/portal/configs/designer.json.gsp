@@ -6,6 +6,7 @@
         "isCreateGadgetEnable": false,
         "ignoreProviders": ["rt"]
     },
+    <% if( new Boolean(sso_authentication.disabled)) { %>
     "authentication": {
         "activeMethod": "basic",
         "methods": {
@@ -29,6 +30,31 @@
             }
         }
     },
+    <% } else { %>
+    "authentication": {
+        "activeMethod": "sso",
+        "methods": {
+            "sso": {
+                "attributes": {
+                    "issuer": "portal",
+                    "identityProviderURL": "<%= sso_authentication['sso_service_url'] %>",
+                    "responseSigningEnabled": true,
+                    "validateAssertionValidityPeriod": true,
+                    "validateAudienceRestriction": true,
+                    "assertionSigningEnabled": true,
+                    "acs": "<%= sso_authentication['consumer_service_url'] %>",
+                    "identityAlias": "wso2carbon",
+                    "defaultNameIDPolicy": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
+                    "useTenantKey": true,
+                    "isPassive": false
+                }
+            },
+            "basic": {
+                "attributes": {}
+            }
+        }
+    },
+    <% } %>
     "authorization": {
         "activeMethod": "",
         "methods": {
@@ -73,8 +99,8 @@
         "password": "admin"
     },
     "host": {
-        "hostname": "localhost",
-        "port": "",
-        "protocol": ""
+        "hostname": "<%= portal['hostname'] %>",
+        "port": "<%= portal['port'] %>",
+        "protocol": "<%= portal['protocol'] %>"
     }
 }

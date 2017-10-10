@@ -601,7 +601,7 @@
     </phaseOrder>
 
     <clustering class="org.wso2.carbon.core.clustering.hazelcast.HazelcastClusteringAgent"
-                enable="false">
+                enable="<%= clustering['enabled'] %>">
 
         <!--
            This parameter indicates whether the cluster has to be automatically initalized
@@ -623,7 +623,8 @@
                     is deemed to have left the cluster, it will be detected by the Group Membership
                     Service (GMS) using a TCP ping mechanism.
         -->
-        <parameter name="membershipScheme">multicast</parameter>
+        <parameter name="membershipScheme"><%= clustering['membership_scheme'] %></parameter>
+<%=     context.render("clustering.gspx/${clustering['membership_scheme']}.gspx"]) %>
         <!--<parameter name="licenseKey">xxx</parameter>-->
         <!--<parameter name="mgtCenterURL">http://localhost:8081/mancenter/</parameter>-->
 
@@ -631,7 +632,7 @@
          The clustering domain/group. Nodes in the same group will belong to the same multicast
          domain. There will not be interference between nodes in different groups.
         -->
-        <parameter name="domain">wso2.carbon.domain</parameter>
+        <parameter name="domain"><%= clustering['domain'] %></parameter>
 
         <!-- The multicast address to be used -->
         <!--<parameter name="mcastAddress">228.0.0.4</parameter>-->
@@ -652,7 +653,7 @@
         -->
         <!-- The host name or IP address of this member -->
 
-        <parameter name="localMemberHost">127.0.0.1</parameter>
+        <parameter name="localMemberHost"><%= clustering['local_member_host'] %></parameter>
 
         <!--
             The bind adress of this member. The difference between localMemberHost & localMemberBindAddress
@@ -667,7 +668,7 @@
         The TCP port used by this member. This is the port through which other nodes will
         contact this member
          -->
-        <parameter name="localMemberPort">4000</parameter>
+        <parameter name="localMemberPort"><%= clustering['local_member_port'] %></parameter>
 
         <!--
             The bind port of this member. The difference between localMemberPort & localMemberBindPort
@@ -684,7 +685,7 @@
         <parameter name="properties">
             <property name="backendServerURL" value="https://${hostName}:${httpsPort}/services/"/>
             <property name="mgtConsoleURL" value="https://${hostName}:${httpsPort}/"/>
-            <property name="subDomain" value="worker"/>
+            <property name="subDomain" value="<%= clustering['sub_domain'] %>"/>
         </parameter>
 
         <!--
@@ -702,12 +703,14 @@
            The list of static or well-known members. These entries will only be valid if the
            "membershipScheme" above is set to "wka"
         -->
+        <!--moved to clustering.gspx templates
         <members>
             <member>
                 <hostName>127.0.0.1</hostName>
                 <port>4000</port>
             </member>
         </members>
+        -->
 
         <!--
         Enable the groupManagement entry if you need to run this node as a cluster manager.

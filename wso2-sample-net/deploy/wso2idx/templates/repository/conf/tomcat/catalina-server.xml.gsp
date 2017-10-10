@@ -27,6 +27,7 @@
         -->
         <Connector protocol="org.apache.coyote.http11.Http11NioProtocol"
                    port="9763"
+                   proxyPort="<%= server.idx.public.port.http %>"
                    redirectPort="9443"
                    bindOnInit="false"
                    maxHttpHeaderSize="8192"
@@ -52,6 +53,7 @@
         -->
         <Connector protocol="org.apache.coyote.http11.Http11NioProtocol"
                    port="9443"
+                   proxyPort="<%= server.idx.public.port.https %>"
                    bindOnInit="false"
                    sslProtocol="TLS"
                    sslEnabledProtocols="TLSv1,TLSv1.1,TLSv1.2"
@@ -73,8 +75,8 @@
                    compressionMinSize="2048"
                    noCompressionUserAgents="gozilla, traviata"
                    compressableMimeType="text/html,text/javascript,application/x-javascript,application/javascript,application/xml,text/css,application/xslt+xml,text/xsl,image/gif,image/jpg,image/jpeg"
-                   keystoreFile="${carbon.home}/repository/resources/security/wso2carbon.jks"
-                   keystorePass="wso2carbon"
+                   keystoreFile="${carbon.home}/<%= key_stores['connector_key_store']['location'] %>"
+                   keystorePass="<%= key_stores['connector_key_store']['password'] %>"
                    URIEncoding="UTF-8"/>
 
 

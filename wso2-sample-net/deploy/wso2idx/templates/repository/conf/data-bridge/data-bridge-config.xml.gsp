@@ -25,8 +25,8 @@
     <eventBufferSize>2000</eventBufferSize>
     <clientTimeoutMin>30</clientTimeoutMin>
 
-    <keyStoreLocation>${carbon.home}/repository/resources/security/wso2carbon.jks</keyStoreLocation>
-    <keyStorePassword>wso2carbon</keyStorePassword>
+    <keyStoreLocation>${carbon.home}/<%= key_stores.key_store.location %></keyStoreLocation>
+    <keyStorePassword><%= key_stores.key_store.key_password %></keyStorePassword>
 
     <dataReceiver name="Thrift">
         <config name="tcpPort">7611</config>

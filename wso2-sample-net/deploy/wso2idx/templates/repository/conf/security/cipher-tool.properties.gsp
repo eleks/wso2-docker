@@ -3,7 +3,7 @@
 # where <file_name> - is the file (along with the file path) to be secured,
 #       <xpath> - is the xpath to the property value to be secured
 #       <true / false> - This is true if the last parameter in the xpath is parameter (starts with [ and ends with ]) and you want its value to be replaced with "password"
-
+<% if (!secure_vault_configs) {  %>
 Carbon.Security.KeyStore.Password=repository/conf/carbon.xml//Server/Security/KeyStore/Password,false
 Carbon.Security.KeyStore.KeyPassword=repository/conf/carbon.xml//Server/Security/KeyStore/KeyPassword,false
 Carbon.Security.TrustStore.Password=repository/conf/carbon.xml//Server/Security/TrustStore/Password,false
@@ -12,6 +12,12 @@ Datasources.WSO2_CARBON_DB.Configuration.Password=repository/conf/datasources/ma
 Server.Service.Connector.keystorePass=repository/conf/tomcat/catalina-server.xml//Server/Service/Connector[@keystorePass],true
 Analytics.Data.Config.Password=repository/conf/analytics/analytics-data-config.xml//AnalyticsDataConfiguration/Password,false
 DataBridge.Config.keyStorePassword=/repository/conf/data-bridge/data-bridge-config.xml//dataBridgeConfiguration/keyStorePassword,true
+<% } else { %>
+<% secure_vault_configs.each{secure_vault_config_name, secure_vault_config-> %>
+<%= secure_vault_config['secret_alias'] %>=[<%= secure_vault_config['secret_alias_value'] %>]
+<% } %>
+<% } %>
+
 #Analytics.Data.Config.TrustStorePassword=repository/conf/analytics/analytics-data-config.xml//AnalyticsDataConfiguration/TrustStorePassword,false
 #Carbon.DeploymentSynchronizer.SvnPassword=repository/conf/carbon.xml//Sever/DeploymentSynchronizer/SvnPassword,false
 #UserStoreManager.Property.ConnectionPassword=repository/conf/user-mgt.xml//UserManager/Realm/UserStoreManager/Property[@name='ConnectionPassword'],false

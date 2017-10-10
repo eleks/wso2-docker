@@ -21,7 +21,7 @@
         <DataSource>
             <!-- Include a data source name (jndiConfigName) from the set of data
                 sources defined in master-datasources.xml -->
-            <Name>jdbc/WSO2CarbonDB</Name>
+            <Name><%= master_datasources[identity.session_datasource]['jndi_config'] %></Name>
         </DataSource>
         <!-- If the identity database is created from another place and if it is
             required to skip schema initialization during the server start up, set the
@@ -33,7 +33,7 @@
             <PoolSize>0</PoolSize>
             <SessionDataCleanUp>
                 <Enable>true</Enable>
-                <CleanUpTimeout>20160</CleanUpTimeout>
+                <CleanUpTimeout><%= identity.RememberMeTimeout %></CleanUpTimeout>
                 <CleanUpPeriod>1140</CleanUpPeriod>
             </SessionDataCleanUp>
             <OperationDataCleanUp>
@@ -45,8 +45,8 @@
 
     <!-- Time configurations are in minutes -->
     <TimeConfig>
-        <SessionIdleTimeout>15</SessionIdleTimeout>
-        <RememberMeTimeout>20160</RememberMeTimeout>
+        <SessionIdleTimeout><%= identity.SessionIdleTimeout %></SessionIdleTimeout>
+        <RememberMeTimeout><%= identity.RememberMeTimeout %></RememberMeTimeout>
     </TimeConfig>
 
     <!-- Security configurations -->
@@ -348,12 +348,12 @@
 
     <EntitlementSettings>
         <ThirftBasedEntitlementConfig>
-            <EnableThriftService>false</EnableThriftService>
+            <EnableThriftService><%= identity.EnableThriftService %></EnableThriftService>
             <ReceivePort>${Ports.ThriftEntitlementReceivePort}</ReceivePort>
             <ClientTimeout>10000</ClientTimeout>
             <KeyStore>
-                <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
-                <Password>wso2carbon</Password>
+                <Location>${carbon.home}/<%= key_stores['key_store']['location'] %></Location>
+                <Password><%= key_stores['key_store']['password'] %></Password>
             </KeyStore>
             <!-- Enable this element to mention the host-name of your IS machine -->
             <ThriftHostName>${carbon.host}</ThriftHostName>

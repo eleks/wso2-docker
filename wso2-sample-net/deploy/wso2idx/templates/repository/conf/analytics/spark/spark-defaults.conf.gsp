@@ -14,8 +14,8 @@
 #   3. cluster mode - DAS creates its own Spark cluster usign Carbon Clustering
 #       ex: "carbon.spark.master local" AND "carbon.spark.master.count  <number of redundant masters>"
 
-carbon.spark.master local
-carbon.spark.master.count  1
+carbon.spark.master <%= spark['master'] %>
+carbon.spark.master.count  <%= spark['master_count'] %>
 
 #This configuration is used to limit the number of results returned from spark query execution
 #To return all the results, set this to -1

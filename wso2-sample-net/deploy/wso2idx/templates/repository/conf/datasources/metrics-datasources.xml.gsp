@@ -21,28 +21,7 @@
     </providers>
 
     <datasources>
-
-        <datasource>
-            <name>WSO2_METRICS_DB</name>
-            <description>The default datasource used for WSO2 Carbon Metrics</description>
-            <jndiConfig>
-                <name>jdbc/WSO2MetricsDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:h2:repository/database/WSO2METRICS_DB;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                    <defaultAutoCommit>true</defaultAutoCommit>
-                </configuration>
-            </definition>
-        </datasource>
+<% metrics_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
 
         <!-- MySQL -->

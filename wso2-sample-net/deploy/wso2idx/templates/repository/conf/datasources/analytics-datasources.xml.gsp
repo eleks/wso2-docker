@@ -8,47 +8,7 @@
 
     <datasources>
 
-        <datasource>
-            <name>WSO2_ANALYTICS_EVENT_STORE_DB</name>
-            <description>The datasource used for analytics record store</description>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:h2:repository/database/ANALYTICS_EVENT_STORE;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <defaultAutoCommit>false</defaultAutoCommit>
-                    <initialSize>0</initialSize>
-                    <testWhileIdle>true</testWhileIdle>
-                    <minEvictableIdleTimeMillis>4000</minEvictableIdleTimeMillis>
-                    <defaultTransactionIsolation>READ_COMMITTED</defaultTransactionIsolation>
-                </configuration>
-            </definition>
-        </datasource>
-
-        <datasource>
-            <name>WSO2_ANALYTICS_PROCESSED_DATA_STORE_DB</name>
-            <description>The datasource used for analytics record store</description>
-            <definition type="RDBMS">
-                <configuration>
-                    <url>jdbc:h2:repository/database/ANALYTICS_PROCESSED_DATA_STORE;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <defaultAutoCommit>false</defaultAutoCommit>
-                    <initialSize>0</initialSize>
-                    <testWhileIdle>true</testWhileIdle>
-                    <minEvictableIdleTimeMillis>4000</minEvictableIdleTimeMillis>
-                    <defaultTransactionIsolation>READ_COMMITTED</defaultTransactionIsolation>
-                </configuration>
-            </definition>
-        </datasource>
+<% analytics_datasources.each{dsn, ds-> render("datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
         <!-- Sample datasource implementation for HBase Analytics RecordStore-->
         <!--<datasource>

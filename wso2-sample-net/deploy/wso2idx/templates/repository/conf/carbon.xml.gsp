@@ -44,12 +44,12 @@
        This is will become part of the End Point Reference of the
        services deployed on this server instance.
     -->
-    <!--HostName>www.wso2.org</HostName-->
+    <HostName><%= server.idx.public.host %></HostName>
 
     <!--
     Host name to be used for the Carbon management console
     -->
-    <!--MgtHostName>mgt.wso2.org</MgtHostName-->
+    <MgtHostName><%= server.idx.public.host %></MgtHostName>
 
     <!--
         The URL of the back end server. This is where the admin services are hosted and
@@ -125,7 +125,7 @@
          the define value + Offset.
          e.g. Offset=2 and HTTPS port=9443 will set the effective HTTPS port to 9445
          -->
-        <Offset>1</Offset>
+        <Offset><%= carbon.offset %></Offset>
 
         <!-- The JMX Ports -->
         <JMX>
@@ -362,15 +362,15 @@
         -->
         <KeyStore>
             <!-- Keystore file location-->
-            <Location>${carbon.home}/repository/resources/security/wso2carbon.jks</Location>
+            <Location>${carbon.home}/<%= key_stores['key_store']['location'] %></Location>
             <!-- Keystore type (JKS/PKCS12 etc.)-->
-            <Type>JKS</Type>
+            <Type><%= key_stores['key_store']['type'] %></Type>
             <!-- Keystore password-->
-            <Password>wso2carbon</Password>
+            <Password><%= key_stores['key_store']['password'] %></Password>
             <!-- Private Key alias-->
-            <KeyAlias>wso2carbon</KeyAlias>
+            <KeyAlias><%= key_stores['key_store']['key_alias'] %></KeyAlias>
             <!-- Private Key password-->
-            <KeyPassword>wso2carbon</KeyPassword>
+            <KeyPassword><%= key_stores['key_store']['key_password'] %></KeyPassword>
         </KeyStore>
 
         <!--
@@ -379,11 +379,11 @@
         -->
         <TrustStore>
             <!-- trust-store file location -->
-            <Location>${carbon.home}/repository/resources/security/client-truststore.jks</Location>
+            <Location>${carbon.home}/<%= key_stores['trust_store']['location'] %></Location>
             <!-- trust-store type (JKS/PKCS12 etc.) -->
-            <Type>JKS</Type>
+            <Type><%= key_stores['trust_store']['type'] %></Type>
             <!-- trust-store password -->
-            <Password>wso2carbon</Password>
+            <Password><%= key_stores['trust_store']['password'] %></Password>
         </TrustStore>
 
         <!--
@@ -582,14 +582,16 @@
 	and in  worker nodes set only AutoCheckout to true.
     -->
     <DeploymentSynchronizer>
-        <Enabled>false</Enabled>
-        <AutoCommit>false</AutoCommit>
-        <AutoCheckout>true</AutoCheckout>
-        <RepositoryType>svn</RepositoryType>
-        <SvnUrl>http://svnrepo.example.com/repos/</SvnUrl>
-        <SvnUser>username</SvnUser>
-        <SvnPassword>password</SvnPassword>
-        <SvnUrlAppendTenantId>true</SvnUrlAppendTenantId>
+        <Enabled><%= dep_sync['enabled'] %></Enabled>
+        <AutoCommit><%= dep_sync['auto_commit'] %></AutoCommit>
+        <AutoCheckout><%= dep_sync['auto_checkout'] %></AutoCheckout>
+        <RepositoryType><%= dep_sync['repository_type'] %></RepositoryType>
+    <% if (dep_sync['repository_type'] == "svn") { %>
+        <SvnUrl><%= dep_sync['svn']['url'] %></SvnUrl>
+        <SvnUser><%= dep_sync['svn']['user'] %></SvnUser>
+        <SvnPassword><%= dep_sync['svn']['password'] %></SvnPassword>
+        <SvnUrlAppendTenantId><%= dep_sync['svn']['append_tenant_id'] %></SvnUrlAppendTenantId>
+    <% } %>
     </DeploymentSynchronizer>
 
     <!-- Deployment Synchronizer Configuration. Uncomment the following section when running with "registry based" dep sync.

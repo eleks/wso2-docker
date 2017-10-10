@@ -19,15 +19,15 @@
 <eventProcessorConfiguration>
 
     <!-- HA Mode Config -->
-    <mode name="HA" enable="false">
+    <mode name="HA" enable="<%= ha_deployment['enabled'] %>">
         <nodeType>
-            <worker enable="true"/>
-            <presenter enable="false"/>
+            <worker enable="<%= ha_deployment['worker_enabled'] %>"/>
+            <presenter enable="<%= ha_deployment['presenter_enabled'] %>"/>
         </nodeType>
         <checkMemberUpdateInterval>10000</checkMemberUpdateInterval>
         <eventSync>
-            <hostName>0.0.0.0</hostName>
-            <port>11224</port>
+            <hostName><%= ha_deployment['eventSync']['hostName'] %></hostName>
+            <port><%= ha_deployment['eventSync']['port'] %></port>
             <reconnectionInterval>20000</reconnectionInterval>
             <serverThreads>20000</serverThreads>
             <!--Size of TCP event publishing client's send buffer in bytes-->
@@ -46,14 +46,14 @@
             <publisherQueueMaxSizeMb>10</publisherQueueMaxSizeMb>
         </eventSync>
         <management>
-            <hostName>0.0.0.0</hostName>
-            <port>10005</port>
+            <hostName><%= ha_deployment['management']['hostName'] %></hostName>
+            <port><%= ha_deployment['management']['port'] %></port>
             <tryStateChangeInterval>15000</tryStateChangeInterval>
             <stateSyncRetryInterval>10000</stateSyncRetryInterval>
         </management>
         <presentation>
-            <hostName>0.0.0.0</hostName>
-            <port>11000</port>
+            <hostName><%= ha_deployment['presentation']['hostName'] %></hostName>
+            <port><%= ha_deployment['presentation']['port'] %></port>
             <!--Size of TCP event publishing client's send buffer in bytes-->
             <publisherTcpSendBufferSize>5242880</publisherTcpSendBufferSize>
             <!--Character encoding of TCP event publishing client-->

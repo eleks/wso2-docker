@@ -1,0 +1,84 @@
+---
+
+## the default offset of the analytics is 1. let's keep it.
+carbon:
+  offset: 1
+
+## spark-defaults.conf
+
+spark:
+  master: local
+  master_count: 1
+
+ha_deployment:
+  enabled: false
+  presenter_enabled: false
+  worker_enabled: true
+  eventSync:
+    hostName: 0.0.0.0
+    port: 11224
+  management:
+    hostName: 0.0.0.0
+    port: 10005
+  presentation:
+    hostName: 0.0.0.0
+    port: 11000
+
+portal:
+  hostname: localhost
+  port: ''
+  protocol: ''
+
+
+analytics_datasources:
+  WSO2_ANALYTICS_EVENT_STORE_DB:
+    description: The datasource used for analytics record store
+    configuration:
+      url: jdbc:h2:repository/database/ANALYTICS_EVENT_STORE;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      validationQuery: "SELECT 1"
+      defaultAutoCommit: false
+      initialSize: 0
+      testWhileIdle: true
+      minEvictableIdleTimeMillis: 4000
+      defaultTransactionIsolation: READ_COMMITTED
+
+  WSO2_ANALYTICS_PROCESSED_DATA_STORE_DB:
+    description: The datasource used for analytics record store
+    configuration:
+      url: jdbc:h2:repository/database/ANALYTICS_PROCESSED_DATA_STORE;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      validationQuery: "SELECT 1"
+      defaultAutoCommit: false
+      initialSize: 0
+      testWhileIdle: true
+      minEvictableIdleTimeMillis: 4000
+      defaultTransactionIsolation: READ_COMMITTED
+
+geolocation_datasources:
+  GEO_LOCATION_DATA:
+    description:
+    jndi_config: jdbc/GEO_LOCATION_DATA
+    configuration:
+      url: jdbc:h2:repository/database/GEOLOCATION_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000;WRITE_DELAY=0
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      defaultAutoCommit: false
+
+
+
+

@@ -18,14 +18,14 @@
     <Realm>
         <Configuration>
 		<AddAdmin>true</AddAdmin>
-            <AdminRole>admin</AdminRole>
+            <AdminRole><%= user_management['admin_role'] %></AdminRole>
             <AdminUser>
-                <UserName>admin</UserName>
-                <Password>admin</Password>
+                <UserName><%= user_management['admin_username'] %></UserName>
+                <Password><%= user_management['admin_password'] %></Password>
             </AdminUser>
             <EveryOneRoleName>everyone</EveryOneRoleName> <!-- By default users in this role sees the registry root -->
             <Property name="isCascadeDeleteEnabled">true</Property>
-            <Property name="dataSource">jdbc/WSO2CarbonDB</Property>
+            <Property name="dataSource"><%= master_datasources[user_management.jdbc_datasource]['jndi_config'] %></Property>
         </Configuration>
 
 	    <!-- Following is the configuration for internal JDBC user store. This user store manager is based on JDBC.
@@ -42,7 +42,7 @@
             <Property name="ReadOnly">false</Property>
             <Property name="ReadGroups">true</Property>
             <Property name="WriteGroups">true</Property>
-            <Property name="UsernameJavaRegEx">^[\S]{3,30}$</Property>
+            <Property name="UsernameJavaRegEx"><%= user_management['UsernameJavaRegEx'] %></Property>
             <Property name="UsernameJavaScriptRegEx">^[\S]{3,30}$</Property>
             <Property name="UsernameJavaRegExViolationErrorMsg">Username pattern policy violated</Property>
             <Property name="PasswordJavaRegEx">^[\S]{5,30}$</Property>
