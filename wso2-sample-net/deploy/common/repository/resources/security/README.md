@@ -27,7 +27,12 @@ but for simplicity I used http://keystore-explorer.org/
 #### generate CA keystore with key-pair
 normally you don't need to regenerate this certificate if you trust it
 
+don't forget to set CA=TRUE in Basic Constraints
+
 ![generate CA keystore with key-pair](./readme-img/01-gen-ca.png)
+
+![generate CA keystore with key-pair](./readme-img/01-gen-ca-01.png)
+
 
 #### generate wso2carbon.jks with name and alternate names we need
 - `*.docker.local` for our subnet names
