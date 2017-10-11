@@ -23,6 +23,7 @@ var authenticate = function (username, password) {
     var AuthStub = Packages.org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
     var AUTH_SERVICE = "/services/AuthenticationAdmin";
     var authUrl = utils.getCarbonServerAddress('https') + AUTH_SERVICE;
+    log.debug('authUrl = ' + authUrl);
     var authAdminClient = new AuthStub(authUrl);
 
     if (authAdminClient.login(username, password, "localhost")) {
