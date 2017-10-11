@@ -10,9 +10,22 @@
 all above teoretically possible to do with keytool + openssl tools
 but for simplicity I used http://keystore-explorer.org/
 
+## files in this directory
+
+> all the keystores secured with default wso2 password: `wso2carbon`
+
+- `ca.jks` the keystore with keypair to be a CA (Certificate authority) certificate               
+- `wso2carbon.jks` the keystore with primary keypair to be used for wso2 servers signed with CA certificate 
+- `client-truststore.jks` the truststore. here we imported public part of CA certificate
+- `_.docker.local.csr` temporary intermediate file - the request to sign certificate
+- `_.docker.local.p7r` temporary intermediate file - the reply to sign certificate request
+- `ca.docker.local.cer` public CA certificate to be imported into client's truststore (browsers, etc.)
+
 ## steps
 
 #### generate CA keystore with key-pair
+normally you don't need to regenerate this certificate if you trust it
+
 ![generate CA keystore with key-pair](./readme-img/01-gen-ca.png)
 
 #### generate wso2carbon.jks with name and alternate names we need
