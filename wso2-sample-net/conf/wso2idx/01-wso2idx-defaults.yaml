@@ -25,9 +25,9 @@ ha_deployment:
     port: 11000
 
 portal:
-  hostname: localhost
-  port: ''
-  protocol: ''
+  hostname: ${server.idx.local.host}
+  port: ${server.idx.local.port.https}
+  protocol: 'https'
 
 
 analytics_datasources:

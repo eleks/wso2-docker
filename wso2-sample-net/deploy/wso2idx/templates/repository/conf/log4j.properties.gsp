@@ -84,6 +84,10 @@ log4j.logger.trace.messages=TRACE,CARBON_TRACE_LOGFILE
 
 <% if( new Boolean(log4j.DEBUG) ) { %>
 log4j.logger.JAGGERY=DEBUG
+log4j.logger.JAGGERY.js.dashboard-deployer:js=DEBUG
+log4j.logger.JAGGERY.modules.dashboards:js=DEBUG
+log4j.logger.JAGGERY.modules.user:js=DEBUG
+log4j.logger.JAGGERY.modules.utils:js=DEBUG
 <% } %>
 
 #spark log components
