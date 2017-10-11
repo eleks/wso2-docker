@@ -1,7 +1,7 @@
 ## goal
 
 - generate wso2carbon.jks JKS keystore for `*.docker.local`
-- create CA keypair with custom authority
+- create CA keypair for custom Certificate authority
 - sign the certificate in keystore with CA certificate
 - import public CA certificate into truststore
 
