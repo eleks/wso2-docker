@@ -16,7 +16,7 @@ but for simplicity I used http://keystore-explorer.org/
 ![generate CA keystore with key-pair](./readme-img/01-gen-ca.png)
 
 #### generate wso2carbon.jks with name and alternate names we need
-- `*.docker.local` for out subnet names
+- `*.docker.local` for our subnet names
 - `192.168.99.100` as default ip for default local docker machine
 - `localhost` for localhost access
 
