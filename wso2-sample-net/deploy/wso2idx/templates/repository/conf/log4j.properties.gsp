@@ -82,6 +82,10 @@ log4j.logger.net.sf.ehcache.config.ConfigurationFactory=ERROR
 
 log4j.logger.trace.messages=TRACE,CARBON_TRACE_LOGFILE
 
+<% if( new Boolean(log4j.DEBUG) ) { %>
+log4j.logger.JAGGERY=DEBUG
+<% } %>
+
 #spark log components
 log4j.logger.org.apache.spark=WARN
 log4j.logger.org.spark-project=WARN
