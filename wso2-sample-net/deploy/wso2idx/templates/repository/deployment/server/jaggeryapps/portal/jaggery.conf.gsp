@@ -1,4 +1,5 @@
 {
+  <%= new Boolean(log4j.DEBUG) ? '"logLevel": "debug",':'' %>
   "initScripts": [
     "js/dashboard-deployer.js"
   ],
