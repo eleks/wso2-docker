@@ -26,7 +26,7 @@
 
     ],
     "initScripts": ["app.js"],
-    "logLevel": "info",
+    "logLevel": "<%= new Boolean(log4j.DEBUG)?'debug':'info' %>",
 
      "filters":[
           {

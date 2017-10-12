@@ -1,4 +1,5 @@
 {
+    "logLevel": "<%= new Boolean(log4j.DEBUG)?'debug':'info' %>",
     "listeners" : [
                 {
                      "class" : "org.owasp.csrfguard.CsrfGuardServletContextListener"
