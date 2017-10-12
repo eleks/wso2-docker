@@ -35,9 +35,16 @@ don't forget to set CA=TRUE in Basic Constraints
 
 
 #### generate wso2carbon.jks with name and alternate names we need
-- `*.docker.local` for our subnet names
-- `192.168.99.100` as default ip for default local docker machine
-- `localhost` for localhost access
+> the key alias must correspond to one you specified in `carbon.xml` in `Security.KeyStore.KeyAlias`. by default it's `wso2carbon`.
+> or to the tenant domain name if you are in multitenant mode. domain: `test.com` -> alias: `test-com`
+
+- CN: `*.docker.local`
+- Extensions: SAN:
+ - `*.docker.local` for our subnet names
+ - `192.168.99.100` as default ip for default local docker machine
+ - `localhost` for localhost access
+
+> you can import extension from the `extension.tpl` template
 
 ![generate wso2carbon.jks with name and alternate names we need](./readme-img/02-gen-wso2carbon.jks.png)
 
@@ -48,7 +55,9 @@ don't forget to set CA=TRUE in Basic Constraints
 ![generate request for signature](./readme-img/03-sign-req-02.png)
 
 #### sign the request with CA certificate
-don't forget to specify extension in reply 
+
+> don't forget to specify extension in reply 
+
 ![sign the request with CA certificate](./readme-img/04-sign.png)
 
 #### import the signature reply into wso2carbon.jks
