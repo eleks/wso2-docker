@@ -6,7 +6,7 @@ Carbon.Security.KeyStore.Password=[<%= key_stores.key_store.password %>]
 Carbon.Security.KeyStore.KeyPassword=[<%= key_stores.key_store.key_password %>]
 Carbon.Security.TrustStore.Password=[<%= key_stores.trust_store.password %>]
 UserManager.AdminUser.Password=[<%= user_management.admin_password %>]
-Datasources.WSO2_CARBON_DB.Configuration.Password=[<%= master_datasources.WSO2_CARBON_DB.password %>]
+Datasources.WSO2_CARBON_DB.Configuration.Password=[<%= master_datasources.WSO2_CARBON_DB.configuration.password %>]
 Server.Service.Connector.keystorePass=[<%= key_stores.connector_key_store.password %>]
 <% } else { %>
 <% secure_vault_configs.each{secure_vault_config_name, secure_vault_config-> %>

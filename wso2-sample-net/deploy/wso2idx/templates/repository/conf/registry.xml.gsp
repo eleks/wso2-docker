@@ -41,7 +41,7 @@
         <readOnly><%= registry_mount['read_only'] %></readOnly>
         <registryRoot><%= registry_mount['registry_root'] %></registryRoot>
         <enableCache><%= registry_mount['enable_cache'] %></enableCache>
-        <cacheId><%= master_datasources[registry_mount.datasource]['username'] %>@<%= master_datasources[registry_mount.datasource]['url'] %></cacheId>
+        <cacheId><%= master_datasources[registry_mount.datasource].configuration.username %>@<%= master_datasources[registry_mount.datasource].configuration.url %></cacheId>
     </remoteInstance>
     <mount path="<%= registry_mount['path'] %>" overwrite="virtual">
         <instanceId><%= registry_mount.datasource %></instanceId>
