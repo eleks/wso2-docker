@@ -31,7 +31,7 @@ don't forget to set CA=TRUE in Basic Constraints
 
 ![generate CA keystore with key-pair](./readme-img/01-gen-ca.png)
 
-![generate CA keystore with key-pair](./readme-img/01-gen-ca-01.png)
+![generate CA keystore with key-pair](./readme-img/01-gen-ca-02.png)
 
 
 #### generate wso2carbon.jks with name and alternate names we need
@@ -45,7 +45,7 @@ don't forget to set CA=TRUE in Basic Constraints
 ![generate request for signature](./readme-img/03-sign-req.png)
 
 #### include extension into request 
-![generate request for signature](./readme-img/03-sign-req-2.png)
+![generate request for signature](./readme-img/03-sign-req-02.png)
 
 #### sign the request with CA certificate
 don't forget to specify extension in reply 
