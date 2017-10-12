@@ -32,6 +32,10 @@ identity_analytics:
   # 7611 - the DAS port for thrift protocol
   # the is-analytics server by default uses offset=1 so 7611->7612
   receiverURL: tcp://localhost:7612
+  # first part of url for analytics/dashboard
+  # used in gadgets of ids/dashboard
+  # by default value: https://localhost:9444
+  dashboardURL: https://${server.idx.local.host}:${server.idx.local.port.https}
   username: admin
   password: admin
 

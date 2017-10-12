@@ -1,4 +1,4 @@
-<%
+<%= '<'+'%' %>
 
 /*
  * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
@@ -28,8 +28,8 @@ var USER_HEADER = "user-header";
 var I18N = "i18n";
 var SERVER_URL = "serverUrl";
 
-var DAS_SERVER_URL = "https://localhost:9444/analytics/search";
+var DAS_SERVER_URL = "<%= identity_analytics.dashboardURL %>/analytics/search";
 
-var USERNAME = "admin";
-var PASSWORD = "admin";
-%>
+var USERNAME = "<%= identity_analytics.username %>";
+var PASSWORD = "<%= identity_analytics.password %>";
+<%= '%'+'>' %>
