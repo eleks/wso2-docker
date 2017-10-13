@@ -1,0 +1,27 @@
+---
+
+# eleks: for reviev. worker / manager
+product_profile: 'manager'
+
+# esb_wsdl_epr_prefix.http.bind_address
+# esb_wsdl_epr_prefix['http'].bind_address
+# esb_wsdl_epr_prefix['http']['bind_address']
+esb_wsdl_epr_prefix:
+  http:
+    prefix: https://apachehost:port/somepath
+    bind_address: hostname or IP address
+  https:
+    prefix: https://apachehost:port/somepath
+    bind_address: hostname or IP address
+
+clustering:
+  membership_scheme: some param
+  private_paas: some param
+  sub_domain: ...
+
+ports:
+  proxyPort:
+     pass_through_http: some param
+
+hostname: some param
+mgt_hostname: some param
