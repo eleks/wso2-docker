@@ -7,7 +7,7 @@ entitlement:
 
 user_management:
   UsernameJavaRegEx: '[a-zA-Z0-9.\-_-|//]{3,30}$'
-  UserStoreManager: jdbc
+  UserStoreManager: ldap
 
 identity_analytics:
   enabled: true

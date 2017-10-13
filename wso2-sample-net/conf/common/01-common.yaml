@@ -20,10 +20,10 @@ server:
     public:
       ## public host for local docker-compose is localhost
       ## and public port is one you defined in docker-compose.yaml service: ports:
-      host: ${env.EXTERNAL_IP}
+      host: ${env.HOST_IDS}
       port: 
-        http: "${env.PORT_HTTP ?: server.ids.local.port.http}"
-        https: "${env.PORT_HTTPS ?: server.ids.local.port.https}"
+        http: "${env.PORT_IDS_HTTP ?: server.ids.local.port.http}"
+        https: "${env.PORT_IDS_HTTPS ?: server.ids.local.port.https}"
   idx:
     # [id]entity server analyti[cs]
     # product: wso2is-analytics-5.3.0
@@ -35,10 +35,10 @@ server:
     public:
       ## public host for local docker-compose is localhost
       ## and public port is one you defined in docker-compose.yaml service: ports:
-      host: ${env.EXTERNAL_IP}
+      host: ${env.HOST_IDX}
       port: 
-        http: "${env.PORT_HTTP ?: server.idx.local.port.http}"
-        https: "${env.PORT_HTTPS ?: server.idx.local.port.https}"
+        http: "${env.PORT_IDX_HTTP ?: server.idx.local.port.http}"
+        https: "${env.PORT_IDX_HTTPS ?: server.idx.local.port.https}"
 
 
 # common jvm properties
