@@ -225,6 +225,7 @@ org.owasp.csrfguard.Ajax=true
 #org.owasp.csrfguard.unprotected.Redirect=%servletContext%/redirect.jsp
 #org.owasp.csrfguard.unprotected.Forward=%servletContext%/forward.jsp
 #org.owasp.csrfguard.unprotected.Session=%servletContext%/session.jsp
+<% if( !new Boolean(sso_authentication.disabled) ) { %>org.owasp.csrfguard.unprotected.ServicesACS=%servletContext%/acs<% } %>
 
 # Actions: Responding to Attacks
 #
