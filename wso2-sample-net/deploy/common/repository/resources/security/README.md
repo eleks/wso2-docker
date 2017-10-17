@@ -41,7 +41,7 @@ don't forget to set CA=TRUE in Basic Constraints
 - CN: `*.docker.local`
 - Extensions: SAN:
  - `*.docker.local` for our subnet names
- - `192.168.99.100` as default ip for default local docker machine
+ - `192.168.99.100` as default ip for default local docker machine. add it as IP and as a DNS - required by some hostname verifiers..
  - `localhost` for localhost access
 
 > you can import extension from the `extension.tpl` template
