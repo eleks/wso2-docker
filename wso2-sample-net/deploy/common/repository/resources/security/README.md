@@ -73,5 +73,19 @@ don't forget to set CA=TRUE in Basic Constraints
 ![export public CA certificate - 2](./readme-img/07-ca-exp-02.png)
 
 #### import public CA certificate into truststore
+
 ![import public CA certificate into truststore](./readme-img/08-ca-imp-trust.png)
+
+#### extort and import wso2carbon certificate into truststore
+
+This part is required if you use sso saml for auth and goind to validate signature of the response
+
+> **NOTE:** if you are going to use sso saml with wso2is to sign in to other wso2carbon servers 
+> you have to import this CA certificate with alias `wso2carbon` or change the parameters of connection.
+> For example in the wso2is-analytics/portal there is a `repository/deployment/server/jaggeryapps/portal/configs/designer.json` 
+> config file where the alias defined as wso2carbon and it requires to validate signature against it.
+
+![extort wso2carbon certificate](./readme-img/09-wso2carbon-exp.png)
+
+
 
