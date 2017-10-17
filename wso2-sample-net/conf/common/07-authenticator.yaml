@@ -5,8 +5,9 @@
 sso_authentication:
   disabled: true
   login_page: /carbon/admin/login.jsp
-  service_provider_id: carbonServer
-  sso_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/samlsso
-  #to specify in server config!
-  #consumer_service_url: https://${server.current.public.host}:${server.current.public.port.https}/acs
+  service_provider_id: WSO2CarbonServer
+  # address of the identity provider - our identity server
+  sso_service_url: https://${env.HOST_IDS}:${env.PORT_IDS_HTTPS}/samlsso
+  # address of the wso2 server that provides service (where web console hosted) 
+  consumer_service_url: https://${role.host}:${role.port.https}/acs
 

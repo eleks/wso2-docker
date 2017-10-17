@@ -44,12 +44,12 @@
        This is will become part of the End Point Reference of the
        services deployed on this server instance.
     -->
-    <HostName><%= server.ids.public.host %></HostName>
+    <HostName><%= role.host %></HostName>
 
     <!--
     Host name to be used for the Carbon management console
     -->
-    <MgtHostName><%= server.ids.public.host %></MgtHostName>
+    <MgtHostName><%= role.host %></MgtHostName>
 
     <!--
         The URL of the back end server. This is where the admin services are hosted and

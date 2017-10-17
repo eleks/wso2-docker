@@ -2,4 +2,3 @@
 
 sso_authentication:
   disabled: false
-  consumer_service_url: https://${server.idx.public.host}:${server.idx.public.port.https}/acs

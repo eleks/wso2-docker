@@ -302,10 +302,10 @@
             https://<HostName>:<MgtTrpProxyPort except 443>/<ProxyContextPath>/samlsso
             If that doesn't satisfy uncomment the following config and explicitly configure the value
         -->
-        <IdentityProviderURL>https://<%= server.ids.public.host %>:<%= server.ids.public.port.https %>/samlsso</IdentityProviderURL>
+        <IdentityProviderURL>https://<%= role.host %>:<%= role.port.https %>/samlsso</IdentityProviderURL>
         <!--ELEKS:warn:should we parametrize the following 2 urls as the previous one?-->
-        <DefaultLogoutEndpoint>${carbon.protocol}://${carbon.host}:${carbon.management.port}/authenticationendpoint/samlsso_logout.do</DefaultLogoutEndpoint>
-        <NotificationEndpoint>${carbon.protocol}://${carbon.host}:${carbon.management.port}/authenticationendpoint/samlsso_notification.do</NotificationEndpoint>
+        <DefaultLogoutEndpoint>https://<%= role.host %>:<%= role.port.https %>/authenticationendpoint/samlsso_logout.do</DefaultLogoutEndpoint>
+        <NotificationEndpoint>https://<%= role.host %>:<%= role.port.https %>/authenticationendpoint/samlsso_notification.do</NotificationEndpoint>
         <SingleLogoutRetryCount>5</SingleLogoutRetryCount>
         <SingleLogoutRetryInterval>60000</SingleLogoutRetryInterval>
         <!-- in milli seconds -->
