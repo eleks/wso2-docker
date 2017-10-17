@@ -7,5 +7,6 @@ sso_authentication:
   login_page: /carbon/admin/login.jsp
   service_provider_id: carbonServer
   sso_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/samlsso
-  consumer_service_url: https://${server.ids.public.host}:${server.ids.public.port.https}/acs
+  #to specify in server config!
+  #consumer_service_url: https://${server.current.public.host}:${server.current.public.port.https}/acs
 

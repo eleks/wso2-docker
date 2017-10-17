@@ -61,7 +61,7 @@ public class Configs{
             if(src instanceof String){
             	try{
                 	int p0=src.indexOf('${')
-                	int p1=src.indexOf('}')
+                	int p1=src.lastIndexOf('}')
                 	if(p0==0 && p1==src.length()-1 && src.indexOf('${',2)==-1){
                 		//assume it's a groovy script inside brackets returning an object (string, map, array)
 						src = new GroovyShell(new Binding(root)).evaluate(src.substring(2, p1))

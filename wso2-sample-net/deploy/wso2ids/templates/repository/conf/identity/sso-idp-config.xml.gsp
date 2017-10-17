@@ -64,6 +64,22 @@
       </AudiencesList>
     </ServiceProvider>
 
+    <!--let's register one service provider for all carbon servers-->
+    <ServiceProvider>
+ <Issuer>carbonServer</Issuer>
+ <AssertionConsumerServiceURLs>
+ <% server.each{srv_key, srv-> %>
+ <AssertionConsumerServiceURL>https://<%=srv.public.host%>:<%=srv.public.port.https%>/acs</AssertionConsumerServiceURL>
+ <% } %>
+ </AssertionConsumerServiceURLs>
+ <!--DefaultAssertionConsumerServiceURL>${carbon.protocol}://${carbon.host}:${carbon.management.port}/acs</DefaultAssertionConsumerServiceURL-->
+ <SignResponse>true</SignResponse>
+      <EnableAudienceRestriction>true</EnableAudienceRestriction>
+      <AudiencesList>
+        <Audience>carbonServer</Audience>
+      </AudiencesList>
+    </ServiceProvider>
+
     <% sso_service_providers.each{ server_name, server-> %>
     <ServiceProvider>
           <Issuer><%= server_name %></Issuer>
