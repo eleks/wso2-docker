@@ -27,7 +27,7 @@
     -->
      <Connector protocol="org.apache.coyote.http11.Http11NioProtocol"
                 port="9763"
-                proxyPort="<%= role.port.http %>"
+                proxyPort="<%= role.port.mhttp %>"
                 redirectPort="9443" 
                 bindOnInit="false"
                 maxHttpHeaderSize="8192"
@@ -52,7 +52,7 @@
     -->
     <Connector  protocol="org.apache.coyote.http11.Http11NioProtocol"
                 port="9443"
-                proxyPort="<%= role.port.https %>"
+                proxyPort="<%= role.port.mhttps %>"
                 bindOnInit="false"
                 sslEnabledProtocols="TLSv1,TLSv1.1,TLSv1.2"
                 maxHttpHeaderSize="8192"
