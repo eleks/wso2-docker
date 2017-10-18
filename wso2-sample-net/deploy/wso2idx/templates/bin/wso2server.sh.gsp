@@ -321,6 +321,7 @@ do
     -Dfile.encoding=UTF8 \
     -Djava.net.preferIPv4Stack=true \
     -Dcom.ibm.cacheLocalHost=true \
+    -Dorg.opensaml.httpclient.https.disableHostnameVerification=true \
     -Dsetup \
     $NODE_PARAMS \
     org.wso2.carbon.bootstrap.Bootstrap $*

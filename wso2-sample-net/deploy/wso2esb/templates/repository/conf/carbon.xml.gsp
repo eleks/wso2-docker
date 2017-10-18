@@ -45,12 +45,13 @@
        This is will become part of the End Point Reference of the
        services deployed on this server instance.
     -->
-    <HostName><%= server.esb.public.host %></HostName>
+    <HostName><%= role.host %></HostName>
 
     <!--
     Host name to be used for the Carbon management console
+    eleks:warn: to think should for esb cluster there should be 
     -->
-    <MgtHostName><%= server.esb.public.host %></MgtHostName>
+    <MgtHostName><%= role.host %></MgtHostName>
 
     <!--
         The URL of the back end server. This is where the admin services are hosted and
@@ -577,7 +578,7 @@
     <% if (dep_sync['repository_type'] == "svn") { %>
             <SvnUrl><%= dep_sync['svn']['url'] %></SvnUrl>
             <SvnUser><%= dep_sync['svn']['user'] %></SvnUser>
-            <SvnPassword><%= dep_sync['svn']['password'] -%></SvnPassword>
+            <SvnPassword><%= dep_sync['svn']['password'] %></SvnPassword>
             <SvnUrlAppendTenantId><%= dep_sync['svn']['append_tenant_id'] %></SvnUrlAppendTenantId>
     <% } %>
     </DeploymentSynchronizer>

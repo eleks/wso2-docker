@@ -8,16 +8,10 @@ product_profile: 'manager'
 # esb_wsdl_epr_prefix['http']['bind_address']
 esb_wsdl_epr_prefix:
   http:
-    prefix: http://${server.esb.public.host}:${server.esb.public.port.http}/todo
+    prefix: http://${role.host}:${role.port.http}/
     bind_address: 0.0.0.0
   https:
-    prefix: https://${server.esb.public.host}:${server.esb.public.port.https}/todo
+    prefix: https://${role.host}:${role.port.https}/
     bind_address: 0.0.0.0
 
   
-ports:
-  proxyPort:
-     pass_through_http: some param
-
-hostname: some param
-mgt_hostname: some param

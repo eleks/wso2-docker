@@ -24,12 +24,6 @@ ha_deployment:
     hostName: 0.0.0.0
     port: 11000
 
-portal:
-  hostname: ${server.idx.local.host}
-  port: ${server.idx.local.port.https}
-  protocol: 'https'
-
-
 analytics_datasources:
   WSO2_ANALYTICS_EVENT_STORE_DB:
     description: The datasource used for analytics record store

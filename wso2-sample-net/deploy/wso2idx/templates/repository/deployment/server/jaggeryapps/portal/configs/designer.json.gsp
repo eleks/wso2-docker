@@ -36,16 +36,16 @@
         "methods": {
             "sso": {
                 "attributes": {
-                    "issuer": "portal",
+                    "issuer": "<%= sso_authentication.service_provider_id %>",
                     "identityProviderURL": "<%= sso_authentication['sso_service_url'] %>",
                     "responseSigningEnabled": true,
                     "validateAssertionValidityPeriod": true,
                     "validateAudienceRestriction": true,
                     "assertionSigningEnabled": true,
-                    "acs": "<%= sso_authentication['consumer_service_url'] %>",
+                    "acs": "<%= 'https://' + role.host + ':' + role.port.https + '/portal/acs' %>",
                     "identityAlias": "wso2carbon",
                     "defaultNameIDPolicy": "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
-                    "useTenantKey": true,
+                    "useTenantKey": false,
                     "isPassive": false
                 }
             },
@@ -99,8 +99,8 @@
         "password": "admin"
     },
     "host": {
-        "hostname": "<%= portal['hostname'] %>",
-        "port": "<%= portal['port'] %>",
-        "protocol": "<%= portal['protocol'] %>"
+        "hostname": "",
+        "port": "",
+        "protocol": ""
     }
 }

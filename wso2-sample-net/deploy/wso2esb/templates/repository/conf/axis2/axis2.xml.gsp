@@ -555,22 +555,18 @@
         Properties specific to this member
         -->
         <parameter name="properties">
-            <property name="backendServerURL" value="https://${hostName}:${httpsPort}/services/"/>
+            <property name="backendServerURL" value="https://${hostName}:${httpsPort}/"/>
             <property name="mgtConsoleURL" value="https://${hostName}:${httpsPort}/"/>
  	    <!-- Manger Setup with Port Mapping-->
 	    <!--property name="port.mapping.8280" value="9764"/>
             <property name="port.mapping.8243" value="9444"/>
             <property name="subDomain" value="mgt"/-->
-          <% if (ports['proxyPort'] && ports['proxyPort']['pass_through_http']) { %>
-            <property name="port.mapping.8280" value="<%= ports['proxyPort']['pass_through_http'] %>"/>
-          <% } %>
-
-          <% if (ports['proxyPort'] && ports['proxyPort']['pass_through_https']) { %>
-            <property name="port.mapping.8243" value="<%= ports['proxyPort']['pass_through_https'] %>"/>
-          <% } %>
+            <property name="port.mapping.8280" value="<%= role.port.http %>"/>
+            <property name="port.mapping.8243" value="<%= role.port.https %>"/>
 	    <!-- Worker Setup-->
 	    <!--property name="subDomain" value="worker"/-->
-            <property name="subDomain" value="<%= clustering['sub_domain'] %>"/>
+	        <!--eleks:info: we are not going to use subdomains-->
+            <!--property name="subDomain" value="<%= clustering['sub_domain'] %>"/-->
         </parameter>
 
         <!--

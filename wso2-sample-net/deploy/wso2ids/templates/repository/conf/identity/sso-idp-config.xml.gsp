@@ -66,10 +66,11 @@
 
     <!--let's register one service provider for all carbon servers-->
     <ServiceProvider>
- <Issuer>carbonServer</Issuer>
+ <Issuer><%= sso_authentication.service_provider_id %></Issuer>
  <AssertionConsumerServiceURLs>
- <% server.each{srv_key, srv-> %>
- <AssertionConsumerServiceURL>https://<%=srv.public.host%>:<%=srv.public.port.https%>/acs</AssertionConsumerServiceURL>
+ <% roles.each{srv_key, srv-> %>
+ <AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.https%>/acs</AssertionConsumerServiceURL>
+ <% if(srv_key=='idx'){ %><AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.https%>/portal/acs</AssertionConsumerServiceURL><!--id-analytics portal--><% } %>
  <% } %>
  </AssertionConsumerServiceURLs>
  <!--DefaultAssertionConsumerServiceURL>${carbon.protocol}://${carbon.host}:${carbon.management.port}/acs</DefaultAssertionConsumerServiceURL-->
