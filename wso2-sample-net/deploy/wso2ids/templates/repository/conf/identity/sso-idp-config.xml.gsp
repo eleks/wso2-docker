@@ -66,19 +66,19 @@
 
     <!--let's register one service provider for all carbon servers-->
     <ServiceProvider>
- <Issuer><%= sso_authentication.service_provider_id %></Issuer>
- <AssertionConsumerServiceURLs>
- <% roles.each{srv_key, srv-> %>
- <AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.https%>/acs</AssertionConsumerServiceURL>
- <% if(srv_key=='idx'){ %><AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.https%>/portal/acs</AssertionConsumerServiceURL><!--id-analytics portal--><% } %>
- <% } %>
- </AssertionConsumerServiceURLs>
- <!--DefaultAssertionConsumerServiceURL>${carbon.protocol}://${carbon.host}:${carbon.management.port}/acs</DefaultAssertionConsumerServiceURL-->
- <SignResponse>true</SignResponse>
-      <EnableAudienceRestriction>true</EnableAudienceRestriction>
-      <AudiencesList>
-        <Audience>carbonServer</Audience>
-      </AudiencesList>
+        <Issuer><%= sso_authentication.service_provider_id %></Issuer>
+        <AssertionConsumerServiceURLs>
+            <% roles.each{srv_key, srv-> %>
+            <AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.mhttps ?: srv.port.https%>/acs</AssertionConsumerServiceURL>
+            <% if(srv_key=='idx'){ %><AssertionConsumerServiceURL>https://<%=srv.host%>:<%=srv.port.mhttps ?: srv.port.https%>/portal/acs</AssertionConsumerServiceURL><!--id-analytics portal--><% } %>
+            <% } %>
+        </AssertionConsumerServiceURLs>
+        <!--DefaultAssertionConsumerServiceURL>${carbon.protocol}://${carbon.host}:${carbon.management.port}/acs</DefaultAssertionConsumerServiceURL-->
+        <SignResponse>true</SignResponse>
+        <EnableAudienceRestriction>true</EnableAudienceRestriction>
+        <AudiencesList>
+            <Audience>carbonServer</Audience>
+        </AudiencesList>
     </ServiceProvider>
 
     <% sso_service_providers.each{ server_name, server-> %>
