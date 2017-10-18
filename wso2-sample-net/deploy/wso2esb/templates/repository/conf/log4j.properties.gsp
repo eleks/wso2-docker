@@ -61,6 +61,10 @@ log4j.logger.de.hunsicker.jalopy.io=FATAL
 #only WARN allowed for access loggers in http transport by default
 log4j.logger.org.apache.synapse.transport.http.access=WARN
 
+<% if( new Boolean(log4j.DEBUG) ) { %>
+log4j.logger.org.apache.synapse.transport.http.wire=DEBUG
+<% } %>
+
 # uncomment the flowing entries to see HTTP headers and messages of Callout mediator/MessageProcessor
 #log4j.logger.httpclient.wire.header=DEBUG
 #log4j.logger.httpclient.wire.content=DEBUG
