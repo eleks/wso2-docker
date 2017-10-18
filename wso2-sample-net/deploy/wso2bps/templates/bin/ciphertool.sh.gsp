@@ -30,6 +30,11 @@ if [ -z "$JAVA_HOME" ]; then
   echo "You must set the JAVA_HOME variable before running CARBON."
   exit 1
 fi
+# if JAVA_HOME is not set we're not happy
+if [ -z "$JAVA_HOME" ]; then
+  echo "You must set the JAVA_HOME variable before running CARBON."
+  exit 1
+fi
 
 # OS specific support.  $var _must_ be set to either true or false.
 cygwin=false;

@@ -5,28 +5,30 @@
     </providers>
   
     <datasources>
-      
+
+        <% master_datasources.each { datasource_name, datasource-> %>
         <datasource>
-            <name>WSO2_CARBON_DB</name>
-            <description>The datasource used for registry and user manager</description>
+            <name><%= datasource['name'] %></name>
+            <description><%= datasource['description'] %></description>
             <jndiConfig>
-                <name>jdbc/WSO2CarbonDB</name>
+                <name><%= datasource['jndi_config'] %></name>
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                    <defaultAutoCommit>false</defaultAutoCommit>
+                    <url><%= datasource['url'] %></url>
+                    <username><%= datasource['username'] %></username>
+                    <password><%= datasource['password'] %></password>
+                    <driverClassName><%= datasource['driver_class_name'] %></driverClassName>
+                    <maxActive><%= datasource['max_active'] %></maxActive>
+                    <maxWait><%= datasource['max_wait'] %></maxWait>
+                    <testOnBorrow><%= datasource['test_on_borrow'] %></testOnBorrow>
+                    <validationQuery><%= datasource['validation_query'] %></validationQuery>
+                    <validationInterval><%= datasource['validation_interval'] %></validationInterval>
+                    <defaultAutoCommit><%= datasource['default_auto_commit'] %></defaultAutoCommit>
                 </configuration>
             </definition>
         </datasource>
+        <% } %>
 
         <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
         <!--datasource>
