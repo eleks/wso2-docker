@@ -30,3 +30,6 @@ datasource:
   validation_interval: some param
   use_datasource_factory: some param
   default_auto_commit: some param
+
+taskServerCount: 
+scheduler_config_max_thread_pool_size: 
