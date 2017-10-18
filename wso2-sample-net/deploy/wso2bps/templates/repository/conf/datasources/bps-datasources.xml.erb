@@ -5,28 +5,30 @@
     </providers>
   
   <datasources>      
+        <% bps_datasources.each { datasource_name, datasource-> %>
         <datasource>
-            <name>BPS_DS</name>
-            <description></description>
+            <name><%= datasource['name'] %></name>
+            <description><%= datasource['description'] %></description>
             <jndiConfig>
-                <name>bpsds</name>
+                <name><%= datasource['jndi_config'] %></name>
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url>jdbc:h2:file:repository/database/jpadb;DB_CLOSE_ON_EXIT=FALSE;MVCC=TRUE</url>
-                    <username>wso2carbon</username>
-                    <password>wso2carbon</password>
-                    <driverClassName>org.h2.Driver</driverClassName>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery>SELECT 1</validationQuery>
-                    <validationInterval>30000</validationInterval>
-                    <useDataSourceFactory>false</useDataSourceFactory>
-		    <defaultAutoCommit>true</defaultAutoCommit>
- 		    <maxActive>100</maxActive>
-                    <maxIdle>20</maxIdle>
-		    <maxWait>10000</maxWait>
+                    <url><%= datasource['url'] %></url>
+                    <username><%= datasource['username'] %></username>
+                    <password><%= datasource['password'] %></password>
+                    <driverClassName><%= datasource['driver_class_name'] %></driverClassName>
+                    <testOnBorrow><%= datasource['test_on_borrow'] %></testOnBorrow>
+                    <validationQuery><%= datasource['validation_query'] %></validationQuery>
+                    <validationInterval><%= datasource['validation_interval'] %></validationInterval>
+                    <useDataSourceFactory><%= datasource['use_datasource_factory'] %></useDataSourceFactory>
+                    <defaultAutoCommit><%= datasource['default_auto_commit'] %></defaultAutoCommit>
+                    <maxActive><%= datasource['max_active'] %></maxActive>
+                    <maxIdle><%= datasource['max_idle'] %></maxIdle>
+                    <maxWait><%= datasource['max_wait'] %></maxWait>
                 </configuration>
             </definition>
         </datasource>
+        <% } %>
     </datasources>
 </datasources-configuration>

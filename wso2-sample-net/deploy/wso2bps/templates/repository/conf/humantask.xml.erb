@@ -14,7 +14,7 @@
         <TransactionManagerClass>org.apache.ode.il.EmbeddedGeronimoFactory</TransactionManagerClass>
     </TransactionManagerConfig>
     <SchedulerConfig>
-        <MaxThreadPoolSize>50</MaxThreadPoolSize>
+        <MaxThreadPoolSize><%= scheduler_config_max_thread_pool_size %></MaxThreadPoolSize>
     </SchedulerConfig>
     <!--TaskCleanupConfig>
         <cronExpression>0 0 0/4 * * ?</cronExpression>
@@ -47,9 +47,15 @@
     <EnableTaskOperationsForBusinessAdministrator>false</EnableTaskOperationsForBusinessAdministrator>
 
     <!-- Enable Disable Caching -->
+    <% if (enable_humantask_caching != nil) { %>
+    <CacheConfiguration>
+		<EnableCaching><%= enable_humantask_caching %></EnableCaching>
+    </CacheConfiguration>
+    <% } else { %>
     <!--CacheConfiguration>
 	<EnableCaching>true</EnableCaching>
     </CacheConfiguration-->
+    <% } %>
     <EnableTaskValidationBeforeDeployment>true</EnableTaskValidationBeforeDeployment>
     <EnableEMailNotification>false</EnableEMailNotification>
     <EnableSMSNotification>false</EnableSMSNotification>

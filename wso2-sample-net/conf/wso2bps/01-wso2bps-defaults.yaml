@@ -1,1 +1,32 @@
 ---
+so_timeout: some param
+connection_timeout: some param
+mex_timeout: some param
+external_service_timeout: some param
+max_connections_per_host: some param
+max_total_connections: some param
+ode_scheduler_thread_pool_size: some param
+mgt_hostname: some param
+dep_sync: 
+  scn:
+    user: some param
+    url: some param
+    password: some param
+    append_tenant_id: some param
+
+datasource:
+  name: some param
+  description: some param
+  jndi_config: some param
+  url: some param
+  username: some param
+  password: some param
+  driver_class_name: some param
+  max_active: some param
+  max_wait: some param
+  max_idle: some param
+  test_on_borrow: some param
+  validation_query: some param
+  validation_interval: some param
+  use_datasource_factory: some param
+  default_auto_commit: some param

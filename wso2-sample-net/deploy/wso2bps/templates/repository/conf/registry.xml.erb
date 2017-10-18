@@ -28,9 +28,25 @@
     <registryRoot>/</registryRoot>
 
     <dbConfig name="wso2registry">
-        <dataSource>jdbc/WSO2CarbonDB</dataSource>
+        <dataSource><%= master_datasources[registry.local_datasource]['jndi_config'] %></dataSource>
     </dbConfig>
-
+<% registry.mounts.each{ registry_mount-> %>
+    <dbConfig name="<%= registry_mount.datasource %>">
+        <dataSource><%= master_datasources[registry_mount.datasource]['jndi_config'] %></dataSource>
+    </dbConfig>
+    <remoteInstance url="https://localhost:9443/registry">
+        <id><%= registry_mount.datasource %></id>
+        <dbConfig><%= registry_mount.datasource %></dbConfig>
+        <readOnly><%= registry_mount['read_only'] %></readOnly>
+        <registryRoot><%= registry_mount['registry_root'] %></registryRoot>
+        <enableCache><%= registry_mount['enable_cache'] %></enableCache>
+        <cacheId><%= master_datasources[registry_mount.datasource].configuration.username %>@<%= master_datasources[registry_mount.datasource].configuration.url %></cacheId>
+    </remoteInstance>
+    <mount path="<%= registry_mount['path'] %>" overwrite="virtual">
+        <instanceId><%= registry_mount.datasource %></instanceId>
+        <targetPath><%= registry_mount['target_path'] %></targetPath>
+    </mount>
+<% } %>
    <!--<handler class="org.wso2.carbon.registry.extensions.handlers.SynapseRepositoryHandler">
         <filter class="org.wso2.carbon.registry.core.jdbc.handlers.filters.MediaTypeMatcher">
             <property name="mediaType">application/vnd.apache.synapse</property>
@@ -92,9 +108,9 @@
     <!-- NOTE: You can edit the options under "StaticConfiguration" only before the
      startup. -->
     <staticConfiguration>
-        <versioningProperties>true</versioningProperties>
-        <versioningComments>true</versioningComments>
-        <versioningTags>true</versioningTags>
-        <versioningRatings>true</versioningRatings>
+        <versioningProperties><%= registry.versioning %></versioningProperties>
+        <versioningComments><%= registry.versioning %></versioningComments>
+        <versioningTags><%= registry.versioning %></versioningTags>
+        <versioningRatings><%= registry.versioning %></versioningRatings>
     </staticConfiguration>
 </wso2registry>
