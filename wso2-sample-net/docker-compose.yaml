@@ -54,3 +54,21 @@ services:
       - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2esb
       # path to get deploy artifacts 
       - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2esb/templates:/opt/deploy/wso2esb/artifacts
+
+  bps.docker.local:
+    image: eleks/base-wso2bps-3.5.1
+    ports:
+      - "${PORT_BPS_HTTPS}:9443"
+      - "${PORT_BPS_HTTP}:9763"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    env_file:
+      ## env variables defined for whole compose into container
+      - .env
+    environment:
+      - ROLE=BPS
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2bps
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2bps/templates:/opt/deploy/wso2bps/artifacts
