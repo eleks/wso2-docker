@@ -1,59 +1,59 @@
 version: '3.2'
 
 services:
-  # # service name must correspond to ${ENV_PREFIX}ids${ENV_SUFFIX}
-  # ids.docker.local:
-    # image: eleks/base-wso2is-5.3.0
-    # ports:
-      # - "${PORT_IDS_HTTPS}:9443"
-    # volumes:
-      # - ./conf:/opt/conf
-      # - ./deploy:/opt/deploy
-      # #- ./myapp:/opt/wso2is-5.3.0/repository/deployment/server/jaggeryapps/myapp
-    # env_file:
-      # ## env variables defined for whole compose into container
-      # - .env
-    # environment:
-      # - ROLE=IDS
-      # # path to get configs 
-      # - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ids
-      # # path to get deploy artifacts 
-      # - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ids/templates:/opt/deploy/wso2ids/artifacts
-  # idx.docker.local:
-    # image: eleks/base-wso2is-analytics-5.3.0
-    # ports:
-      # - "${PORT_IDX_HTTPS}:9443"
-    # volumes:
-      # - ./conf:/opt/conf
-      # - ./deploy:/opt/deploy
-    # env_file:
-      # ## env variables defined for whole compose into container
-      # - .env
-    # environment:
-      # - ROLE=IDX
-      # # path to get configs 
-      # - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2idx
-      # # path to get deploy artifacts 
-      # - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2idx/templates:/opt/deploy/wso2idx/artifacts
-  # esb.docker.local:
-    # image: eleks/base-wso2esb-4.9.0
-    # ports:
-      # - "${PORT_ESB_MHTTPS}:9443"
-      # - "${PORT_ESB_MHTTP}:9763"
-      # - "${PORT_ESB_HTTPS}:8243"
-      # - "${PORT_ESB_HTTP}:8280"
-    # volumes:
-      # - ./conf:/opt/conf
-      # - ./deploy:/opt/deploy
-    # env_file:
-      # ## env variables defined for whole compose into container
-      # - .env
-    # environment:
-      # - ROLE=ESB
-      # # path to get configs 
-      # - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2esb
-      # # path to get deploy artifacts 
-      # - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2esb/templates:/opt/deploy/wso2esb/artifacts
+  # service name must correspond to ${ENV_PREFIX}ids${ENV_SUFFIX}
+  ids.docker.local:
+    image: eleks/base-wso2is-5.3.0
+    ports:
+      - "${PORT_IDS_HTTPS}:9443"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+      #- ./myapp:/opt/wso2is-5.3.0/repository/deployment/server/jaggeryapps/myapp
+    env_file:
+      ## env variables defined for whole compose into container
+      - .env
+    environment:
+      - ROLE=IDS
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ids
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ids/templates:/opt/deploy/wso2ids/artifacts
+  idx.docker.local:
+    image: eleks/base-wso2is-analytics-5.3.0
+    ports:
+      - "${PORT_IDX_HTTPS}:9443"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    env_file:
+      ## env variables defined for whole compose into container
+      - .env
+    environment:
+      - ROLE=IDX
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2idx
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2idx/templates:/opt/deploy/wso2idx/artifacts
+  esb.docker.local:
+    image: eleks/base-wso2esb-4.9.0
+    ports:
+      - "${PORT_ESB_MHTTPS}:9443"
+      - "${PORT_ESB_MHTTP}:9763"
+      - "${PORT_ESB_HTTPS}:8243"
+      - "${PORT_ESB_HTTP}:8280"
+    volumes:
+      - ./conf:/opt/conf
+      - ./deploy:/opt/deploy
+    env_file:
+      ## env variables defined for whole compose into container
+      - .env
+    environment:
+      - ROLE=ESB
+      # path to get configs 
+      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2esb
+      # path to get deploy artifacts 
+      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2esb/templates:/opt/deploy/wso2esb/artifacts
 
   bps.docker.local:
     image: eleks/base-wso2bps-3.5.1
