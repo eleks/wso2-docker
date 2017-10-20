@@ -304,11 +304,7 @@ do
     -Djava.net.preferIPv4Stack=true \
     -Dcom.ibm.cacheLocalHost=true \
     -Dsetup \
-    <% if (product_profile == 'worker') { %>
-    -DworkerNode=true \
-    <% } else { %>
-    -DworkerNode=false \
-    <% } %>
+	-DworkerNode=<%= product_profile=='worker' ? 'true':'false' %> \
     org.wso2.carbon.bootstrap.Bootstrap $*
     status=$?
 done

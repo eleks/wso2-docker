@@ -2,7 +2,7 @@
 ##BPS database connection information referred from bps-datasources.xml file
 user.timezone=GMT
 clientTrustStorePath=<%= key_stores['trust_store']['location'] %>
-<% if (enable_secure_vault) %>
+<% if (secure_vault_configs) { %>
 clientTrustStorePassword=secretAlias:Carbon.Security.TrustStore.Password
 <% } else { %>
 clientTrustStorePassword=<%= key_stores['trust_store']['password'] %>
