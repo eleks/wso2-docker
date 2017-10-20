@@ -44,20 +44,12 @@
        This is will become part of the End Point Reference of the
        services deployed on this server instance.
     -->
-<% if (hostname) { %>
-    <HostName><%= hostname %></HostName>
-<% } else {%>
-    <!--HostName>www.wso2.org</HostName-->
-<% } %>
+    <HostName><%= role.host %></HostName>
 
     <!--
     Host name to be used for the Carbon management console
     -->
-<% if (mgt_hostname) %>
-    <MgtHostName><%= mgt_hostname %></MgtHostName>
-<%} else {%>
-    <!--MgtHostName>mgt.wso2.org</MgtHostName-->
-<% } %>
+    <MgtHostName><%= role.host %></MgtHostName>
 
     <!--
         The URL of the back end server. This is where the admin services are hosted and
@@ -132,11 +124,7 @@
          the define value + Offset.
          e.g. Offset=2 and HTTPS port=9443 will set the effective HTTPS port to 9445
          -->
-<% if (ports['offset']) { %>
-        <Offset><%= ports['offset'] %></Offset>
-<% } else { %>
-        <Offset>0</Offset>
-<% } %>
+        <Offset><%= carbon.offset %></Offset>
 
         <!-- The JMX Ports -->
         <JMX>

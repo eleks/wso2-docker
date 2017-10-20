@@ -65,14 +65,14 @@
     </tns:OpenJPAConfig>
 
     <!-- Message exchange timeout. Default value is 120000ms -->
-    <% if ( mex_timeout != nil) { %>
+    <% if ( mex_timeout) { %>
     <tns:MexTimeOut value="<%= mex_timeout %>"/>
     <% } else { %>
     <!--<tns:MexTimeOut value="120000"/>-->
     <% }  %>
 
     <!-- External Service invocation timeout. Default value is 60000ms -->
-    <% (if external_service_timeout != nil) { %>
+    <% if (external_service_timeout) { %>
     <tns:ExternalServiceTimeOut value="<%= external_service_timeout %>"/>
     <% } else { %>
     <!--<tns:ExternalServiceTimeOut value="60000"/>-->
@@ -80,12 +80,12 @@
 
     <!-- MultithreadedHttpConnectionManager tuning parameters -->
     <tns:MultithreadedHttpConnectionManagerConfig>
-    	<%- if (max_connections_per_host != nil) { %>
+    	<% if (max_connections_per_host) { %>
         <tns:maxConnectionsPerHost value="<%= external_service_timeout %>"/>
         <% } else { %>
         <tns:maxConnectionsPerHost value="20"/>
         <% } %>
-        <% (if max_total_connections != nil) %>
+        <% if (max_total_connections) { %>
         <tns:maxTotalConnections value="<%= max_total_connections %>"/>
         <% } else { %>
         <tns:maxTotalConnections value="100"/>
@@ -122,15 +122,15 @@
     <!--tns:InMemoryInstanceTimeToLive>600000</tns:InMemoryInstanceTimeToLive-->
 
     <!-- This property  can be used to configure ode scheduler thread pool size  -->
-    <% if (ode_scheduler_thread_pool_size != nil) { %>
+    <% if (ode_scheduler_thread_pool_size) { %>
     <tns:ODESchedulerThreadPoolSize><%= ode_scheduler_thread_pool_size %></tns:ODESchedulerThreadPoolSize>
     <% } else { %>
     <tns:ODESchedulerThreadPoolSize>50</tns:ODESchedulerThreadPoolSize>
     <% } %>
     
     <!-- If you are using BPS in a clustered environment, then uncomment blow entry -->
-    <% if (clustering == true) { %>
-    <tns:UseDistributedLock><%= clustering %></tns:UseDistributedLock>
+    <% if ( new Boolean(clustering.enabled)  ) { %>
+    <tns:UseDistributedLock><%= clustering.enabled %></tns:UseDistributedLock>
     <% } else { %>
     <!-- <tns:UseDistributedLock>true</tns:UseDistributedLock> -->
     <% } %>

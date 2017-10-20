@@ -1,7 +1,7 @@
 ---
 #axis2.xml
-so_timeout: 58
-connection_timeout: 60
+so_timeout: 58000
+connection_timeout: 10000
 
 
 mex_timeout: 120000
@@ -9,6 +9,11 @@ external_service_timeout: 60000
 max_connections_per_host: 20
 max_total_connections: 100
 ode_scheduler_thread_pool_size: 50
+
+#humantask.xml
+bps:
+  enable_humantask_caching: false
+
 
 #carbon.xml
 mgt_hostname: wso2bps-default
@@ -48,3 +53,7 @@ bps_datasources:
 
 taskServerCount: 2
 scheduler_config_max_thread_pool_size: 50
+
+#wso2server.sh
+#expected values: manager, worker
+product_profile: manager

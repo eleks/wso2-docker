@@ -47,14 +47,10 @@
     <EnableTaskOperationsForBusinessAdministrator>false</EnableTaskOperationsForBusinessAdministrator>
 
     <!-- Enable Disable Caching -->
-    <% if (enable_humantask_caching != nil) { %>
+    <% if (bps.enable_humantask_caching) { %>
     <CacheConfiguration>
-		<EnableCaching><%= enable_humantask_caching %></EnableCaching>
+		<EnableCaching><%= bps.enable_humantask_caching %></EnableCaching>
     </CacheConfiguration>
-    <% } else { %>
-    <!--CacheConfiguration>
-	<EnableCaching>true</EnableCaching>
-    </CacheConfiguration-->
     <% } %>
     <EnableTaskValidationBeforeDeployment>true</EnableTaskValidationBeforeDeployment>
     <EnableEMailNotification>false</EnableEMailNotification>
