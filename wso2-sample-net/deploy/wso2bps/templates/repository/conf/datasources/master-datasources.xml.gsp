@@ -5,30 +5,7 @@
     </providers>
   
     <datasources>
-
-        <% master_datasources.each { datasource_name, datasource-> %>
-        <datasource>
-            <name><%= datasource['name'] %></name>
-            <description><%= datasource['description'] %></description>
-            <jndiConfig>
-                <name><%= datasource['jndi_config'] %></name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url><%= datasource['url'] %></url>
-                    <username><%= datasource['username'] %></username>
-                    <password><%= datasource['password'] %></password>
-                    <driverClassName><%= datasource['driver_class_name'] %></driverClassName>
-                    <maxActive><%= datasource['max_active'] %></maxActive>
-                    <maxWait><%= datasource['max_wait'] %></maxWait>
-                    <testOnBorrow><%= datasource['test_on_borrow'] %></testOnBorrow>
-                    <validationQuery><%= datasource['validation_query'] %></validationQuery>
-                    <validationInterval><%= datasource['validation_interval'] %></validationInterval>
-                    <defaultAutoCommit><%= datasource['default_auto_commit'] %></defaultAutoCommit>
-                </configuration>
-            </definition>
-        </datasource>
-        <% } %>
+<% master_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
 
         <!-- For an explanation of the properties, see: http://people.apache.org/~fhanik/jdbc-pool/jdbc-pool.html -->
         <!--datasource>

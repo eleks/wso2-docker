@@ -5,30 +5,9 @@
     </providers>
   
     <datasources>
-      
-        <% activiti_datasources.each { datasource_name, datasource-> %>
-        <datasource>
-            <name><%= datasource['name'] %></name>
-            <description><%= datasource['description'] %></description>
-            <jndiConfig>
-                <name><%= datasource['jndi_config'] %></name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url><%= datasource['url'] %></url>
-                    <username><%= datasource['username'] %></username>
-                    <password><%= datasource['password'] %></password>
-                    <driverClassName><%= datasource['driver_class_name'] %></driverClassName>
-                    <maxActive><%= datasource['max_active'] %></maxActive>
-                    <maxWait><%= datasource['max_wait'] %></maxWait>
-                    <testOnBorrow><%= datasource['test_on_borrow'] %></testOnBorrow>
-                    <validationQuery><%= datasource['validation_query'] %></validationQuery>
-                    <validationInterval><%= datasource['validation_interval'] %></validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-        <% } %>
 
+<% activiti_datasources.each{dsn, ds-> context.render("/datasource.gspx/RDBMS.gspx", [out:out, dsn:dsn, ds:ds]) } %>
+      
     </datasources>
 
 </datasources-configuration>

@@ -1,35 +1,50 @@
 ---
-so_timeout: some param
-connection_timeout: some param
-mex_timeout: some param
-external_service_timeout: some param
-max_connections_per_host: some param
-max_total_connections: some param
-ode_scheduler_thread_pool_size: some param
-mgt_hostname: some param
-dep_sync: 
-  scn:
-    user: some param
-    url: some param
-    password: some param
-    append_tenant_id: some param
+#axis2.xml
+so_timeout: 58
+connection_timeout: 60
 
-datasource:
-  name: some param
-  description: some param
-  jndi_config: some param
-  url: some param
-  username: some param
-  password: some param
-  driver_class_name: some param
-  max_active: some param
-  max_wait: some param
-  max_idle: some param
-  test_on_borrow: some param
-  validation_query: some param
-  validation_interval: some param
-  use_datasource_factory: some param
-  default_auto_commit: some param
 
-taskServerCount: 
-scheduler_config_max_thread_pool_size: 
+mex_timeout: 120000
+external_service_timeout: 60000
+max_connections_per_host: 20
+max_total_connections: 100
+ode_scheduler_thread_pool_size: 50
+
+#carbon.xml
+mgt_hostname: wso2bps-default
+
+activiti_datasources:
+  ACTIVITI_DB:
+    description: The datasource used for activiti engine
+    jndi_config: jdbc/ActivitiDB
+    configuration:
+      url: jdbc:h2:repository/database/activiti;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      
+bps_datasources:
+  BPS_DS:
+    description: None
+    jndiConfig: bpsds
+    configuration:
+      url: jdbc:h2:file:repository/database/jpadb;DB_CLOSE_ON_EXIT=FALSE;MVCC=TRUE
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      useDataSourceFactory: false
+      defaultAutoCommit: true
+      maxActive: 100
+      maxIdle: 20
+      maxWait: 10000
+
+taskServerCount: 2
+scheduler_config_max_thread_pool_size: 50
