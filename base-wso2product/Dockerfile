@@ -1,4 +1,3 @@
-# ------------------------------------------------------------------------
 FROM eleks/base-ubuntu-jdk8-groovy:latest
 
 ARG WSO2_PRODUCT=PLEASE_SPECIFY
@@ -16,12 +15,6 @@ ENV ENTRYPOINT     $ENTRYPOINT
 COPY ./files/${WSO2_PRODUCT}.zip ./
 RUN unzip ./${WSO2_PRODUCT}.zip && \
 	rm -f ./${WSO2_PRODUCT}.zip
-
-# we will not populate base products with custom libs
-# let's keep this for deploy process 
-#RUN \
-#	wget --no-verbose --content-disposition -P ${WSO2_HOME}/repository/components/lib/ "https://github.com/eleks/com.eleks.carbon.commons/releases/download/com.eleks.carbon.commons-r32/com.eleks.carbon.commons.jar"
-
 
 EXPOSE $PORTS
 
