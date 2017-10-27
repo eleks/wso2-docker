@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><ServiceProvider>
   <!--ApplicationID>3</ApplicationID-->
-  <ApplicationName>BServiceProvider</ApplicationName>
+  <ApplicationName>KServiceProvider</ApplicationName>
   <ClaimConfig>
     <AlwaysSendMappedLocalSubjectId>false</AlwaysSendMappedLocalSubjectId>
     <ClaimMappings>
@@ -81,21 +81,21 @@
     <RoleClaimURI>http://schemas.microsoft.com/ws/2008/06/identity/claims/role</RoleClaimURI>
     <!--UserClaimURI>http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name</UserClaimURI-->
   </ClaimConfig>
-  <Description>Test service provider (dlukyanov)</Description>
+  <Description>Service provider for Kentico (new)</Description>
   <InboundAuthenticationConfig>
     <InboundAuthenticationRequestConfigs>
       <InboundAuthenticationRequestConfig>
-        <InboundAuthKey>BServiceProvider</InboundAuthKey>
+        <InboundAuthKey>KServiceProvider</InboundAuthKey>
         <InboundAuthType>passivests</InboundAuthType>
         <InboundConfigType>standardAPP</InboundConfigType>
       </InboundAuthenticationRequestConfig>
       <InboundAuthenticationRequestConfig>
-        <InboundAuthKey>https://172.25.74.125:9449/passivests</InboundAuthKey>
+        <InboundAuthKey>https://digdev-is.digagro.com/passivests</InboundAuthKey>
         <InboundAuthType>wstrust</InboundAuthType>
         <InboundConfigType>standardAPP</InboundConfigType>
       </InboundAuthenticationRequestConfig>
       <InboundAuthenticationRequestConfig>
-        <InboundAuthKey>BServiceProvider</InboundAuthKey>
+        <InboundAuthKey>KServiceProvider</InboundAuthKey>
         <InboundAuthType>openid</InboundAuthType>
         <InboundConfigType>standardAPP</InboundConfigType>
       </InboundAuthenticationRequestConfig>
@@ -122,7 +122,8 @@
     <UserStoreDomain>PRIMARY</UserStoreDomain>
   </Owner-->
   <PermissionAndRoleConfig>
-    <Permissions>
+    <!--not used for now-->
+    <!--Permissions>
       <ApplicationPermission>
         <value>planning/cropsratio/edit</value>
       </ApplicationPermission>
@@ -135,7 +136,7 @@
       <ApplicationPermission>
       <value>planning/seeds</value>
       </ApplicationPermission>
-    </Permissions>
+    </Permissions-->
   </PermissionAndRoleConfig>
   <SaasApp>false</SaasApp>
 </ServiceProvider>

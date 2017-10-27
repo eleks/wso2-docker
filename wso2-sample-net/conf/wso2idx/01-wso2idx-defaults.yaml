@@ -24,6 +24,15 @@ ha_deployment:
     hostName: 0.0.0.0
     port: 11000
 
+#portal application parameters
+portal:
+  analytics:
+    # by default the following parameters are empty and portal jaggery app replaces them to public analytics host/port
+    # but we want by default in docker machine do direct connection
+    host: "" #localhost
+    port: "" #${ 9443 + new Long(carbon.offset) }
+
+
 analytics_datasources:
   WSO2_ANALYTICS_EVENT_STORE_DB:
     description: The datasource used for analytics record store

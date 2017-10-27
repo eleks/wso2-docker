@@ -99,8 +99,8 @@
         "password": "admin"
     },
     "host": {
-        "hostname": "",
-        "port": "",
+        "hostname": "<%= portal.analytics.host %>",
+        "port": "<%= portal.analytics.port %>",
         "protocol": ""
     }
 }
