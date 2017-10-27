@@ -16,9 +16,9 @@ services:
     environment:
       - ROLE=IDS
       # path to get configs 
-      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2ids
+      - CONF_SOURCE=${IDS_CONF_SOURCE}
       # path to get deploy artifacts 
-      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2ids/templates:/opt/deploy/wso2ids/artifacts
+      - DEPLOY_SOURCE=${IDS_DEPLOY_SOURCE}
   idx.docker.local:
     image: eleks/base-wso2is-analytics-5.3.0
     ports:
@@ -32,9 +32,9 @@ services:
     environment:
       - ROLE=IDX
       # path to get configs 
-      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2idx
+      - CONF_SOURCE=${IDX_CONF_SOURCE}
       # path to get deploy artifacts 
-      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2idx/templates:/opt/deploy/wso2idx/artifacts
+      - DEPLOY_SOURCE=${IDX_DEPLOY_SOURCE}
   esb.docker.local:
     image: eleks/base-wso2esb-4.9.0
     ports:
@@ -51,9 +51,9 @@ services:
     environment:
       - ROLE=ESB
       # path to get configs 
-      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2esb
+      - CONF_SOURCE=${ESB_CONF_SOURCE}
       # path to get deploy artifacts 
-      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2esb/templates:/opt/deploy/wso2esb/artifacts
+      - DEPLOY_SOURCE=${ESB_DEPLOY_SOURCE}
 
   bps.docker.local:
     image: eleks/base-wso2bps-3.5.1
@@ -69,6 +69,6 @@ services:
     environment:
       - ROLE=BPS
       # path to get configs 
-      - CONF_SOURCE=/opt/conf/common:/opt/conf/wso2bps
+      - CONF_SOURCE=${BPS_CONF_SOURCE}
       # path to get deploy artifacts 
-      - DEPLOY_SOURCE=/opt/deploy/common:/opt/deploy/wso2bps/templates:/opt/deploy/wso2bps/artifacts
+      - DEPLOY_SOURCE=${BPS_DEPLOY_SOURCE}
