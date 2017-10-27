@@ -20,16 +20,13 @@ local:
 #       https: yyy
 roles: |-
   ${
-      env.keySet().findAll{it.startsWith('HOST_')}.collect{it.substring(5)}.collectEntries{srv-> 
-        [
-            srv.toLowerCase(), 
-            [
-                host: env.find{it.key=='HOST_'+srv}.value,
-                port: env.findAll{it.key.startsWith('PORT_'+srv+'_')}.
-                        collectEntries{[it.key.substring(6+srv.length()).toLowerCase(),it.value]}
-            ]
-        ]
-      } 
+    env.findAll{it.key =~ /[^_]+_(HOST|PORT_.+)/}.inject([:]){ m, e ->
+        def assocIn={path, v->
+            path.dropRight(1).inject(m){p,k->p.get(k,[:])}.put(path.last(), v) 
+        }
+        assocIn(e.key.toLowerCase().split("_"), e.value)
+        return m
+    } 
   }
 
 ## the parameters of current server known for external users / browsers / servers

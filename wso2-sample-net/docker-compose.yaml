@@ -5,7 +5,7 @@ services:
   ids.docker.local:
     image: eleks/base-wso2is-5.3.0
     ports:
-      - "${PORT_IDS_HTTPS}:9443"
+      - "${IDS_PORT_HTTPS}:9443"
     volumes:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
@@ -22,7 +22,7 @@ services:
   idx.docker.local:
     image: eleks/base-wso2is-analytics-5.3.0
     ports:
-      - "${PORT_IDX_HTTPS}:9443"
+      - "${IDX_PORT_HTTPS}:9443"
     volumes:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
@@ -38,10 +38,10 @@ services:
   esb.docker.local:
     image: eleks/base-wso2esb-4.9.0
     ports:
-      - "${PORT_ESB_MHTTPS}:9443"
-      - "${PORT_ESB_MHTTP}:9763"
-      - "${PORT_ESB_HTTPS}:8243"
-      - "${PORT_ESB_HTTP}:8280"
+      - "${ESB_PORT_MHTTPS}:9443"
+      - "${ESB_PORT_MHTTP}:9763"
+      - "${ESB_PORT_HTTPS}:8243"
+      - "${ESB_PORT_HTTP}:8280"
     volumes:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
@@ -58,8 +58,8 @@ services:
   bps.docker.local:
     image: eleks/base-wso2bps-3.5.1
     ports:
-      - "${PORT_BPS_HTTPS}:9443"
-      - "${PORT_BPS_HTTP}:9763"
+      - "${BPS_PORT_HTTPS}:9443"
+      - "${BPS_PORT_HTTP}:9763"
     volumes:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy

@@ -39,7 +39,7 @@ identity_analytics:
   # first part of url for analytics/dashboard
   # used in gadgets of ids/dashboard
   # by default value: https://localhost:9444
-  dashboardURL: https://${env.HOST_IDX}:${env.PORT_IDX_HTTPS}
+  dashboardURL: https://${env.IDX_HOST}:${env.IDX_PORT_HTTPS}
   username: admin
   password: admin
 

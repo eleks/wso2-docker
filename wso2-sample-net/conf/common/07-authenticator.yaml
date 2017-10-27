@@ -7,7 +7,7 @@ sso_authentication:
   login_page: /carbon/admin/login.jsp
   service_provider_id: WSO2CarbonServer
   # address of the identity provider - our identity server
-  sso_service_url: "https://${env.HOST_IDS}:${env.PORT_IDS_HTTPS}/samlsso"
+  sso_service_url: "https://${env.IDS_HOST}:${env.IDS_PORT_HTTPS}/samlsso"
   # address of the wso2 server that provides service (where web console hosted) 
   consumer_service_url: "https://${role.host}:${role.port.mhttps ?: role.port.https}/acs"
 
