@@ -1,0 +1,1 @@
+PassiveSTSSampleApp.war - just for test of PassiveSTS
