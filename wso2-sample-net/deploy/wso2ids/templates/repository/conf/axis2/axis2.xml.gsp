@@ -119,8 +119,8 @@
     <!--<deployer extension="dbs" directory="dataservices" class="org.wso2.dataservices.DBDeployer"/>-->
 
     <deployer extension="xml" directory="service-provider" class="com.eleks.carbon.commons.deployer.GroovyDeployer" />
-
     <deployer extension="xml" directory="policy" class="com.eleks.carbon.commons.deployer.GroovyDeployer" />
+    <deployer extension="xreg" directory="registry" class="com.eleks.carbon.commons.deployer.GroovyDeployer" />
 
     <!-- Axis1 deployer for Axis2-->
     <!--<deployer extension="wsdd" class="org.wso2.carbon.axis1services.Axis1Deployer" directory="axis1services"/>-->

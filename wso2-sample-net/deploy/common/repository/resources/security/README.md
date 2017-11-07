@@ -66,13 +66,12 @@ don't forget to set CA=TRUE in Basic Constraints
 #### wso2carbon.jks result
 ![wso2carbon.jks result](./readme-img/06-result.png)
 
-#### export public CA certificate
+#### export and import public CA certificate into truststore
+> NOTE: this is not necessary if you did not change the CA certificate
+
 ![export public CA certificate](./readme-img/07-ca-exp-01.png)
 
-#### export public CA certificate - 2
 ![export public CA certificate - 2](./readme-img/07-ca-exp-02.png)
-
-#### import public CA certificate into truststore
 
 ![import public CA certificate into truststore](./readme-img/08-ca-imp-trust.png)
 

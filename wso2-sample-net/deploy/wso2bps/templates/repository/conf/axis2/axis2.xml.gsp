@@ -115,6 +115,7 @@
     <!--WSDL generator. When ?wsdl is called, WSDL is generated in the normal way.-->
     <parameter name="useGeneratedWSDLinJAXWS">${jaxwsparam}</parameter>
 
+    <deployer extension="xreg" directory="registry" class="com.eleks.carbon.commons.deployer.GroovyDeployer" />
     <!-- Deployer for the dataservice. -->
     <!--<deployer extension="dbs" directory="dataservices" class="org.wso2.dataservices.DBDeployer"/>-->
 

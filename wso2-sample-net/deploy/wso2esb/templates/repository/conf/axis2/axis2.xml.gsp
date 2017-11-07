@@ -111,6 +111,7 @@
     <!--                  Deployers                        -->
     <!-- ================================================= -->
 
+    <deployer extension="xreg" directory="registry" class="com.eleks.carbon.commons.deployer.GroovyDeployer" />
     <!-- Deployer for the dataservice. -->
     <!--<deployer extension="dbs" directory="dataservices" class="org.wso2.dataservices.DBDeployer"/>-->
 
