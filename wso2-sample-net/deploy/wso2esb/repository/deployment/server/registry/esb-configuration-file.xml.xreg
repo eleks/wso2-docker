@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- registry types: USER_CONFIGURATION,  USER_GOVERNANCE,  SYSTEM_CONFIGURATION,  SYSTEM_GOVERNANCE,  LOCAL_REPOSITORY 
+this is just an example how to deploy xml file into registry
+-->
+<registry type="SYSTEM_CONFIGURATION" path="/"><![CDATA[
+<configuration>
+	<basePartnerService>http://localhost</basePartnerService>
+	<baseAlgorithmsService>http://localhost</baseAlgorithmsService>
+</configuration>
+]]></registry>

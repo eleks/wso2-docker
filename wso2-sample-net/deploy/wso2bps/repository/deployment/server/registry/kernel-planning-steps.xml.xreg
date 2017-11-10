@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- registry types: USER_CONFIGURATION,  USER_GOVERNANCE,  SYSTEM_CONFIGURATION,  SYSTEM_GOVERNANCE,  LOCAL_REPOSITORY 
+this is just an example how to deploy xml file into registry
+-->
+<registry type="SYSTEM_CONFIGURATION" path="/"><![CDATA[
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="financialModeling">true</entry>
+	<entry key="module_1_1">true</entry>
+	<entry key="module_1_1_algorithms">false</entry>
+	<entry key="module_1_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_2_1">true</entry>
+	<entry key="module_2_1_algorithms">false</entry>
+	<entry key="module_2_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_3_1">true</entry>
+	<entry key="module_3_1_algorithms">false</entry>
+	<entry key="module_3_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_4_1">true</entry>
+	<entry key="module_4_1_algorithms">false</entry>
+	<entry key="module_4_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_5_1">true</entry>
+	<entry key="module_5_1_algorithms">false</entry>
+	<entry key="module_5_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_6_1">true</entry>
+	<entry key="module_6_1_algorithms">false</entry>
+	<entry key="module_6_1_edit_by_lead_agronomist">true</entry>
+	<entry key="module_6_2">true</entry>
+	<entry key="module_6_2_algorithms">false</entry>
+	<entry key="module_6_2_edit_by_lead_agronomist">true</entry>
+</properties>
+]]></registry>
