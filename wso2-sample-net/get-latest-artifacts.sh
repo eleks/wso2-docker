@@ -17,14 +17,11 @@ artifact(){
 }
 
 ## BPS
-artifact "id2DevEnvironment_71BuildBpmnProject"                  "Artifats/projects/BPS/KernelPlanningProcess.jar"                      "./deploy/wso2bps/repository/components/lib"
-artifact "id2DevEnvironment_71BuildBpmnProject"                  "Artifats/projects/BPS/KernelPlanningProcess.bar"                      "./deploy/wso2bps/repository/deployment/server/bpmn"
+artifact "id2TestEnvironment_71BuildBpmnProject"                  "Artifats/projects/BPS/KernelPlanningProcess.jar"                      "./deploy/wso2bps/repository/components/lib"
+artifact "id2TestEnvironment_71BuildBpmnProject"                  "Artifats/projects/BPS/KernelPlanningProcess.bar"                      "./deploy/wso2bps/repository/deployment/server/bpmn"
 
 ## ESB
-artifact "id2TestEnvironmentTestCmsDigagroCom_51BuildEsbProject" "Artifats/projects/ESB/kernel-esb-config-capp_1.0.0.car"               "./deploy/wso2esb/repository/deployment/server/carbonapps"
+artifact "id2TestEnvironment_51BuildEsbProject"                   "Artifats/projects/ESB/kernel-esb-config-capp_1.0.0.car"               "./deploy/wso2esb/repository/deployment/server/carbonapps"
 
 ## IDS
 artifact "id2TestEnvironment_61BuildWso2IdSProjects"             "Artifats/projects/AuthenticationEndpoint/authenticationendpoint.war"  "./deploy/wso2ids/repository/deployment/server/webapps"
-
-
-
