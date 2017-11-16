@@ -2,8 +2,7 @@
 <!-- registry types: USER_CONFIGURATION,  USER_GOVERNANCE,  SYSTEM_CONFIGURATION,  SYSTEM_GOVERNANCE,  LOCAL_REPOSITORY 
 this is just an example how to deploy xml file into registry
 -->
-<registry type="SYSTEM_CONFIGURATION" path="/"><![CDATA[
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<registry type="SYSTEM_CONFIGURATION" path="/"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
 	<entry key="financialModeling">true</entry>
