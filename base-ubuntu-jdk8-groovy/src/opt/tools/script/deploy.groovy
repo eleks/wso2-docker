@@ -149,8 +149,10 @@ deploySource.each{deployItem->
 						sourceFile: src,
 						render: renderFunction,
 					].asImmutable()
-				dst.withWriter("UTF-8"){writer->
-			        new ReaderTemplate(src.newReader("UTF-8")).make(finalProps+[out:writer, context:context]);
+				dst.withOutputStream{outStream->
+					PrintStream printer = new PrintStream(outStream, true, "UTF-8");
+					new ReaderTemplate(src.newReader("UTF-8")).make(finalProps+[out:printer, context:context]);
+					printer.flush(); //just to be sure )
 				}
 			}else if(mode in ["all","!gsp"]){
 				println "     [copy]  ${dst}"

@@ -43,13 +43,13 @@ public class ReaderTemplate {
         return this.getClass().getName() + "[[[script:\n" + scriptText + "]]]";
     }
     
-    public Writer make( Map binding )throws IOException {
+    public Appendable make( Map binding )throws IOException {
         Map bindMap = new LinkedHashMap();
         bindMap.putAll( binding );
 
-        Writer out  = bindMap.get("out");
+        Appendable out  = bindMap.get("out");
         if(out==null)out=new StringWriter(this.template.length()*1.33);
-        if ( !(out instanceof java.io.Writer) ){ throw new RuntimeException("Binding parameter `out` should be instance of java.io.Writer"); }
+        if ( !(out instanceof java.io.Writer) && !(out instanceof java.io.PrintStream) ){ throw new RuntimeException("Binding parameter `out` should be instance of java.io.Writer or java.io.PrintStream"); }
         bindMap.put("out", out);
         bindMap.put("template", template);
         bindMap.put("write", new MethodClosure(this,"write")); //this.&write;
@@ -66,11 +66,11 @@ public class ReaderTemplate {
     }
     
     /**used in internal composed script to write output*/
-    public void write ( Writer out, Object data ) throws IOException {
+    public void write ( Appendable out, Object data ) throws IOException {
         write(out,data,-1);
     }
     
-    public void write( Writer out, Object data, int chars /*-1: all*/ )throws IOException{
+    public void write( Appendable out, Object data, int chars /*-1: all*/ )throws IOException{
         if (data==null || chars==0)return;
         if(data instanceof CharSequence){
             CharSequence cs = (CharSequence)data;
