@@ -78,6 +78,11 @@ log4j.logger.ExecMapper=WARN
 log4j.logger.ExecReducer=WARN
 log4j.logger.net.sf.ehcache.config.ConfigurationFactory=ERROR
 
+<% if( new Boolean(log4j.DEBUG) ) { %>
+## DEBUG is active
+log4j.logger.org.apache.http=DEBUG
+<% } %>
+
 log4j.logger.trace.messages=TRACE,CARBON_TRACE_LOGFILE
 
 log4j.additivity.org.apache.axis2.clustering=false

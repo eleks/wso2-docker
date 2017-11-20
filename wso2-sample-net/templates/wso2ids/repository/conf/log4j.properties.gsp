@@ -80,6 +80,7 @@ log4j.logger.org.springframework=WARN
 log4j.logger.org.opensaml.xml.security.credential.criteria=WARN
 
 <% if( new Boolean(log4j.DEBUG) ) { %>
+## DEBUG is active
 log4j.logger.org.wso2.carbon.identity=DEBUG
 log4j.logger.org.wso2.carbon.identity.sso.saml=DEBUG
 log4j.logger.org.wso2.carbon.identity.application=DEBUG
