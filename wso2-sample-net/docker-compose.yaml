@@ -1,5 +1,5 @@
 version: '3.2'
-
+    
 services:
   # service name must correspond to ${ENV_PREFIX}ids${ENV_SUFFIX}
   ids.docker.local:
@@ -10,9 +10,10 @@ services:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
       - ./templates:/opt/templates
-    env_file:
-      ## env variables defined for whole compose into container
-      - .env
+    ## pass env variables defined for whole compose into container
+    env_file: [".env"]
+    ## link to extension-fields. see: https://docs.docker.com/compose/compose-file/#extension-fields
+    extra_hosts: ["${EXTRA_HOST_1}"]
     environment:
       - ROLE=IDS
       # path to get configs 
@@ -27,9 +28,10 @@ services:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
       - ./templates:/opt/templates
-    env_file:
-      ## env variables defined for whole compose into container
-      - .env
+    ## pass env variables defined for whole compose into container
+    env_file: [".env"]
+    ## link to extension-fields. see: https://docs.docker.com/compose/compose-file/#extension-fields
+    extra_hosts: ["${EXTRA_HOST_1}"]
     environment:
       - ROLE=IDX
       # path to get configs 
@@ -47,9 +49,10 @@ services:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
       - ./templates:/opt/templates
-    env_file:
-      ## env variables defined for whole compose into container
-      - .env
+    ## pass env variables defined for whole compose into container
+    env_file: [".env"]
+    ## link to extension-fields. see: https://docs.docker.com/compose/compose-file/#extension-fields
+    extra_hosts: ["${EXTRA_HOST_1}"]
     environment:
       - ROLE=ESB
       # path to get configs 
@@ -66,9 +69,10 @@ services:
       - ./conf:/opt/conf
       - ./deploy:/opt/deploy
       - ./templates:/opt/templates
-    env_file:
-      ## env variables defined for whole compose into container
-      - .env
+    ## pass env variables defined for whole compose into container
+    env_file: [".env"]
+    ## link to extension-fields. see: https://docs.docker.com/compose/compose-file/#extension-fields
+    extra_hosts: ["${EXTRA_HOST_1}"]
     environment:
       - ROLE=BPS
       # path to get configs 
