@@ -20,7 +20,7 @@ local:
 #       https: yyy
 roles: |-
   ${
-    env.findAll{it.key =~ /[^_]+_(HOST|PORT_.+)/}.inject([:]){ m, e ->
+    env.findAll{it.key =~ /[^_]+_(HOST|PORT_.+)$/}.inject([:]){ m, e ->
         def assocIn={path, v->
             path.dropRight(1).inject(m){p,k->p.get(k,[:])}.put(path.last(), v) 
         }
