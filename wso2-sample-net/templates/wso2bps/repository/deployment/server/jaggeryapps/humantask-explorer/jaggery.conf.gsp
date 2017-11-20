@@ -1,7 +1,7 @@
 {
     "displayName":"Human Task UI",
     "welcomeFiles":["/controller/loginController.jag"],
-    "logLevel": "info",
+    "logLevel": "<%= new Boolean(log4j.DEBUG)?'debug':'info' %>",
     "errorPages": {
         "500": "/error500.html",
         "404": "/error404.html"
