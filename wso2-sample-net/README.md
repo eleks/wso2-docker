@@ -95,6 +95,8 @@ Skip login process.
 
 You have to see 4 servers started on your docker-machine: ids, esb, bps, idx (analytics)
 
+![kitematic](./kitematic.png)
+
  
 ### open server console
 
