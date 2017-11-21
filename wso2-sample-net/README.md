@@ -6,7 +6,7 @@
 
 https://www.docker.com/products/docker-toolbox
 
-start "Docker Quickstart Terminal" link from your desktop
+### start "Docker Quickstart Terminal" link from your desktop
 
 
 if there will be an option - use "virtual box" docker machine config
