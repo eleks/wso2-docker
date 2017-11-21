@@ -58,9 +58,11 @@ in the docker terminal run the following command:
 ### start docker containers defined with docker-compose.yaml
 
 clone or download git repository https://github.com/eleks/wso2-dockers
+```bash
 git clone https://github.com/eleks/wso2-dockers
+```
 
-do it somewhere under user-home directory like c:\users\USERNAME\projects\wso2-dockers because of windows restrictions
+do it somewhere under user-home directory like `c:\users\USERNAME\projects\wso2-dockers` because of windows restrictions
 
 in the "Docker Quickstart Terminal" type following commands to run all servers defined in docker-compose.yaml
 ```bash
