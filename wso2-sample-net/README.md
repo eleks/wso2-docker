@@ -1,4 +1,4 @@
-## docker-compose config to run wso2 servers locally based on eleks dockers.
+## docker-compose config to run wso2 servers
 
 
 
