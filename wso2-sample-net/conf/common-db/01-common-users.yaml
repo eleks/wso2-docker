@@ -1,0 +1,26 @@
+---
+###
+### optional config to define common primary user store in a database for all wso2 components
+###
+
+
+user_management:
+  ## UserStoreManager property used only in wso2ids component
+  UserStoreManager: jdbc
+  jdbc_datasource: WSO2_USER_DB
+
+master_datasources:
+  WSO2_USER_DB:
+    description: the common datasource for storing users
+    jndi_config: jdbc/WSO2UsersDB
+    configuration:
+      url: jdbc:h2:tcp://${env.ENV_PREFIX}h2${env.ENV_SUFFIX}:1521/WSO2_USER_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000
+      username: wso2carbon
+      password: wso2carbon
+      driverClassName: org.h2.Driver
+      maxActive: 50
+      maxWait: 60000
+      testOnBorrow: true
+      validationQuery: SELECT 1
+      validationInterval: 30000
+      defaultAutoCommit: false
