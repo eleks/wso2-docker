@@ -3,8 +3,11 @@
 # fail on error
 set -eu
 
-docker build -t eleks/base-h2 .
-docker push eleks/base-h2
+
+P=h2-1.2.140-wso2v3
+docker build -t eleks/base-${P} --build-arg H2_VERSION=${P} .
+docker push eleks/base-${P}
+
 
 
 echo "SUCCESS"
