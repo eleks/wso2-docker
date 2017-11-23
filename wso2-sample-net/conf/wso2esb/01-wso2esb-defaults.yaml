@@ -8,10 +8,10 @@ product_profile: 'manager'
 # esb_wsdl_epr_prefix['http']['bind_address']
 esb_wsdl_epr_prefix:
   http:
-    prefix: http://${role.host}:${role.port.http}/
+    prefix: http://${role.host}:${role.port.http}
     bind_address: 0.0.0.0
   https:
-    prefix: https://${role.host}:${role.port.https}/
+    prefix: https://${role.host}:${role.port.https}
     bind_address: 0.0.0.0
 
   
