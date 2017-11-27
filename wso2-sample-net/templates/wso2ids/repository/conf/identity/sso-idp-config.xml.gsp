@@ -60,7 +60,7 @@
  <SignResponse>true</SignResponse>
       <EnableAudienceRestriction>true</EnableAudienceRestriction>
       <AudiencesList>
-        <Audience>carbonServer</Audience>
+        <Audience><%= sso_authentication.service_provider_id %></Audience>
       </AudiencesList>
     </ServiceProvider>
 
@@ -77,7 +77,7 @@
         <SignResponse>true</SignResponse>
         <EnableAudienceRestriction>true</EnableAudienceRestriction>
         <AudiencesList>
-            <Audience>carbonServer</Audience>
+            <Audience><%= sso_authentication.service_provider_id %></Audience>
         </AudiencesList>
     </ServiceProvider>
 
