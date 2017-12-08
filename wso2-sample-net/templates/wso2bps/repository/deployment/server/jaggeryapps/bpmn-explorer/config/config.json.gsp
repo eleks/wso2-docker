@@ -7,8 +7,8 @@
     "server": {
         "https": "%https.host%",
         "http": "%http.host%",
-        "bpsHost":"",
-        "bpsPort":"",
+        "bpsHost":"<%= roles.bps.host %>",
+        "bpsPort":"<%= roles.bps.port.https %>",
         "bpsTenantDomain": "",
         "bpsTenantId" : ""
     }
