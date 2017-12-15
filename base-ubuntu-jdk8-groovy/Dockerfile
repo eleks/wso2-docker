@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------
-FROM ubuntu:latest
+FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV GROOVY_VERSION 2.4.12
@@ -19,12 +19,15 @@ RUN set -o errexit -o nounset && \
 
 
 # java
+# use jdk8u131 because of this error:
+# https://bugs.openjdk.java.net/browse/JDK-8189789
 RUN \
+  set -e && \
   echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
   apt-get -y install software-properties-common && \
-  add-apt-repository -y ppa:webupd8team/java && \
+  add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu yakkety main" && \
   apt-get update && \
-  apt-get -y install -y oracle-java8-installer && \
+  apt-get -y install -y --allow-unauthenticated oracle-java8-installer=8u131-1~webupd8~2 && \
   rm -rf /var/cache/oracle-jdk8-installer
 
 #RUN echo 'JAVA_HOME="/usr/lib/jvm/java-8-oracle"' >> /etc/environment
