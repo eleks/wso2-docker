@@ -1,0 +1,93 @@
+# ------------------------------------------------------------------------
+FROM openjdk:8u131-jdk-alpine
+
+ENV GROOVY_VERSION 2.4.12
+ENV GROOVY_HOME /opt/groovy
+ENV PATH $PATH:$GROOVY_HOME/bin
+
+WORKDIR /opt
+
+#where to copy during deploy 
+ENV DEPLOY_TARGET=PLEASE_REDEFINE
+#where deployment artifacts and config templates located 
+ENV DEPLOY_SOURCE=/opt/deploy
+#where template parameters located 
+ENV CONF_SOURCE=/opt/conf
+
+#suppose to map default deployment source locations to external volumes
+VOLUME  /opt/conf
+VOLUME  /opt/deploy
+
+
+#common packages
+RUN set -e && \
+	apk update && \
+	apk add --no-cache curl zip mc vim
+
+
+# clean up APK when done.
+RUN rm -rf /tmp/* /var/tmp/*
+
+#groovy
+RUN set -o errexit -o nounset && \
+	echo "Downloading Groovy" && \
+	curl "https://dist.apache.org/repos/dist/release/groovy/${GROOVY_VERSION}/distribution/apache-groovy-binary-${GROOVY_VERSION}.zip" > groovy.zip && \
+	\
+	echo "Installing Groovy" && \
+	unzip groovy.zip && \
+	rm groovy.zip && \
+	mv "groovy-${GROOVY_VERSION}" "${GROOVY_HOME}/" && \
+	ln -s "${GROOVY_HOME}/bin/groovy" /usr/bin/groovy
+
+# RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
+
+RUN     alias ll='ls -la'
+
+#set default shell to be user by kitematik
+ENV     SHELL /bin/sh
+
+#copy templator
+COPY    ./src /
+
+
+RUN     chmod 775 /opt/tools/bin/gcli && \
+        ln -s "/opt/tools/bin/gcli" /usr/bin/gcli
+
+#add some commands into bash history
+RUN     \
+        echo 'gcli help' >> ~/.ash_history && \
+        echo 'gcli deploy' >> ~/.ash_history
+
+#download libs
+RUN set -e && \
+	echo "Downloading libs" && \
+	mkdir -p ./tools/lib && \
+	curl "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar" > ./tools/lib/snakeyaml-1.18.jar
+
+# test java&groovy
+RUN set -e && \
+	gcli version
+
+# test deploy function
+RUN set -o errexit -o nounset && \
+	echo "------ Testing -------" && \
+	mkdir test && \
+	export DEPLOY_TARGET=/opt/test && \
+	export CONF_SOURCE=/opt/.defaults/conf && \
+	export DEPLOY_SOURCE=/opt/.defaults/deploy && \
+	gcli deploy &&\
+	echo "------ Template output -------" && \
+	cat /opt/test/readme.nfo && \
+	echo "------ File output -----------" && \
+	cat /opt/test/readme.txt && \
+	echo "------ Properties ------------" && \
+	cat /opt/.defaults/conf/.eval.json && \
+	echo "------------------------------" && \
+	rm -Rf /opt/test && \
+	rm -f /opt/.defaults/conf/.eval.json
+
+
+ENTRYPOINT set -eu && \
+	gcli "version" && \
+	gcli "help" && \
+	gcli "dummy"

@@ -1,13 +1,22 @@
-## base image for java-based products
+## image for java-based products
 
 ### goal
-provide image with base linux utilities , java 8 , and groovy-based templating engine for deploying 
+provide image with common linux utilities, stable java 8 , and groovy-based templating engine for deploying 
 
 ### commands to build and publish
 
-`docker build -t eleks/base-ubuntu-jdk8-groovy .`
+**ubuntu + oracle jdk based:**
+
+`docker build -t eleks/base-ubuntu-jdk8-groovy -f Dockerfile-ubuntu .`
 
 `docker push eleks/base-ubuntu-jdk8-groovy`
+
+**alpine + open jdk based:**
+
+`docker build -t eleks/base-alpine-jdk8-groovy -f Dockerfile-alpine .`
+
+`docker push eleks/base-alpine-jdk8-groovy`
+
 
 ### how templating and configuration works
 
