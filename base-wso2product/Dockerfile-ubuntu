@@ -6,7 +6,7 @@ ARG PORTS="9443 9999 8280 8243"
 # 9443 - carbon console
 # 9999 - jmx for debug
 # 8243 - https esb services port
-# 9280 - http esb services port
+# 8280 - http esb services port
 
 ENV WSO2_HOME      /opt/$WSO2_PRODUCT
 ENV DEPLOY_TARGET  /opt/$WSO2_PRODUCT

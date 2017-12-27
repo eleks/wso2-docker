@@ -3,20 +3,12 @@
 This dockerfile must not provide any modificators for wso2 products.
 So as a result you get plain wso2 product on linux with oracle java in box.
 
-##  build with `docker-compose`
-
-create `docker-compose-all.yaml` file with all products you need and run
-
-```
-docker-compose -f docker-compose-all.yaml build
-```
-
 ## docker build
 
 use the following command to build image:
 
 ```
-docker build -t eleks/base-PRODNAME --build-arg WSO2_PRODUCT=PRODNAME --build-arg ENTRYPOINT=wso2server.sh .
+docker build -t eleks/base-PRODNAME -f Dockerfile-ubuntu --build-arg WSO2_PRODUCT=PRODNAME --build-arg ENTRYPOINT=wso2server.sh .
 ```
 
 ## publish built images
