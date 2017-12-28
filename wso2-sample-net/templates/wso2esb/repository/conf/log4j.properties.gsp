@@ -119,7 +119,8 @@ log4j.appender.TRACE_MEMORYAPPENDER.layout=org.apache.log4j.PatternLayout
 log4j.appender.TRACE_MEMORYAPPENDER.layout.ConversionPattern=%d{HH:mm:ss,SSS} [%X{ip}-%X{host}] [%t] %5p %m%n
 
 # CARBON_LOGFILE is set to be a DailyRollingFileAppender using a PatternLayout.
-log4j.appender.CARBON_LOGFILE=org.wso2.carbon.utils.logging.appenders.CarbonDailyRollingFileAppender
+#log4j.appender.CARBON_LOGFILE=org.wso2.carbon.utils.logging.appenders.CarbonDailyRollingFileAppender
+log4j.appender.CARBON_LOGFILE=org.apache.log4j.varia.NullAppender
 # Log file will be overridden by the configuration setting in the DB
 # This path should be relative to WSO2 Carbon Home
 log4j.appender.CARBON_LOGFILE.File=${carbon.home}/repository/logs/${instance.log}/wso2carbon${instance.log}.log

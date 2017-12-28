@@ -12,7 +12,7 @@ services:
       # ## where we will persist data
       # - ./h2-data:/opt/h2-data
   ids.docker.local:
-    image: eleks/base-wso2is-5.3.0
+    image: ${IMG_PREFIX}-wso2is-5.3.0
     # depends_on:
       # - h2.docker.local
     ports:
@@ -32,7 +32,7 @@ services:
       # path to get deploy artifacts 
       - DEPLOY_SOURCE=${IDS_DEPLOY_SOURCE}
   idx.docker.local:
-    image: eleks/base-wso2is-analytics-5.3.0
+    image: ${IMG_PREFIX}-wso2is-analytics-5.3.0
     depends_on:
       - ids.docker.local
     ports:
@@ -52,7 +52,7 @@ services:
       # path to get deploy artifacts 
       - DEPLOY_SOURCE=${IDX_DEPLOY_SOURCE}
   esb.docker.local:
-    image: eleks/base-wso2esb-4.9.0
+    image: ${IMG_PREFIX}-wso2esb-4.9.0
     depends_on:
       - ids.docker.local
     ports:
@@ -76,7 +76,7 @@ services:
       - DEPLOY_SOURCE=${ESB_DEPLOY_SOURCE}
 
   bps.docker.local:
-    image: eleks/base-wso2bps-3.5.1
+    image: ${IMG_PREFIX}-wso2bps-3.5.1
     depends_on:
       - ids.docker.local
     ports:
