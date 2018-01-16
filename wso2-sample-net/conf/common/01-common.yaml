@@ -30,6 +30,11 @@ roles: |-
   }
 
 ## the parameters of current server known for external users / browsers / servers
+# as result we have (example for bps):
+# bps:
+#   host: xxx
+#   port:
+#     https: yyy
 role: ${ roles[env.ROLE.toLowerCase()] }
 
 # common jvm properties
