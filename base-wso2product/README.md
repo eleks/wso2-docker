@@ -1,7 +1,9 @@
 ## The base simple Dockerfile for wso2 products
 
 This dockerfile must not provide any modificators for wso2 products.
-So as a result you get plain wso2 product on linux with oracle java in box.
+So as a result you get plain wso2 product on linux with oracle java and groovy-based templator in a box.
+
+Built from https://github.com/eleks/wso2-dockers/tree/master/base-jdk8-groovy
 
 ## docker build
 
