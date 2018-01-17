@@ -20,12 +20,13 @@ local:
 #       https: yyy
 roles: |-
   ${
-    env.findAll{it.key =~ /[^_]+_(HOST|PORT_.+)$/}.inject([:]){ m, e ->
-        def assocIn={path, v->
-            path.dropRight(1).inject(m){p,k->p.get(k,[:])}.put(path.last(), v) 
+    env.findAll{it.key =~ /^[^_]+_(HOST|PORT_[^_]+)$/ }.inject([:]){map,item->
+        item.key.toLowerCase().split("_").with{ path->
+            path[0..-2].inject(map){ nestedMap,pathKey->
+                return nestedMap.get(pathKey, [:])
+            }.put(path[-1], item.value)
         }
-        assocIn(e.key.toLowerCase().split("_"), e.value)
-        return m
+        return map
     } 
   }
 
