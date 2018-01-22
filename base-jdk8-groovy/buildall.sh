@@ -4,10 +4,18 @@
 set -eu
 
 
-P=h2-1.2.140-wso2v3
-docker build -t eleks/base-${P} --build-arg H2_VERSION=${P} .
-docker push eleks/base-${P}
+docker build -t eleks/base-ubuntu-jdk8-groovy -f Dockerfile-ubuntu .
+echo $'\nSUCCESS'
 
 
+read -rsp $'\n-------------------------------------\nPress enter to build next\nor Ctrl+C to terminate...\n-------------------------------------\n'
 
-echo "SUCCESS"
+
+echo $'\nBuilding alpine'
+
+docker build -t eleks/base-alpine-jdk8-groovy -f Dockerfile-alpine .
+
+echo $'\nPublishing ubuntu...'
+docker push eleks/base-ubuntu-jdk8-groovy
+echo $'\nPublishing alpine...'
+docker push eleks/base-alpine-jdk8-groovy

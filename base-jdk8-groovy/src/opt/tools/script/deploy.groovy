@@ -42,15 +42,22 @@ deploySource = deploySource.split('[;:]').findAll().collect{new File(it.trim()).
 assert confSource.size()>0
 assert deploySource.size()>0
 
-/*create ant builder*/
-def ant = new AntBuilder()
 
 //if `dst` folder is empty then copy the content from `src` folder
 def cpIfEmpty={dst,src->
 	assert dst.exists():"folder does not exist: $dst"
+	src = new File(src)
 	if(!dst.list().length){
-		ant.copy(todir:dst){
-			fileset(dir:src)
+		src.traverse(maxDepth: -1, type: FileType.ANY) {srcFile->
+			def rel = src.toPath().relativize(srcFile.toPath())
+			def dstPath = dst.toPath().resolve(rel)
+			if(srcFile.isDirectory()){
+				println "mkdir $dstPath"
+				dstPath.toFile().mkdirs()
+			}else{
+				println "copy  $dstPath"
+				dstPath.toFile().withOutputStream{ it << srcFile.newInputStream() }
+			}
 		}
 	}
 }
@@ -63,7 +70,6 @@ deploySource.
 
 
 //copy default deploy and conf from .defaults if current (last) folders are empty
-AntHelper.setLogLevel( ant, ant.project.MSG_WARN )
 cpIfEmpty(confSource[-1], defaultsHome+"conf")
 cpIfEmpty(deploySource[-1], defaultsHome+"deploy")
 
@@ -79,7 +85,7 @@ def confParsers=[
 	".yaml"      : Configs.&parseYaml,
 	".json"      : Configs.&parseJson,
 ]
-//let's got through CONF_SOURCE folders and parse configs in each
+//let's go through CONF_SOURCE folders and parse configs in each
 confSource.each{confItem->
 	println "  [CONF_SOURCE] $confItem"
 	assert confItem.exists(): "the path in CONF_SOURCE does not exist: $confItem"
@@ -95,7 +101,7 @@ confSource.each{confItem->
 	}
 }
 //store the last evaluated config into the last CONF_SOURCE folder in json format  (for debug purpose)
-new File(confSource[-1],".eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
+new File("/opt/.eval.json").setText( JsonOutput.prettyPrint(JsonOutput.toJson( finalProps )) , "UTF-8")
 
 def context=[:]  //deploy context
 
@@ -143,7 +149,6 @@ deploySource.each{deployItem->
 		        dst = dst.getParent().resolve( dst.getFileName().toString()[0..-5] ).toFile()
 				println "     [gsp]   ${dst}"
 				context = [
-						ant:ant, 
 						file:dst,
 						sourcePath: deployItem,
 						sourceFile: src,

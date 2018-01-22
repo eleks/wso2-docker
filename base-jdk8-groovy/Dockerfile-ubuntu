@@ -101,10 +101,10 @@ RUN set -o errexit -o nounset && \
 	echo "------ File output -----------" && \
 	cat /opt/test/readme.txt && \
 	echo "------ Properties ------------" && \
-	cat /opt/.defaults/conf/.eval.json && \
-	echo "------------------------------" && \
+	cat /opt/.eval.json && \
+	echo '\n------------------------------' && \
 	rm -Rf /opt/test && \
-	rm -f /opt/.defaults/conf/.eval.json
+	rm -f /opt/.eval.json
 
 
 ENTRYPOINT set -eu && \
