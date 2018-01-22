@@ -52,10 +52,8 @@ def cpIfEmpty={dst,src->
 			def rel = src.toPath().relativize(srcFile.toPath())
 			def dstPath = dst.toPath().resolve(rel)
 			if(srcFile.isDirectory()){
-				println "mkdir $dstPath"
 				dstPath.toFile().mkdirs()
 			}else{
-				println "copy  $dstPath"
 				dstPath.toFile().withOutputStream{ it << srcFile.newInputStream() }
 			}
 		}
