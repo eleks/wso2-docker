@@ -71,7 +71,7 @@ cpIfEmpty(deploySource[-1], defaultsHome+"deploy")
 def finalProps = [:]
 
 //add system envs into properties
-finalProps.env = System.getenv()
+finalProps.env = [:]+System.getenv()
 
 /*load&evaluate properties from files */
 def confParsers=[
