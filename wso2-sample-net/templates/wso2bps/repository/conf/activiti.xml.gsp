@@ -12,6 +12,14 @@
 
         <property name="mailServerHost" value="mail.my-corp.com"/>
         <property name="mailServerPort" value="5025"/>
+        <% if( new Boolean(activiti.async) ) { %>
+        <property name="asyncExecutorActivate" value="true" />
+        <property name="asyncExecutorEnabled" value="true" />
+        <property name="asyncExecutorCorePoolSize" value="10" />
+        <property name="asyncExecutorMaxPoolSize" value="50" />
+        <property name="asyncExecutorThreadPoolQueueSize" value="200" />
+        <property name="asyncExecutorThreadKeepAliveTime" value="1234" />
+        <% } %>
 
     </bean>
 
