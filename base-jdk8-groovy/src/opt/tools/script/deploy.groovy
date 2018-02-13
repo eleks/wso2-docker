@@ -158,8 +158,24 @@ deploySource.each{deployItem->
 					printer.flush(); //just to be sure )
 				}
 			}else if(mode in ["all","!gsp"]){
-				println "     [copy]  ${dst}"
-				dst.toFile().withOutputStream{ it << src.newInputStream() }
+				if(src.getName().endsWith(".unzip")){
+					println "     [unzip] ${src.getName()} > ${dst}"
+					def zipFile = new java.util.zip.ZipFile(src)
+					zipFile.entries().each { entry->
+						println "     [unzi-] ${entry.getName()}"
+						dstUnzip = dst.getParent().resolve(entry.getName())
+						if(entry.isDirectory()){
+							dstUnzip.toFile().mkdirs()
+						}else{
+							println "     [unzip] ${dstUnzip}"
+							dstUnzip.toFile().withOutputStream{ it << zipFile.getInputStream(entry) }
+						}
+					}
+					zipFile.close()
+				}else{
+					println "     [copy]  ${dst}"
+					dst.toFile().withOutputStream{ it << src.newInputStream() }
+				}
 			}
 		}
 	}
