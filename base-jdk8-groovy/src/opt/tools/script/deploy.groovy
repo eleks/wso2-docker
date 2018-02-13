@@ -162,12 +162,11 @@ deploySource.each{deployItem->
 					println "     [unzip] ${src.getName()} > ${dst}"
 					def zipFile = new java.util.zip.ZipFile(src)
 					zipFile.entries().each { entry->
-						println "     [unzi-] ${entry.getName()}"
 						dstUnzip = dst.getParent().resolve(entry.getName())
 						if(entry.isDirectory()){
 							dstUnzip.toFile().mkdirs()
 						}else{
-							println "     [unzip] ${dstUnzip}"
+							println "     [entry] ${dstUnzip}"
 							dstUnzip.toFile().withOutputStream{ it << zipFile.getInputStream(entry) }
 						}
 					}
