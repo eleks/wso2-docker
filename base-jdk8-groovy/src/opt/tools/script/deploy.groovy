@@ -35,9 +35,22 @@ assert deployTarget : "env var DEPLOY_TARGET must be defined"
 deployTarget=new File(deployTarget)
 assert deployTarget.exists()
 
+
+def toDirPath = {source->
+	source = source.trim()
+	if(source.endsWith('.zip')){
+		def sourcePrefix = source.replaceAll('^(.*[\\\\/])([^\\\\/]+)[\\\\/]?$','$2_')
+		def tempPath = java.nio.file.Files.createTempDirectory(sourcePrefix)
+		Tools.unzip(new File(source), tempPath, false)
+		tempPath.toFile().deleteOnExit()
+		return tempPath.toFile()
+	}
+	return new File(source).getCanonicalFile()
+}
+
 //convert sources to lists of files
-confSource   = confSource.split('[;:]').findAll().collect{new File(it.trim()).getCanonicalFile()}
-deploySource = deploySource.split('[;:]').findAll().collect{new File(it.trim()).getCanonicalFile()}
+confSource   = confSource.split('[;:]').findAll().collect{ toDirPath(it) }
+deploySource = deploySource.split('[;:]').findAll().collect{ toDirPath(it) }
 
 assert confSource.size()>0
 assert deploySource.size()>0
@@ -159,18 +172,8 @@ deploySource.each{deployItem->
 				}
 			}else if(mode in ["all","!gsp"]){
 				if(src.getName().endsWith(".unzip")){
-					println "     [unzip] ${src.getName()} > ${dst}"
-					def zipFile = new java.util.zip.ZipFile(src)
-					zipFile.entries().each { entry->
-						dstUnzip = dst.getParent().resolve(entry.getName())
-						if(entry.isDirectory()){
-							dstUnzip.toFile().mkdirs()
-						}else{
-							println "     [entry] ${dstUnzip}"
-							dstUnzip.toFile().withOutputStream{ it << zipFile.getInputStream(entry) }
-						}
-					}
-					zipFile.close()
+					println "     [unzip] ${src.getName()} >> ${dst.getParent()}"
+					Tools.unzip(src, dst.getParent(), true)
 				}else{
 					println "     [copy]  ${dst}"
 					dst.toFile().withOutputStream{ it << src.newInputStream() }
