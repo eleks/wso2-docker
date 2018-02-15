@@ -36,16 +36,32 @@ deployTarget=new File(deployTarget)
 assert deployTarget.exists()
 
 
+def zipToPathMap =[:]
+
 def toDirPath = {source->
 	source = source.trim()
-	if(source.endsWith('.zip')){
-		def sourcePrefix = source.replaceAll('^(.*[\\\\/])([^\\\\/]+)[\\\\/]?$','$2_')
-		def tempPath = java.nio.file.Files.createTempDirectory(sourcePrefix)
-		Tools.unzip(new File(source), tempPath, false)
-		tempPath.toFile().deleteOnExit()
-		return tempPath.toFile()
+	def sourceFile = new File(source)
+
+	def zipSubfolder = ""
+	def zipDelim=source.indexOf(".zip/")
+	if(!sourceFile.exists() && zipDelim>0){
+		zipSubfolder = source[zipDelim+4..-1].dropWhile{it=='/'}
+		source = source[0..zipDelim+3]
+		sourceFile = new File(source)
+		assert sourceFile.isFile()
 	}
-	return new File(source).getCanonicalFile()
+		
+	if(source.endsWith('.zip') && sourceFile.isFile()){
+		if(!zipToPathMap[source]){
+			def sourcePrefix = source.replaceAll('^(.*[\\\\/])([^\\\\/]+)[\\\\/]?$','$2_') /*extract just zip name from path*/
+			def tempPath = java.nio.file.Files.createTempDirectory(sourcePrefix)
+			Tools.unzip(new File(source), tempPath, false)
+			tempPath.toFile().deleteOnExit()
+			zipToPathMap[source] = tempPath
+		}
+		return zipToPathMap[source].resolve(zipSubfolder).toFile()
+	}
+	return sourceFile.getCanonicalFile()
 }
 
 //convert sources to lists of files
