@@ -199,3 +199,12 @@ deploySource.each{deployItem->
 	}
 }
 
+if(zipToPathMap){
+	println "  [CLEAN]"
+	zipToPathMap.each{k,v->
+		try{
+			println "     [del]   ${v}"
+			v.toPath().deleteDir()
+		}catch(e){}
+	}
+}  	
