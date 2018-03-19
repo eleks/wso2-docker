@@ -1,0 +1,185 @@
+{
+	"role": [
+		"chiefClusterAgronomist",
+		"Головний агроном кластеру"
+	],
+	"actions": {
+		"planning.crop-capacity": [
+			"view"
+		],
+		"planning.crop-capacity.cluster": [
+			"verify"
+		],
+		"planning.crop-capacity.field": [
+			"edit-capacity",
+			"leave-note"
+		],
+		"planning.crop-capacity.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.crop-capacity.geo-zone": [
+			"approve",
+			"reject"
+		],
+		"planning.crops-ratio": [
+			"view"
+		],
+		"planning.cultivation": [
+			"view"
+		],
+		"planning.cultivation.cluster": [
+			"verify"
+		],
+		"planning.cultivation.field": [
+			"change-technology-operations",
+			"leave-note"
+		],
+		"planning.cultivation.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.cultivation.geo-zone": [
+			"approve",
+			"reject"
+		],
+		"planning.distribution": [
+			"view"
+		],
+		"planning.distribution.cluster": [
+			"verify"
+		],
+		"planning.distribution.field": [
+			"change-crop",
+			"change-massive",
+			"change-passing-order",
+			"edit-capacity",
+			"leave-note",
+			"mark",
+			"toggle-highlight"
+		],
+		"planning.distribution.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.distribution.geo-zone": [
+			"approve",
+			"reject",
+			"save-planning-results-5-years"
+		],
+		"planning.distribution.massive": [
+			"edit-order-number",
+			"toggle-pinpoint"
+		],
+		"planning.field-passport": [
+			"view"
+		],
+		"planning.field-passport.harmful-objects": [
+			"edit"
+		],
+		"planning.financial-modeling": [
+			"edit",
+			"view"
+		],
+		"planning.financial-modeling.all-clusters-results": [
+			"view"
+		],
+		"planning.financial-modeling.expenses": [
+			"view"
+		],
+		"planning.financial-modeling.expenses.indexes": [
+			"view"
+		],
+		"planning.financial-modeling.modeling": [
+			"view"
+		],
+		"planning.nutrition": [
+			"view"
+		],
+		"planning.nutrition.cluster": [
+			"change-nitrogen-schema",
+			"complete-master-view",
+			"group-actions",
+			"set-area-for-hire",
+			"verify"
+		],
+		"planning.nutrition.field": [
+			"change-nitrogen-schema",
+			"edit-input-method",
+			"edit-input-method-experiment-field",
+			"edit-liming-material",
+			"edit-pk-fertilizer-norms",
+			"leave-note",
+			"mark-for-deposit"
+		],
+		"planning.nutrition.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.nutrition.geo-zone": [
+			"approve",
+			"group-actions",
+			"reject"
+		],
+		"planning.nutrition.summary": [
+			"view"
+		],
+		"planning.plant-protection": [
+			"view"
+		],
+		"planning.plant-protection.cluster": [
+			"verify"
+		],
+		"planning.plant-protection.field": [
+			"approve-experiment-plant-protection",
+			"change-harmful-objects",
+			"change-protection-system",
+			"leave-note"
+		],
+		"planning.plant-protection.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.plant-protection.geo-zone": [
+			"approve",
+			"edit-herbicide",
+			"reject"
+		],
+		"planning.plant-protection.summary": [
+			"view"
+		],
+		"planning.ripeness-groups": [
+			"approve",
+			"edit",
+			"view"
+		],
+		"planning.seeds": [
+			"view"
+		],
+		"planning.seeds.area-request.fields-group": [
+			"approve",
+			"edit",
+			"reject",
+			"view"
+		],
+		"planning.seeds.cluster": [
+			"verify"
+		],
+		"planning.seeds.field": [
+			"change-sort-hybrid",
+			"edit-capacity",
+			"leave-note"
+		],
+		"planning.seeds.fields-group": [
+			"return-fields",
+			"take-fields"
+		],
+		"planning.seeds.geo-zone": [
+			"approve",
+			"reject"
+		],
+		"planning.seeds.summary": [
+			"view"
+		]
+	}
+}

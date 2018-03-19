@@ -1,6 +1,6 @@
 /**/
-//import com.eleks.carbon.commons.util.CarbonUtil;
-//import com.eleks.carbon.commons.util.HTTP;
+import groovy.json.JsonSlurper
+import groovy.xml.MarkupBuilder
 
 
 import org.wso2.carbon.identity.entitlement.dto.PolicyDTO;
@@ -20,8 +20,12 @@ def deploy(){
 	//ctx.entitlementPolicyAdminService = new EntitlementPolicyAdminService()
 	//assume filename without extension equals to id...
 	//let's put it into ctx to be available in undeploy
-	ctx.policyId     = ((File)ctx.file).name.replaceAll('\\.[^\\.]*$','')
+	ctx.policyId     = ((File)ctx.file).name.replaceAll('\\.[^\\.]*$','') //remove last extension
 	String policyXml = ((File)ctx.file).getText("UTF-8")
+	if(((File)ctx.file).name.endsWith(".json")){
+		//convert yaml to xml
+		policyXml = convertJson2Xml(policyXml)
+	}
 	addOrUpdatePolicy((String)ctx.policyId, policyXml)
 }
 
@@ -71,4 +75,42 @@ def getPolicy(String id){
 	return null
 }
 
+def convertJson2Xml(String text){
+	def json = new JsonSlurper().parseText(text);
+	def w = new StringWriter(text.length()*26)
+    new MarkupBuilder(w)."Policy"(xmlns:"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17", PolicyId:"chiefClusterAgronomist_role_policy",RuleCombiningAlgId:"urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable",Version:"1.0"){
+        Target{AnyOf{
+            json.role.each{r->
+                AllOf{Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
+                    AttributeValue(DataType:"http://www.w3.org/2001/XMLSchema#string"){
+                        mkp.yield(r)
+                    }
+                    AttributeDesignator(AttributeId:"http://wso2.org/claims/role",Category:"urn:oasis:names:tc:xacml:1.0:subject-category:access-subject",DataType:"http://www.w3.org/2001/XMLSchema#string",MustBePresent:"true")
+                }}
+            }
+        }}
+        Rule(Effect:"Permit",RuleId:"Rule-Permit"){
+            Target{
+                AnyOf{
+                    json.actions.each{r,aa->
+                        aa.each{a->
+                            AllOf{
+                                Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
+                                    AttributeValue(DataType:"http://www.w3.org/2001/XMLSchema#string",r)
+                                    AttributeDesignator(AttributeId:"urn:oasis:names:tc:xacml:1.0:resource:resource-id",Category:"urn:oasis:names:tc:xacml:3.0:attribute-category:resource",DataType:"http://www.w3.org/2001/XMLSchema#string",MustBePresent:"true")
+                                }
+                                Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
+                                    AttributeValue(DataType:"http://www.w3.org/2001/XMLSchema#string",a)
+                                    AttributeDesignator(AttributeId:"urn:oasis:names:tc:xacml:1.0:action:action-id",Category:"urn:oasis:names:tc:xacml:3.0:attribute-category:resource",DataType:"http://www.w3.org/2001/XMLSchema#string",MustBePresent:"true")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        Rule(Effect:"Deny",RuleId:"Rule-Deny")
+    }
+    return w.toString()
+}
 
