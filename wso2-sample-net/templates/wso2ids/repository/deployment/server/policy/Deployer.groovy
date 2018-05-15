@@ -24,7 +24,7 @@ def deploy(){
 	String policyXml = ((File)ctx.file).getText("UTF-8")
 	if(((File)ctx.file).name.endsWith(".json")){
 		//convert yaml to xml
-		policyXml = convertJson2Xml(policyXml)
+		policyXml = convertJson2Xml(policyXml, (String)ctx.policyId)
 	}
 	addOrUpdatePolicy((String)ctx.policyId, policyXml)
 }
@@ -75,10 +75,10 @@ def getPolicy(String id){
 	return null
 }
 
-def convertJson2Xml(String text){
+def convertJson2Xml(String text, String policyId){
 	def json = new JsonSlurper().parseText(text);
 	def w = new StringWriter(text.length()*26)
-    new MarkupBuilder(w)."Policy"(xmlns:"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17", PolicyId:"chiefClusterAgronomist_role_policy",RuleCombiningAlgId:"urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable",Version:"1.0"){
+    new MarkupBuilder(w)."Policy"(xmlns:"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17", PolicyId:policyId, RuleCombiningAlgId:"urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable",Version:"1.0"){
         Target{AnyOf{
             json.role.each{r->
                 AllOf{Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
