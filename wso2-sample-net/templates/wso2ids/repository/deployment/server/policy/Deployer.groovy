@@ -25,6 +25,8 @@ def deploy(){
 	if(((File)ctx.file).name.endsWith(".json")){
 		//convert yaml to xml
 		policyXml = convertJson2Xml(policyXml, (String)ctx.policyId)
+		//write calculated policy xml to the file
+		//new File("${ctx.file}.policy").setText(policyXml, "UTF-8")
 	}
 	addOrUpdatePolicy((String)ctx.policyId, policyXml)
 }
@@ -38,7 +40,7 @@ def undeploy(){
 @CompileStatic
 def deletePolicy(String id){
 	Const.svc.removePolicy(id, true);
-	log.info "policy $id deleted"
+	log.info "policy   $id deleted"
 	return true;
 }
 
@@ -49,13 +51,13 @@ def addOrUpdatePolicy(String id, String policyXml){
 	policy.setActive(true); // set policy enabled
 	if(getPolicy(id)){
 		Const.svc.updatePolicy(policy);
-		log.info "policy $id updated"
+		log.info "policy   $id updated"
 	}else{
 		Const.svc.addPolicy(policy);
-		log.info "policy $id created"
+		log.info "policy   $id created"
 	}
 	Const.svc.publishToPDP([id] as String[], "CREATE", null, true, -1);
-	log.info "policy $id published"
+	log.info "policy   $id published"
 	return true
 }
 
@@ -78,7 +80,9 @@ def getPolicy(String id){
 def convertJson2Xml(String text, String policyId){
 	def json = new JsonSlurper().parseText(text);
 	def w = new StringWriter(text.length()*26)
-    new MarkupBuilder(w)."Policy"(xmlns:"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17", PolicyId:policyId, RuleCombiningAlgId:"urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable",Version:"1.0"){
+	def mb = new MarkupBuilder(w)
+	mb.setDoubleQuotes(true)
+    mb."Policy"(xmlns:"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17", PolicyId:policyId, RuleCombiningAlgId:"urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable",Version:"1.0"){
         Target{AnyOf{
             json.role.each{r->
                 AllOf{Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
@@ -101,7 +105,7 @@ def convertJson2Xml(String text, String policyId){
                                 }
                                 Match(MatchId:"urn:oasis:names:tc:xacml:1.0:function:string-equal"){
                                     AttributeValue(DataType:"http://www.w3.org/2001/XMLSchema#string",a)
-                                    AttributeDesignator(AttributeId:"urn:oasis:names:tc:xacml:1.0:action:action-id",Category:"urn:oasis:names:tc:xacml:3.0:attribute-category:resource",DataType:"http://www.w3.org/2001/XMLSchema#string",MustBePresent:"true")
+                                    AttributeDesignator(AttributeId:"urn:oasis:names:tc:xacml:1.0:action:action-id",Category:"urn:oasis:names:tc:xacml:3.0:attribute-category:action",DataType:"http://www.w3.org/2001/XMLSchema#string",MustBePresent:"true")
                                 }
                             }
                         }
