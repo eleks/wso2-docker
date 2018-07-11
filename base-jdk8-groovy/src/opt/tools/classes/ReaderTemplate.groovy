@@ -1,4 +1,3 @@
-//package com.luxoft.ob10.test.bdd.template;
 
 import java.util.Map;
 import java.util.LinkedHashMap;
