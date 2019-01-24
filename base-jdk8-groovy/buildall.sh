@@ -15,6 +15,8 @@ echo $'\nBuilding alpine'
 
 docker build -t eleks/base-alpine-jdk8-groovy -f Dockerfile-alpine .
 
+read -rsp $'\n-------------------------------------\nPress enter to publish\nor Ctrl+C to terminate...\n-------------------------------------\n'
+
 echo $'\nPublishing ubuntu...'
 docker push eleks/base-ubuntu-jdk8-groovy
 echo $'\nPublishing alpine...'

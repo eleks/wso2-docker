@@ -47,7 +47,7 @@ public class ReaderTemplate {
         bindMap.putAll( binding );
 
         Appendable out  = bindMap.get("out");
-        if(out==null)out=new StringWriter(this.template.length()*1.33);
+        if(out==null)out=new StringWriter( (int)(this.template.length()*1.33) );
         if ( !(out instanceof java.io.Writer) && !(out instanceof java.io.PrintStream) ){ throw new RuntimeException("Binding parameter `out` should be instance of java.io.Writer or java.io.PrintStream"); }
         bindMap.put("out", out);
         bindMap.put("template", template);
@@ -88,7 +88,7 @@ public class ReaderTemplate {
     private String parse()throws IOException {
         int state = 0;//0 - `<` - 1 - `%` - 2 -'%' - 3 - `>` - 1
         boolean eqFlag = false;
-        StringBuffer out=new StringBuffer( template.length()*0.75 );
+        StringBuffer out=new StringBuffer( (int)(template.length()*0.75) );
         char [] cchars = [
             '<', '%', '%', '>',
             '$', '{', '}'

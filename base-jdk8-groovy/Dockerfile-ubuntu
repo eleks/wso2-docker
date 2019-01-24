@@ -1,46 +1,18 @@
 # ------------------------------------------------------------------------
-FROM ubuntu:16.04
+#FROM ubuntu:16.04
+FROM eleks/base-ubuntu-jdk8:8u201
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV GROOVY_VERSION 2.4.12
+ENV GROOVY_VERSION 2.5.5
 
-ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV GROOVY_HOME /opt/groovy
 
-ENV PATH $PATH:$JAVA_HOME/bin:$GROOVY_HOME/bin
-
-#common packages
-RUN set -o errexit -o nounset && \
-	echo common packages && \
-	apt-get update && \
-	apt-get install -y --no-install-recommends apt-utils && \
-	apt-get install -y curl unzip mc iputils-ping inetutils-traceroute vim && \
-	apt-get update
-
-
-# java
-# use jdk8u131 because of this error:
-# https://bugs.openjdk.java.net/browse/JDK-8189789
-RUN \
-  set -e && \
-  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
-  apt-get -y install software-properties-common && \
-  add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu yakkety main" && \
-  apt-get update && \
-  apt-get -y install -y --allow-unauthenticated oracle-java8-installer=8u131-1~webupd8~2 && \
-  rm -rf /var/cache/oracle-jdk8-installer
-
-#RUN echo 'JAVA_HOME="/usr/lib/jvm/java-8-oracle"' >> /etc/environment
-
-
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ENV PATH $PATH:$GROOVY_HOME/bin
 
 
 #groovy
 RUN set -o errexit -o nounset && \
 	echo "Downloading Groovy" && \
-	wget -O groovy.zip "https://dist.apache.org/repos/dist/release/groovy/${GROOVY_VERSION}/distribution/apache-groovy-binary-${GROOVY_VERSION}.zip" && \
+	wget -O groovy.zip "https://dl.bintray.com/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip" && \
 	\
 	echo "Installing Groovy" && \
 	unzip groovy.zip && \
@@ -49,13 +21,6 @@ RUN set -o errexit -o nounset && \
 	ln -s "${GROOVY_HOME}/bin/groovy" /usr/bin/groovy
 
 # RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
-
-RUN     alias ll='ls -la'
-#set default shell bash
-ENV     SHELL /bin/bash
-ENV     BASH /bin/bash
-# some ubuntu thing...
-ENV     DEBIAN_FRONTEND newt
 
 COPY    ./src /
 
@@ -93,8 +58,7 @@ RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
 	mkdir test && \
 	export DEPLOY_TARGET=/opt/test && \
-	export CONF_SOURCE=/opt/.defaults/conf && \
-	export DEPLOY_SOURCE=/opt/.defaults/deploy && \
+	export PERSISTENT_ROOT=/opt/.defaults && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
 	cat /opt/test/readme.nfo && \

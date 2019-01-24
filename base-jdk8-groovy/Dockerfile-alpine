@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------
 FROM openjdk:8u131-jdk-alpine
 
-ENV GROOVY_VERSION 2.4.12
+ENV GROOVY_VERSION 2.5.5
 ENV GROOVY_HOME /opt/groovy
 ENV PATH $PATH:$GROOVY_HOME/bin
 
@@ -22,7 +22,7 @@ VOLUME  /opt/deploy
 #common packages
 RUN set -e && \
 	apk update && \
-	apk add --no-cache curl zip mc vim
+	apk add --no-cache wget ca-certificates zip mc vim
 
 
 # clean up APK when done.
@@ -30,8 +30,8 @@ RUN rm -rf /tmp/* /var/tmp/*
 
 #groovy
 RUN set -o errexit -o nounset && \
-	echo "Downloading Groovy" && \
-	curl "https://dist.apache.org/repos/dist/release/groovy/${GROOVY_VERSION}/distribution/apache-groovy-binary-${GROOVY_VERSION}.zip" > groovy.zip && \
+	echo "Downloading Groovy '${GROOVY_VERSION}'" && \
+	wget -O groovy.zip "https://dl.bintray.com/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip" && \
 	\
 	echo "Installing Groovy" && \
 	unzip groovy.zip && \
@@ -62,7 +62,7 @@ RUN     \
 RUN set -e && \
 	echo "Downloading libs" && \
 	mkdir -p ./tools/lib && \
-	curl "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar" > ./tools/lib/snakeyaml-1.18.jar
+	wget --no-verbose --content-disposition -P ./tools/lib/ "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"
 
 # test java&groovy
 RUN set -e && \
@@ -73,8 +73,7 @@ RUN set -o errexit -o nounset && \
 	echo "------ Testing -------" && \
 	mkdir test && \
 	export DEPLOY_TARGET=/opt/test && \
-	export CONF_SOURCE=/opt/.defaults/conf && \
-	export DEPLOY_SOURCE=/opt/.defaults/deploy && \
+	export PERSISTENT_ROOT=/opt/.defaults && \
 	gcli deploy &&\
 	echo "------ Template output -------" && \
 	cat /opt/test/readme.nfo && \

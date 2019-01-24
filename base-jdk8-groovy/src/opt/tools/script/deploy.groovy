@@ -20,10 +20,21 @@ optional prameter:
 
 def mode='all'
 
+//get evvironment variables and load additional 
+def allEnv = [:] + System.getenv()
+if( allEnv["PERSISTENT_ROOT"] ){
+	new File( new File(allEnv["PERSISTENT_ROOT"]), "env.properties"  ).with{f->
+		println "  [PERSISTENT_ROOT] $f"
+		Map nextProps = Configs.parseProperties(f)
+		//merge and evaluate properties
+		Configs.postEvaluate( nextProps, allEnv )
+	}
+}
+
 def defaultsHome = "/opt/.defaults/"
-def confSource     = System.getenv("CONF_SOURCE") ?: "/opt/conf"       //could be a list separated with : or ;
-def deploySource   = System.getenv("DEPLOY_SOURCE") ?: "/opt/deploy"   //could be a list separated with : or ;
-def deployTarget   = System.getenv("DEPLOY_TARGET")
+def confSource     = allEnv["CONF_SOURCE"] ?: "/opt/conf"       //could be a list separated with : or ;
+def deploySource   = allEnv["DEPLOY_SOURCE"] ?: "/opt/deploy"   //could be a list separated with : or ;
+def deployTarget   = allEnv["DEPLOY_TARGET"]
 
 
 if(args.size()>0){
@@ -104,7 +115,7 @@ cpIfEmpty(deploySource[-1], defaultsHome+"deploy")
 def finalProps = [:]
 
 //add system envs into properties
-finalProps.env = [:]+System.getenv()
+finalProps.env = allEnv
 
 /*load&evaluate properties from files */
 def confParsers=[
