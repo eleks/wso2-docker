@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 ARG JAVA_VERSION=DEFINE
 
-ENV PATH $PATH:$JAVA_HOME/bin:$GROOVY_HOME/bin
+ENV PATH $PATH:$JAVA_HOME/bin
 
 #common packages
 RUN set -o errexit -o nounset && \
