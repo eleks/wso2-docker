@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# fail on error
+set -eu
+cd "$(dirname "$(readlink -f "$0")")/../.."
+BASEDIR=$PWD
+
+if [ -z "$1" ]
+	then
+		COMMAND=help
+else
+	COMMAND="$1"
+	shift
+fi
+java -cp "./gcli/lib/*" groovy.ui.GroovyMain ./gcli/classes/GCLI.groovy "$COMMAND" $*

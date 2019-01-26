@@ -2,32 +2,32 @@
 #FROM ubuntu:16.04
 FROM eleks/base-ubuntu-jdk8:8u201
 
-ENV GROOVY_VERSION 2.5.5
-
-ENV GROOVY_HOME /opt/groovy
-
-ENV PATH $PATH:$GROOVY_HOME/bin
+WORKDIR /opt
 
 #common packages
 RUN	echo 'common packages' && \
 	set -o errexit -o nounset && \
 	apt-get update && \
-	apt-get install -y wget unzip vim && \
+	apt-get install -y --no-install-recommends curl mc && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#groovy
-RUN echo "groovy" && \
-	set -o errexit -o nounset && \
-	wget -O groovy.zip "https://dl.bintray.com/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip" && \
-	unzip groovy.zip && \
-	rm groovy.zip && \
-	mv "groovy-${GROOVY_VERSION}" "${GROOVY_HOME}/" && \
-	ln -s "${GROOVY_HOME}/bin/groovy" /usr/bin/groovy
-
-# RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
-
 COPY    ./src /
+
+#groovy
+RUN echo "groovy-all" && \
+	set -o errexit -o nounset && \
+	mkdir /opt/gcli/lib && \
+	curl "http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.16/groovy-all-2.4.16.jar" > ./gcli/lib/groovy-all-2.4.16.jar && \
+	curl "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"                  > ./gcli/lib/snakeyaml-1.18.jar && \
+	chmod 775 /opt/gcli/bin/gcli && \
+	ln -s "/opt/gcli/bin/gcli" /usr/bin/gcli && \
+	echo 'gcli help' >> ~/.bash_history && \
+	echo 'gcli deploy' >> ~/.bash_history
+
+#curl "http://central.maven.org/maven2/org/apache/ant/ant/1.9.11/ant-1.9.11.jar"                    > ./gcli/lib/ant-1.9.11.jar && \
+#curl "http://central.maven.org/maven2/org/apache/ant/ant-launcher/1.9.11/ant-launcher-1.9.11.jar"  > ./gcli/lib/ant-launcher-1.9.11.jar && \
+# RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
 
 #where to copy during deploy 
 ENV DEPLOY_TARGET=PLEASE_REDEFINE
@@ -37,30 +37,14 @@ ENV DEPLOY_SOURCE=/opt/deploy
 ENV CONF_SOURCE=/opt/conf
 
 #suppose to map default deployment source locations to external volumes
-VOLUME  /opt/conf
-VOLUME  /opt/deploy
-WORKDIR /opt
+#VOLUME  /opt/conf
+#VOLUME  /opt/deploy
 
-RUN     chmod 775 /opt/tools/bin/gcli && \
-        ln -s "/opt/tools/bin/gcli" /usr/bin/gcli
-
-#add some commands into bash history
-RUN     \
-        echo 'gcli help' >> ~/.bash_history && \
-        echo 'gcli deploy' >> ~/.bash_history
-
-#download libs
-RUN set -o errexit -o nounset && \
-	echo "Downloading libs" && \
-	wget --no-verbose --content-disposition -P ./tools/lib/ "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"
-
-# test java&groovy
-RUN set -o errexit -o nounset && \
-	gcli version
+RUN	echo 'gcli version' && gcli version
 
 # test deploy function
-RUN set -o errexit -o nounset && \
-	echo "------ Testing -------" && \
+RUN	echo "------ Testing -------" && \
+	set -o errexit -o nounset && \
 	mkdir test && \
 	export DEPLOY_TARGET=/opt/test && \
 	export PERSISTENT_ROOT=/opt/.defaults && \
@@ -79,4 +63,4 @@ RUN set -o errexit -o nounset && \
 ENTRYPOINT set -eu && \
 	gcli "version" && \
 	gcli "help" && \
-	gcli "dummy"
+	/bin/bash

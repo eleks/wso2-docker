@@ -8,9 +8,9 @@ import java.util.regex.Matcher;
 
 @groovy.transform.CompileStatic
 public class GCLI{
-	static String SCRIPT_PATH="./tools/script"
-	static String CLASS_PATH="./tools/classes"
-	static String PROP_PATH="./tools/tools.properties"
+	static String SCRIPT_PATH="./gcli/script"
+	static String CLASS_PATH="./gcli/classes"
+	static String PROP_PATH="./gcli/tools.properties"
 	
 	String [] args
 	Map<String,String> cmd2classname = [:]
@@ -54,7 +54,7 @@ public class GCLI{
 				}
 			}
 			//set some defaults
-			if(!System.getProperty("grape.config"))System.setProperty("grape.config","./tools/grape.xml")
+			if(!System.getProperty("grape.config"))System.setProperty("grape.config","./gcli/grape.xml")
 			if( System.getProperty("resolve.debug") ){
 				//show grape downloads
 				System.setProperty("groovy.grape.report.downloads","true")
@@ -168,10 +168,10 @@ public class GCLI{
 				println "   or in command line before command with syntax: -Dname=value"
 				println ""
 				println "   gcli.pause                [true|false] if you need to pause after run"
-				println "   resolve.debug             debug level 1-4 for repository resolve actions"
-				println "   resolve.level             the repository resolve level [integration|milestone|release]"
-				println "   ivy.cache.default.root    path to the cache of ivy repository"
-				println "   ivy.local.default.root    path to the local ivy repository"
+				//println "   resolve.debug             debug level 1-4 for repository resolve actions"
+				//println "   resolve.level             the repository resolve level [integration|milestone|release]"
+				//println "   ivy.cache.default.root    path to the cache of ivy repository"
+				//println "   ivy.local.default.root    path to the local ivy repository"
 				
 				println ""
 				println "available commands:"
