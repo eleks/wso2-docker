@@ -1,11 +1,29 @@
 # ------------------------------------------------------------------------
 FROM openjdk:8u131-jdk-alpine
 
-ENV GROOVY_VERSION 2.5.5
-ENV GROOVY_HOME /opt/groovy
-ENV PATH $PATH:$GROOVY_HOME/bin
-
 WORKDIR /opt
+
+
+#common packages
+RUN set -e && \
+	apk update && \
+	apk add --no-cache curl ca-certificates zip mc vim && \
+	rm -rf /tmp/* /var/tmp/*
+
+#copy gcli scripts
+COPY    ./src /
+
+#groovy
+RUN	echo "groovy-all" && \
+	set -o errexit -o nounset && \
+	mkdir /opt/gcli/lib && \
+	curl "http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.16/groovy-all-2.4.16.jar" > ./gcli/lib/groovy-all-2.4.16.jar && \
+	curl "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"                  > ./gcli/lib/snakeyaml-1.18.jar && \
+	chmod 775 /opt/gcli/bin/gcli && \
+	ln -s "/opt/gcli/bin/gcli" /usr/bin/gcli && \
+    echo 'gcli help' >> ~/.ash_history && \
+    echo 'gcli deploy' >> ~/.ash_history
+
 
 #where to copy during deploy 
 ENV DEPLOY_TARGET=PLEASE_REDEFINE
@@ -15,58 +33,16 @@ ENV DEPLOY_SOURCE=/opt/deploy
 ENV CONF_SOURCE=/opt/conf
 
 #suppose to map default deployment source locations to external volumes
-VOLUME  /opt/conf
-VOLUME  /opt/deploy
+#VOLUME  /opt/conf
+#VOLUME  /opt/deploy
 
-
-#common packages
-RUN set -e && \
-	apk update && \
-	apk add --no-cache wget ca-certificates zip mc vim
-
-
-# clean up APK when done.
-RUN rm -rf /tmp/* /var/tmp/*
-
-#groovy
-RUN set -o errexit -o nounset && \
-	echo "Downloading Groovy '${GROOVY_VERSION}'" && \
-	wget -O groovy.zip "https://dl.bintray.com/groovy/maven/apache-groovy-binary-${GROOVY_VERSION}.zip" && \
-	\
-	echo "Installing Groovy" && \
-	unzip groovy.zip && \
-	rm groovy.zip && \
-	mv "groovy-${GROOVY_VERSION}" "${GROOVY_HOME}/" && \
-	ln -s "${GROOVY_HOME}/bin/groovy" /usr/bin/groovy
-
-# RUN echo 'GROOVY_HOME="$GROOVY_HOME"' >> /etc/environment
 
 RUN     alias ll='ls -la'
-
 #set default shell to be user by kitematik
 ENV     SHELL /bin/sh
 
-#copy templator
-COPY    ./src /
-
-
-RUN     chmod 775 /opt/tools/bin/gcli && \
-        ln -s "/opt/tools/bin/gcli" /usr/bin/gcli
-
-#add some commands into bash history
-RUN     \
-        echo 'gcli help' >> ~/.ash_history && \
-        echo 'gcli deploy' >> ~/.ash_history
-
-#download libs
-RUN set -e && \
-	echo "Downloading libs" && \
-	mkdir -p ./tools/lib && \
-	wget --no-verbose --content-disposition -P ./tools/lib/ "http://central.maven.org/maven2/org/yaml/snakeyaml/1.18/snakeyaml-1.18.jar"
-
 # test java&groovy
-RUN set -e && \
-	gcli version
+RUN	echo 'gcli version' && gcli version
 
 # test deploy function
 RUN set -o errexit -o nounset && \
@@ -89,4 +65,4 @@ RUN set -o errexit -o nounset && \
 ENTRYPOINT set -eu && \
 	gcli "version" && \
 	gcli "help" && \
-	gcli "dummy"
+	/bin/bash

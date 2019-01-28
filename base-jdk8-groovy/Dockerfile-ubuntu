@@ -8,7 +8,7 @@ WORKDIR /opt
 RUN	echo 'common packages' && \
 	set -o errexit -o nounset && \
 	apt-get update && \
-	apt-get install -y --no-install-recommends curl mc && \
+	apt-get install -y --no-install-recommends curl unzip mc && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
