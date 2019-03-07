@@ -198,7 +198,7 @@ deploySource.each{deployItem->
 					new ReaderTemplate(src.newReader("UTF-8")).make(finalProps+[out:printer, context:context]);
 					printer.flush(); //just to be sure )
 				}
-				dst.setLastModified( lastModified )
+				if(lastModified>0)dst.setLastModified( lastModified )
 			}else if(mode in ["all","!gsp"]){
 				if(src.getName().endsWith(".unzip")){
 					println "     [unzip] ${src.getName()} >> ${dst.getParent()}"
@@ -206,7 +206,7 @@ deploySource.each{deployItem->
 				}else{
 					println "     [copy]  ${dst}"
 					dst.toFile().withOutputStream{ it << src.newInputStream() }
-					dst.toFile().setLastModified( lastModified )
+					if(lastModified>0)dst.toFile().setLastModified( lastModified )
 				}
 			}
 		}
