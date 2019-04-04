@@ -1,0 +1,30 @@
+## temporary layer (worker)
+FROM eleks/base-ubuntu-jdk8-groovy:latest  as  worker
+
+ARG PRODUCT=PLEASE_SPECIFY
+ARG UNZIP_DIR=/opt/${PRODUCT}
+
+RUN echo "PRODUCT = ${PRODUCT}"
+COPY ./files/${PRODUCT}.zip ./
+RUN unzip ./${PRODUCT}.zip -d ${UNZIP_DIR} && \
+	rm -f ./${PRODUCT}.zip
+
+## main layers
+FROM eleks/base-ubuntu-jdk8-groovy:latest
+
+ARG PRODUCT=PLEASE_SPECIFY
+ARG ENTRYPOINT=start.sh
+ARG PORTS="8080 8043"
+
+ENV PRODUCT_HOME      /opt/$PRODUCT
+ENV DEPLOY_TARGET  $PRODUCT_HOME
+ENV ENTRYPOINT     $ENTRYPOINT
+
+COPY --from=worker /opt/${PRODUCT} /opt/${PRODUCT}
+
+EXPOSE $PORTS
+
+ENTRYPOINT set -eu && \
+	gcli deploy && \
+	echo "$PRODUCT_HOME/${ENTRYPOINT}" && \
+	$PRODUCT_HOME/${ENTRYPOINT}
