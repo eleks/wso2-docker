@@ -7,7 +7,7 @@ WORKDIR /opt
 #common packages
 RUN set -e && \
 	apk update && \
-	apk add --no-cache curl ca-certificates zip mc vim && \
+	apk add --no-cache curl ca-certificates zip && \
 	rm -rf /tmp/* /var/tmp/*
 
 #copy gcli scripts
